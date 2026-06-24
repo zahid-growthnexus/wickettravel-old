@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
+  useInView,
   useReducedMotion,
   type Variants,
   type HTMLMotionProps,
@@ -10,19 +12,26 @@ import type { ReactNode } from "react";
 
 /**
  * Shared scroll-reveal + stagger primitives for Wicket Travel.
- * All motion respects prefers-reduced-motion: when reduced, elements
- * render in their final state with no transform/opacity animation.
+ *
+ * Reveals are driven by the `animate` prop toggled from a `useInView` hook
+ * (IntersectionObserver) rather than framer's `whileInView` gesture — in this
+ * Next 16 / React 19 / framer-motion 12 stack `whileInView` does not fire, which
+ * left every below-the-fold section stuck at opacity:0. Content must never stay
+ * hidden, so a short fallback timer reveals it even if the observer never fires
+ * (headless renderers, edge browsers). All motion is transform/opacity only and
+ * respects prefers-reduced-motion (renders final state, no animation).
  */
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+const DURATION = 0.55;
 
-export function fadeUp(distance = 24): Variants {
+export function fadeUp(distance = 20): Variants {
   return {
     hidden: { opacity: 0, y: distance },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: EASE },
+      transition: { duration: DURATION, ease: EASE },
     },
   };
 }
@@ -30,9 +39,24 @@ export function fadeUp(distance = 24): Variants {
 export const staggerContainer: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.05 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.04 },
   },
 };
+
+/** Reveal once the element scrolls in, with a fallback so it can't stay hidden. */
+function useReveal(amount: number) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount });
+  const [fallback, setFallback] = useState(false);
+
+  // Safety net: if the observer never reports (rare engines), reveal anyway.
+  useEffect(() => {
+    const id = window.setTimeout(() => setFallback(true), 1200);
+    return () => window.clearTimeout(id);
+  }, []);
+
+  return { ref, show: inView || fallback };
+}
 
 type RevealProps = {
   children: ReactNode;
@@ -46,14 +70,15 @@ export function Reveal({
   children,
   className,
   delay = 0,
-  distance = 24,
+  distance = 20,
   ...rest
 }: RevealProps) {
   const reduce = useReducedMotion();
+  const { ref, show } = useReveal(0.2);
 
   if (reduce) {
     return (
-      <motion.div className={className} {...rest}>
+      <motion.div ref={ref} className={className} {...rest}>
         {children}
       </motion.div>
     );
@@ -61,11 +86,11 @@ export function Reveal({
 
   return (
     <motion.div
+      ref={ref}
       className={className}
       initial={{ opacity: 0, y: distance }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.6, ease: EASE, delay }}
+      animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: distance }}
+      transition={{ duration: DURATION, ease: EASE, delay }}
       {...rest}
     >
       {children}
@@ -83,10 +108,11 @@ type StaggerProps = {
 export function Stagger({
   children,
   className,
-  amount = 0.2,
+  amount = 0.15,
   ...rest
 }: StaggerProps) {
   const reduce = useReducedMotion();
+  const { ref, show } = useReveal(amount);
 
   if (reduce) {
     return (
@@ -98,11 +124,11 @@ export function Stagger({
 
   return (
     <motion.div
+      ref={ref}
       className={className}
       variants={staggerContainer}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount }}
+      animate={show ? "visible" : "hidden"}
       {...rest}
     >
       {children}
@@ -119,7 +145,7 @@ type StaggerItemProps = {
 export function StaggerItem({
   children,
   className,
-  distance = 24,
+  distance = 20,
   ...rest
 }: StaggerItemProps) {
   const reduce = useReducedMotion();

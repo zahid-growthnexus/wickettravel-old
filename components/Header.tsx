@@ -44,7 +44,11 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
+        "sticky top-0 w-full transition-all duration-300",
+        // The header owns a stacking context. While the drawer is open, lift the
+        // whole header above the floating chat / language launchers (z-50) so the
+        // backdrop covers them instead of them poking through the drawer.
+        open ? "z-[70]" : "z-50",
         scrolled
           ? "border-b border-navy-100 bg-white/90 shadow-sm backdrop-blur-md"
           : "border-b border-transparent bg-white/0"
@@ -75,7 +79,12 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <TrustpilotBadge className="hidden xl:inline-flex" />
+          {/* Trust signal only at the widest desktop widths. A wrapper owns the
+              show/hide so it can't be defeated by the badge's own `inline-flex`
+              display utility (same specificity → later rule wins). */}
+          <div className="hidden xl:block">
+            <TrustpilotBadge />
+          </div>
           <a
             href="#deals"
             className="hidden rounded-full bg-accent-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-accent-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 sm:inline-flex"
