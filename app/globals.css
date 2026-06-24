@@ -56,16 +56,15 @@ body {
     @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
   }
   .section {
-    @apply py-16 sm:py-24 lg:py-28;
+    @apply py-20 sm:py-24 lg:py-28;
   }
 
-  /* Typographic scale (Plus Jakarta Sans).
-     Base values are tuned for small screens; sm:/lg: restore desktop. */
+  /* Typographic scale (Plus Jakarta Sans) */
   .t-display {
-    @apply text-balance text-[2.125rem] font-extrabold leading-[1.1] tracking-tight sm:text-5xl sm:leading-[1.08] lg:text-[3.75rem];
+    @apply text-balance text-[2.5rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.75rem];
   }
   .t-h2 {
-    @apply text-balance text-[1.75rem] font-extrabold leading-[1.18] tracking-tight sm:text-4xl sm:leading-[1.15];
+    @apply text-balance text-3xl font-extrabold leading-[1.15] tracking-tight sm:text-4xl;
   }
   .t-h3 {
     @apply text-lg font-bold leading-snug tracking-tight;

@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, Plane, X } from "lucide-react";
 import { cn } from "@/lib/cn";
@@ -18,15 +17,10 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
-  const { t, dir } = useI18n();
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const reduce = useReducedMotion();
-  const panelRef = useRef<HTMLDivElement>(null);
-  const toggleRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -35,48 +29,13 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll, trap focus, Esc-to-close, restore focus on close.
+  // Lock body scroll when the mobile menu is open.
   useEffect(() => {
-    if (!open) return;
-
-    document.body.style.overflow = "hidden";
-    const focusId = window.setTimeout(() => panelRef.current?.focus(), 60);
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        setOpen(false);
-        return;
-      }
-      if (e.key !== "Tab") return;
-      const panel = panelRef.current;
-      if (!panel) return;
-      const items = panel.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
-      );
-      if (items.length === 0) return;
-      const first = items[0];
-      const last = items[items.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
-      document.removeEventListener("keydown", onKeyDown);
-      window.clearTimeout(focusId);
-      toggleRef.current?.focus();
     };
   }, [open]);
-
-  const fromRight = dir !== "rtl";
-  const offscreen = fromRight ? "100%" : "-100%";
 
   return (
     <header
@@ -122,112 +81,54 @@ export default function Header() {
 
           {/* Mobile toggle */}
           <button
-            ref={toggleRef}
             type="button"
-            onClick={() => setOpen(true)}
+            onClick={() => setOpen((v) => !v)}
             className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-navy-900 transition-colors hover:bg-navy-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 lg:hidden"
-            aria-label="Open menu"
+            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
           >
-            <Menu className="h-6 w-6" />
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile drawer — portaled to body so it escapes the header's
-          backdrop-filter containing block and covers the full viewport. */}
-      {mounted &&
-        createPortal(
-          <AnimatePresence>
-            {open && (
-              <div className="fixed inset-0 z-[60] lg:hidden">
-                {/* Backdrop */}
-                <motion.div
-                  className="absolute inset-0 bg-navy-950/55 backdrop-blur-sm"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="mobile-menu"
+            initial={reduce ? false : { opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden border-t border-navy-100 bg-white lg:hidden"
+          >
+            <nav className="flex flex-col gap-1 px-5 py-4 sm:px-6" aria-label="Mobile">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.key}
+                  href={link.href}
                   onClick={() => setOpen(false)}
-                  aria-hidden="true"
-                />
-
-                {/* Panel */}
-                <motion.div
-                  id="mobile-menu"
-                  ref={panelRef}
-                  role="dialog"
-                  aria-modal="true"
-                  aria-label="Menu"
-                  tabIndex={-1}
-                  initial={reduce ? { opacity: 0 } : { x: offscreen }}
-                  animate={reduce ? { opacity: 1 } : { x: 0 }}
-                  exit={reduce ? { opacity: 0 } : { x: offscreen }}
-                  transition={
-                    reduce
-                      ? { duration: 0.2 }
-                      : { type: "spring", stiffness: 320, damping: 34 }
-                  }
-                  className={cn(
-                    "absolute inset-y-0 flex w-[min(20rem,86vw)] flex-col bg-white shadow-2xl outline-none",
-                    fromRight ? "right-0" : "left-0"
-                  )}
+                  className="rounded-lg px-3 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-navy-50 hover:text-navy-800"
                 >
-                  {/* Panel header */}
-                  <div className="flex h-16 shrink-0 items-center justify-between border-b border-navy-100 px-5">
-                    <span className="flex items-center gap-2">
-                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-navy-800 text-white">
-                        <Plane className="h-5 w-5 -rotate-45" strokeWidth={2.25} />
-                      </span>
-                      <span className="text-lg font-extrabold tracking-tight text-navy-900">
-                        Wicket<span className="text-accent-500">Travel</span>
-                      </span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setOpen(false)}
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-navy-900 transition-colors hover:bg-navy-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
-                      aria-label="Close menu"
-                    >
-                      <X className="h-6 w-6" />
-                    </button>
-                  </div>
-
-                  {/* Links */}
-                  <nav
-                    className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 py-4"
-                    aria-label="Mobile"
-                  >
-                    {NAV_LINKS.map((link) => (
-                      <a
-                        key={link.key}
-                        href={link.href}
-                        onClick={() => setOpen(false)}
-                        className="flex min-h-[48px] items-center rounded-xl px-3 text-base font-semibold text-navy-900 transition-colors hover:bg-navy-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
-                      >
-                        {t(link.key)}
-                      </a>
-                    ))}
-                  </nav>
-
-                  {/* Footer: trust + CTA */}
-                  <div className="shrink-0 border-t border-navy-100 px-5 py-4">
-                    <TrustpilotBadge compact className="!px-0" />
-                    <a
-                      href="#deals"
-                      onClick={() => setOpen(false)}
-                      className="mt-4 flex min-h-[48px] items-center justify-center rounded-full bg-accent-500 px-5 text-base font-semibold text-white shadow-sm transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
-                    >
-                      {t("cta.findDeals")}
-                    </a>
-                  </div>
-                </motion.div>
+                  {t(link.key)}
+                </a>
+              ))}
+              <div className="mt-2 px-3">
+                <TrustpilotBadge compact className="!px-0" />
               </div>
-            )}
-          </AnimatePresence>,
-          document.body,
+              <a
+                href="#deals"
+                onClick={() => setOpen(false)}
+                className="mt-2 rounded-full bg-accent-500 px-5 py-3 text-center text-base font-semibold text-white transition-colors hover:bg-accent-600"
+              >
+                {t("cta.findDeals")}
+              </a>
+            </nav>
+          </motion.div>
         )}
+      </AnimatePresence>
     </header>
   );
 }

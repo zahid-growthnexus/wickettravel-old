@@ -106,7 +106,6 @@ function DealCard({ deal }: { deal: Deal }) {
   return (
     <motion.article
       whileHover={reduce ? undefined : { y: -6 }}
-      whileTap={reduce ? undefined : { scale: 0.99 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
       className="card card-hover group flex h-full flex-col overflow-hidden"
     >

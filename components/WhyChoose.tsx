@@ -41,9 +41,8 @@ function ValueCard({
   return (
     <motion.div
       whileHover={reduce ? undefined : { y: -6 }}
-      whileTap={reduce ? undefined : { scale: 0.98 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="card card-hover group h-full p-6 sm:p-7"
+      className="card card-hover group h-full p-7"
     >
       <span className="grid h-12 w-12 place-items-center rounded-xl bg-navy-50 text-navy-700 transition-colors duration-300 group-hover:bg-accent-500 group-hover:text-white">
         <Icon className="h-6 w-6" aria-hidden="true" />

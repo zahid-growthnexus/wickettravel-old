@@ -91,7 +91,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate overflow-hidden pt-24 pb-14 sm:pt-32 sm:pb-24"
+      className="relative isolate overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-24"
     >
       {/* Full-bleed background image + readability overlay */}
       <div className="absolute inset-0 -z-10">
@@ -106,16 +106,14 @@ export default function Hero() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy-950/85 via-navy-900/75 to-navy-900/90" />
         <div className="absolute inset-0 bg-gradient-to-tr from-navy-950/60 via-transparent to-accent-500/10" />
-        <motion.div
-          aria-hidden="true"
-          className="absolute right-[-8rem] top-10 h-80 w-80 rounded-full bg-accent-500/20 blur-3xl"
-          animate={reduce ? undefined : { x: [0, -40, 0], y: [0, 40, 0] }}
-          transition={
-            reduce
-              ? undefined
-              : { duration: 22, repeat: Infinity, ease: "easeInOut" }
-          }
-        />
+        {!reduce && (
+          <motion.div
+            aria-hidden="true"
+            className="absolute right-[-8rem] top-10 h-80 w-80 rounded-full bg-accent-500/20 blur-3xl"
+            animate={{ x: [0, -40, 0], y: [0, 40, 0] }}
+            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          />
+        )}
       </div>
 
       <div className="container-page">

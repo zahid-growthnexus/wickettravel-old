@@ -48,19 +48,19 @@ export default function TrustBar() {
           </Stagger>
 
           {/* Promise + partner strip — visually separated band */}
-          <div className="flex flex-col items-center gap-6 border-t border-slate-200 bg-mist/60 px-5 py-6 sm:px-6 lg:flex-row lg:justify-between">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-center text-sm font-semibold text-navy-800 shadow-sm ring-1 ring-slate-200">
+          <div className="flex flex-col items-center gap-6 border-t border-slate-200 bg-mist/60 px-6 py-6 lg:flex-row lg:justify-between">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-navy-800 shadow-sm ring-1 ring-slate-200">
               <ShieldCheck
-                className="h-4 w-4 shrink-0 text-accent-500"
+                className="h-4 w-4 text-accent-500"
                 aria-hidden="true"
               />
               Best-price promise on every search
             </div>
-            <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 sm:gap-x-8 sm:gap-y-3">
+            <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
               {PARTNERS.map((p) => (
                 <li
                   key={p}
-                  className="text-sm font-bold tracking-tight text-slate-500 transition-colors hover:text-navy-700 sm:text-base"
+                  className="text-base font-bold tracking-tight text-slate-500 transition-colors hover:text-navy-700"
                 >
                   {p}
                 </li>

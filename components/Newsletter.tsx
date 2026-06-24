@@ -19,22 +19,22 @@ export default function Newsletter() {
               aria-hidden="true"
               className="absolute inset-0 bg-gradient-to-br from-navy-800 via-navy-800 to-navy-950"
             />
-            <motion.div
-              aria-hidden="true"
-              className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-accent-500/30 blur-3xl"
-              animate={reduce ? undefined : { scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-              transition={
-                reduce ? undefined : { duration: 8, repeat: Infinity, ease: "easeInOut" }
-              }
-            />
-            <motion.div
-              aria-hidden="true"
-              className="absolute -bottom-20 left-10 h-64 w-64 rounded-full bg-navy-400/30 blur-3xl"
-              animate={reduce ? undefined : { scale: [1, 1.2, 1], opacity: [0.4, 0.7, 0.4] }}
-              transition={
-                reduce ? undefined : { duration: 10, repeat: Infinity, ease: "easeInOut" }
-              }
-            />
+            {!reduce && (
+              <>
+                <motion.div
+                  aria-hidden="true"
+                  className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-accent-500/30 blur-3xl"
+                  animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  aria-hidden="true"
+                  className="absolute -bottom-20 left-10 h-64 w-64 rounded-full bg-navy-400/30 blur-3xl"
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.7, 0.4] }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </>
+            )}
 
             <div className="relative mx-auto max-w-2xl text-center">
               <span className="inline-flex items-center gap-2 rounded-full bg-accent-500 px-4 py-1.5 text-xs font-bold text-white">

@@ -58,9 +58,8 @@ function CategoryCard({ c }: { c: Category }) {
     <motion.a
       href="#top"
       whileHover={reduce ? undefined : { y: -6 }}
-      whileTap={reduce ? undefined : { scale: 0.98 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="group relative flex min-h-[18rem] flex-col justify-end overflow-hidden rounded-2xl shadow-sm ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2 sm:min-h-0 sm:aspect-[3/4]"
+      className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-2xl shadow-sm ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
     >
       <Image
         src={c.img}
