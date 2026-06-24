@@ -23,7 +23,8 @@ import type { ReactNode } from "react";
  */
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const DURATION = 0.55;
+// Short + simple keeps reveals cheap on mid-range Android (target 0.3–0.5s).
+const DURATION = 0.5;
 
 export function fadeUp(distance = 20): Variants {
   return {
@@ -39,7 +40,7 @@ export function fadeUp(distance = 20): Variants {
 export const staggerContainer: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.04 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.04 },
   },
 };
 

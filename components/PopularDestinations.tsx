@@ -77,7 +77,7 @@ function Card({ d }: { d: Destination }) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/15 to-transparent" />
 
-      <span className="absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-navy-800 shadow-sm backdrop-blur-sm">
+      <span className="absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-navy-800 shadow-sm">
         from {d.price}
       </span>
 

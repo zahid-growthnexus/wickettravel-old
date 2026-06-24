@@ -150,7 +150,7 @@ export default function Hero() {
           <div
             role="tablist"
             aria-label="Search type"
-            className="flex w-full gap-1 rounded-t-2xl bg-white/10 p-1.5 backdrop-blur-md sm:w-auto sm:max-w-md"
+            className="flex w-full gap-1 rounded-t-2xl bg-white/10 p-1.5 backdrop-blur-sm sm:w-auto sm:max-w-md"
           >
             {TABS.map(({ id, labelKey, icon: Icon }) => {
               const active = tab === id;

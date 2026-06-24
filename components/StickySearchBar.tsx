@@ -26,7 +26,11 @@ export default function StickySearchBar() {
           animate={{ opacity: 1, y: 0 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, y: -100 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-x-0 top-16 z-40 border-b border-navy-100 bg-white/95 shadow-sm backdrop-blur-md"
+          /* bg-white/95 is near-opaque, so the backdrop-blur was barely visible
+             but forced a full-width backdrop-filter repaint on every scroll
+             frame (a top cause of Android Chrome jank). Dropped — looks the
+             same, composites far cheaper. */
+          className="fixed inset-x-0 top-16 z-40 border-b border-navy-100 bg-white/95 shadow-sm"
         >
           <div className="container-page flex h-14 items-center justify-between gap-4">
             <div className="flex min-w-0 items-center gap-2.5">

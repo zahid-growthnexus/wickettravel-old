@@ -50,7 +50,10 @@ export default function Header() {
         // backdrop covers them instead of them poking through the drawer.
         open ? "z-[70]" : "z-50",
         scrolled
-          ? "border-b border-navy-100 bg-white/90 shadow-sm backdrop-blur-md"
+          // Solid-ish white instead of bg-white/90 + backdrop-blur: a sticky,
+          // full-width backdrop-filter repaints every scroll frame on Android.
+          // /95 is visually indistinguishable from the frosted version.
+          ? "border-b border-navy-100 bg-white/95 shadow-sm"
           : "border-b border-transparent bg-white/0"
       )}
     >

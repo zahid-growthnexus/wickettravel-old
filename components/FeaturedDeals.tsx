@@ -127,7 +127,7 @@ function DealCard({ deal }: { deal: Deal }) {
           {deal.type}
         </span>
         {deal.badge && (
-          <span className="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-xs font-bold text-accent-600 shadow-sm backdrop-blur-sm">
+          <span className="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-xs font-bold text-accent-600 shadow-sm">
             {deal.badge}
           </span>
         )}
