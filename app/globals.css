@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-plus-jakarta-sans);
+
+  /* Brand — deep trustworthy blue */
+  --color-navy-50: #eff4ff;
+  --color-navy-100: #dbe5ff;
+  --color-navy-200: #bfd0ff;
+  --color-navy-300: #93b0ff;
+  --color-navy-400: #6086fc;
+  --color-navy-500: #3b82f6;
+  --color-navy-600: #2563eb;
+  --color-navy-700: #1d4ed8;
+  --color-navy-800: #1e3a8a;
+  --color-navy-900: #172554;
+  --color-navy-950: #0b1638;
+
+  /* Accent — vibrant orange CTA */
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+
+  /* Neutrals */
+  --color-ink: #0f172a;
+  --color-slate: #475569;
+  --color-mist: #f1f5f9;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* ───────────────────────────────────────────────────────────
+   Shared design system — one source of truth, no per-section drift.
+   Tokens set size / weight / rhythm only; color stays a utility so
+   the same token works on light and dark sections.
+   ─────────────────────────────────────────────────────────── */
+@layer components {
+  /* Layout primitives */
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+  }
+  .section {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  /* Typographic scale (Plus Jakarta Sans) */
+  .t-display {
+    @apply text-balance text-[2.5rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.75rem];
+  }
+  .t-h2 {
+    @apply text-balance text-3xl font-extrabold leading-[1.15] tracking-tight sm:text-4xl;
+  }
+  .t-h3 {
+    @apply text-lg font-bold leading-snug tracking-tight;
+  }
+  .t-eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.18em] sm:text-sm;
+  }
+  .t-body-lg {
+    @apply text-base leading-relaxed sm:text-lg;
+  }
+  .t-body {
+    @apply text-base leading-relaxed;
+  }
+  .t-small {
+    @apply text-sm leading-relaxed;
+  }
+
+  /* Section intro block (eyebrow + heading + lead) */
+  .section-lead {
+    @apply mx-auto max-w-2xl text-pretty;
+  }
+
+  /* Standard card — single shared style everywhere */
+  .card {
+    @apply rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-shadow duration-300;
+  }
+  .card-hover {
+    @apply hover:shadow-xl hover:shadow-navy-900/5;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-accent-500 text-white shadow-sm hover:bg-accent-600 hover:shadow-md focus-visible:ring-accent-500;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border border-navy-200 bg-white text-navy-800 hover:bg-navy-50 focus-visible:ring-navy-500;
+  }
+}
+
+/* Respect reduced-motion globally as a safety net */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
