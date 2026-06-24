@@ -40,16 +40,18 @@ export default function BestPriceGuarantee() {
   return (
     <section className="section bg-mist">
       <div className="container-page">
-        <div className="relative overflow-hidden rounded-3xl bg-navy-900 p-8 sm:p-12 lg:p-16">
+        <div className="relative overflow-hidden rounded-3xl bg-navy-900 p-6 sm:p-12 lg:p-16">
           {/* Decorative glow */}
-          {!reduce && (
-            <motion.div
-              aria-hidden="true"
-              className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent-500/20 blur-3xl"
-              animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-            />
-          )}
+          <motion.div
+            aria-hidden="true"
+            className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent-500/20 blur-3xl"
+            animate={reduce ? undefined : { scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
+            transition={
+              reduce
+                ? undefined
+                : { duration: 9, repeat: Infinity, ease: "easeInOut" }
+            }
+          />
 
           <div className="relative grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Left — promise */}

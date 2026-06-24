@@ -65,6 +65,7 @@ function Card({ d }: { d: Destination }) {
     <motion.a
       href="#deals"
       whileHover={reduce ? undefined : { y: -6 }}
+      whileTap={reduce ? undefined : { scale: 0.98 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
       className="group relative block aspect-[4/5] overflow-hidden rounded-2xl shadow-sm ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
     >
@@ -77,18 +78,18 @@ function Card({ d }: { d: Destination }) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/15 to-transparent" />
 
-      <span className="absolute right-3 top-3 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-navy-800 shadow-sm backdrop-blur-sm">
+      <span className="absolute right-2.5 top-2.5 rounded-full bg-white/95 px-2.5 py-1 text-[0.7rem] font-bold text-navy-800 shadow-sm backdrop-blur-sm sm:right-3 sm:top-3 sm:px-3 sm:text-xs">
         from {d.price}
       </span>
 
-      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
-        <div>
-          <h3 className="t-h3 text-xl text-white">{d.city}</h3>
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-4 sm:p-5">
+        <div className="min-w-0">
+          <h3 className="t-h3 text-base text-white sm:text-xl">{d.city}</h3>
           <p className="t-small text-navy-100">{d.country}</p>
           <p className="mt-1 text-xs font-semibold text-accent-300">{d.tag}</p>
         </div>
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors group-hover:bg-accent-500">
-          <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
+        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors group-hover:bg-accent-500 sm:h-9 sm:w-9">
+          <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
         </span>
       </div>
     </motion.a>
@@ -111,7 +112,7 @@ export default function PopularDestinations() {
 
         <Stagger
           amount={0.15}
-          className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-6 lg:grid-cols-3"
         >
           {DESTINATIONS.map((d) => (
             <StaggerItem key={d.city}>
