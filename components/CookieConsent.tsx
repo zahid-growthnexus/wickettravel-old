@@ -125,7 +125,7 @@ export default function CookieConsent() {
                     transition: { duration: 0.18, ease: [0.4, 0, 1, 1] },
                   }
             }
-            className="relative w-full max-w-[420px] rounded-2xl bg-white p-6 text-center shadow-2xl ring-1 ring-navy-950/5 sm:p-7"
+            className="relative max-h-[calc(100dvh-2rem)] w-full max-w-[420px] overflow-y-auto rounded-2xl bg-white p-6 text-center shadow-2xl ring-1 ring-navy-950/5 sm:p-7"
           >
             <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-accent-50 text-accent-500 ring-1 ring-accent-100">
               <Cookie className="h-6 w-6" aria-hidden="true" />

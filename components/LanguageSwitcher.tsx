@@ -41,7 +41,7 @@ export default function LanguageSwitcher() {
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.96 }}
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              "absolute bottom-14 w-56 overflow-hidden rounded-2xl bg-white p-2 shadow-2xl ring-1 ring-black/10",
+              "absolute bottom-14 max-h-[calc(100dvh-7rem)] w-56 overflow-y-auto rounded-2xl bg-white p-2 shadow-2xl ring-1 ring-black/10",
               dir === "rtl" ? "right-0" : "left-0"
             )}
             role="menu"

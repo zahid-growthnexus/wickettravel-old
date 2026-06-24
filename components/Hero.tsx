@@ -23,20 +23,32 @@ const TABS: { id: Tab; labelKey: string; icon: typeof Plane }[] = [
   { id: "cars", labelKey: "tab.cars", icon: Car },
 ];
 
-function Field({
-  icon: Icon,
-  label,
-  placeholder,
-  type = "text",
-}: {
+type FieldDef = {
   icon: typeof MapPin;
   label: string;
   placeholder: string;
   type?: string;
-}) {
+};
+
+/* Per-field divider classes for a 2×2 (tablet) → single-row (desktop) grid.
+   Each cell only draws the internal grid lines it owns, so the bordered
+   container stays seamless at every breakpoint. Panels always have 4 fields. */
+const CELL_BORDER = [
+  "border-b sm:border-r lg:border-b-0", // top-left
+  "border-b lg:border-r lg:border-b-0", // top-right
+  "border-b sm:border-b-0 sm:border-r lg:border-r", // bottom-left
+  "", // bottom-right
+];
+
+function Field({ icon: Icon, label, placeholder, type = "text", index }: FieldDef & { index: number }) {
   const id = `field-${label.toLowerCase().replace(/\s+/g, "-")}`;
   return (
-    <div className="flex-1 px-4 py-3 transition-colors focus-within:bg-navy-50/60 focus-within:ring-2 focus-within:ring-inset focus-within:ring-navy-500 sm:py-3.5">
+    <div
+      className={cn(
+        "min-w-0 border-slate-200 px-4 py-3 transition-colors focus-within:bg-navy-50/60 focus-within:ring-2 focus-within:ring-inset focus-within:ring-navy-500 sm:py-3.5",
+        CELL_BORDER[index]
+      )}
+    >
       <label
         htmlFor={id}
         className="block text-[0.7rem] font-bold uppercase tracking-wide text-slate-500"
@@ -49,38 +61,32 @@ function Field({
           id={id}
           type={type}
           placeholder={placeholder}
-          className="w-full bg-transparent text-sm font-semibold text-navy-900 placeholder:font-medium placeholder:text-slate-500 focus:outline-none"
+          className="w-full min-w-0 bg-transparent text-sm font-semibold text-navy-900 placeholder:font-medium placeholder:text-slate-500 focus:outline-none"
         />
       </div>
     </div>
   );
 }
 
-const PANELS: Record<Tab, React.ReactNode> = {
-  flights: (
-    <>
-      <Field icon={MapPin} label="From" placeholder="London (LHR)" />
-      <Field icon={MapPin} label="To" placeholder="New York (JFK)" />
-      <Field icon={CalendarDays} label="Depart" placeholder="Add date" type="date" />
-      <Field icon={Users} label="Travelers" placeholder="1 adult" />
-    </>
-  ),
-  hotels: (
-    <>
-      <Field icon={MapPin} label="Destination" placeholder="Barcelona, Spain" />
-      <Field icon={CalendarDays} label="Check-in" placeholder="Add date" type="date" />
-      <Field icon={CalendarDays} label="Check-out" placeholder="Add date" type="date" />
-      <Field icon={Users} label="Guests" placeholder="2 guests, 1 room" />
-    </>
-  ),
-  cars: (
-    <>
-      <Field icon={MapPin} label="Pick-up location" placeholder="Dubai Airport (DXB)" />
-      <Field icon={CalendarDays} label="Pick-up" placeholder="Add date" type="date" />
-      <Field icon={CalendarDays} label="Drop-off" placeholder="Add date" type="date" />
-      <Field icon={Car} label="Car type" placeholder="Any vehicle" />
-    </>
-  ),
+const PANELS: Record<Tab, FieldDef[]> = {
+  flights: [
+    { icon: MapPin, label: "From", placeholder: "London (LHR)" },
+    { icon: MapPin, label: "To", placeholder: "New York (JFK)" },
+    { icon: CalendarDays, label: "Depart", placeholder: "Add date", type: "date" },
+    { icon: Users, label: "Travelers", placeholder: "1 adult" },
+  ],
+  hotels: [
+    { icon: MapPin, label: "Destination", placeholder: "Barcelona, Spain" },
+    { icon: CalendarDays, label: "Check-in", placeholder: "Add date", type: "date" },
+    { icon: CalendarDays, label: "Check-out", placeholder: "Add date", type: "date" },
+    { icon: Users, label: "Guests", placeholder: "2 guests, 1 room" },
+  ],
+  cars: [
+    { icon: MapPin, label: "Pick-up location", placeholder: "Dubai Airport (DXB)" },
+    { icon: CalendarDays, label: "Pick-up", placeholder: "Add date", type: "date" },
+    { icon: CalendarDays, label: "Drop-off", placeholder: "Add date", type: "date" },
+    { icon: Car, label: "Car type", placeholder: "Any vehicle" },
+  ],
 };
 
 export default function Hero() {
@@ -155,7 +161,7 @@ export default function Hero() {
                   aria-selected={active}
                   onClick={() => setTab(id)}
                   className={cn(
-                    "relative flex flex-1 items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:flex-initial sm:px-5",
+                    "relative flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-3 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:flex-initial sm:gap-2 sm:px-5",
                     active ? "text-navy-900" : "text-white/90 hover:text-white"
                   )}
                 >
@@ -166,8 +172,8 @@ export default function Hero() {
                       transition={{ type: "spring", stiffness: 400, damping: 32 }}
                     />
                   )}
-                  <Icon className="relative h-4 w-4" aria-hidden="true" />
-                  <span className="relative">{t(labelKey)}</span>
+                  <Icon className="relative h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span className="relative truncate">{t(labelKey)}</span>
                 </button>
               );
             })}
@@ -176,7 +182,7 @@ export default function Hero() {
           {/* Field panel */}
           <div className="rounded-b-2xl rounded-tr-2xl bg-white p-3 shadow-2xl shadow-navy-950/40 ring-1 ring-black/5 sm:p-4">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch">
-              <div className="flex flex-1 flex-col divide-y divide-slate-200 overflow-hidden rounded-xl border border-slate-200 lg:flex-row lg:divide-x lg:divide-y-0">
+              <div className="flex-1 overflow-hidden rounded-xl border border-slate-200">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={tab}
@@ -184,16 +190,18 @@ export default function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
                     transition={{ duration: 0.2 }}
-                    className="flex flex-1 flex-col divide-y divide-slate-200 lg:flex-row lg:divide-x lg:divide-y-0"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
                   >
-                    {PANELS[tab]}
+                    {PANELS[tab].map((f, i) => (
+                      <Field key={f.label} {...f} index={i} />
+                    ))}
                   </motion.div>
                 </AnimatePresence>
               </div>
 
               <button
                 type="button"
-                className="btn-primary h-12 shrink-0 px-8 text-base lg:h-auto lg:self-stretch"
+                className="btn-primary h-12 w-full shrink-0 px-8 text-base lg:h-auto lg:w-auto lg:self-stretch"
               >
                 <Search className="h-5 w-5" aria-hidden="true" />
                 {t("cta.searchDeals")}

@@ -51,7 +51,7 @@ function ReviewCard({ r }: { r: Review }) {
     <motion.div
       whileHover={reduce ? undefined : { y: -6 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="card card-hover flex h-full flex-col p-7"
+      className="card card-hover flex h-full flex-col p-6 sm:p-7"
     >
       <Quote className="h-8 w-8 text-navy-100" aria-hidden="true" />
       <div
@@ -115,7 +115,7 @@ export default function Testimonials() {
           </div>
         </Reveal>
 
-        <Stagger className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <Stagger className="mx-auto mt-12 grid max-w-xl grid-cols-1 gap-6 sm:max-w-none sm:grid-cols-2 lg:grid-cols-3">
           {REVIEWS.map((r) => (
             <StaggerItem key={r.name} className="h-full">
               <ReviewCard r={r} />

@@ -149,7 +149,7 @@ export default function Chatbot() {
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              "fixed bottom-20 z-50 flex h-[28rem] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/10 sm:bottom-24",
+              "fixed bottom-20 z-50 flex h-[28rem] max-h-[calc(100dvh-7rem)] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/10 sm:bottom-24",
               side
             )}
             role="dialog"

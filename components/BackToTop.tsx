@@ -34,7 +34,7 @@ export default function BackToTop() {
           exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.8 }}
           whileHover={reduce ? undefined : { y: -3 }}
           className={cn(
-            "fixed bottom-20 z-50 grid h-11 w-11 place-items-center rounded-full bg-navy-800 text-white shadow-lg transition-colors hover:bg-navy-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2 sm:bottom-24",
+            "fixed bottom-20 z-40 grid h-11 w-11 place-items-center rounded-full bg-navy-800 text-white shadow-lg transition-colors hover:bg-navy-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2 sm:bottom-24",
             side
           )}
           aria-label="Back to top"

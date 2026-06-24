@@ -39,10 +39,18 @@
   --color-mist: #f1f5f9;
 }
 
+/* Global overflow guard — nothing may push the page sideways at any width.
+   Applied on <html> (not <body>) so the sticky header keeps working. */
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  /* Belt-and-braces: clip is safe for position:sticky descendants. */
+  overflow-x: clip;
 }
 
 /* ───────────────────────────────────────────────────────────
@@ -51,29 +59,34 @@ body {
    the same token works on light and dark sections.
    ─────────────────────────────────────────────────────────── */
 @layer components {
-  /* Layout primitives */
+  /* Layout primitives — one container, fluid padding that grows with the
+     viewport, capped + centred at max-w-7xl (1280px) so wide screens never
+     look empty-stretched. */
   .container-page {
     @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
   }
   .section {
-    @apply py-20 sm:py-24 lg:py-28;
+    /* Vertical rhythm scales with the viewport: tighter on phones, roomy on
+       desktop. clamp keeps untested widths in between looking right too. */
+    @apply py-[clamp(3.5rem,8vw,7rem)];
   }
 
-  /* Typographic scale (Plus Jakarta Sans) */
+  /* Typographic scale (Plus Jakarta Sans) — fluid clamp() so headings resize
+     smoothly between phones and desktop with no awkward jumps. */
   .t-display {
-    @apply text-balance text-[2.5rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.75rem];
+    @apply text-balance text-[clamp(2rem,1.1rem+4vw,3.75rem)] font-extrabold leading-[1.08] tracking-tight;
   }
   .t-h2 {
-    @apply text-balance text-3xl font-extrabold leading-[1.15] tracking-tight sm:text-4xl;
+    @apply text-balance text-[clamp(1.75rem,1.3rem+1.9vw,2.25rem)] font-extrabold leading-[1.15] tracking-tight;
   }
   .t-h3 {
-    @apply text-lg font-bold leading-snug tracking-tight;
+    @apply text-[clamp(1.0625rem,1rem+0.3vw,1.125rem)] font-bold leading-snug tracking-tight;
   }
   .t-eyebrow {
     @apply text-xs font-bold uppercase tracking-[0.18em] sm:text-sm;
   }
   .t-body-lg {
-    @apply text-base leading-relaxed sm:text-lg;
+    @apply text-[clamp(1rem,0.95rem+0.25vw,1.125rem)] leading-relaxed;
   }
   .t-body {
     @apply text-base leading-relaxed;
