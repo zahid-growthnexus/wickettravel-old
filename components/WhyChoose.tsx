@@ -8,23 +8,23 @@ import { useI18n } from "@/lib/i18n";
 const VALUES = [
   {
     icon: Layers,
-    title: "500+ sites, one search",
-    body: "We query hundreds of airlines, hotels and rental partners at once so you never have to open ten tabs again.",
+    title: "Trusted airlines only",
+    body: "We connect you to the world's leading, fully-licensed carriers — British Airways, Emirates, Qatar Airways and more. Never an unknown reseller.",
   },
   {
     icon: Scale,
-    title: "Unbiased results",
-    body: "We rank by genuine value, not by who pays us most. The cheapest, best option always comes first.",
+    title: "Best available fares",
+    body: "We surface the lowest fares the airlines are offering on your route, then take you straight through to book your ticket.",
   },
   {
     icon: Gauge,
-    title: "Real-time prices",
-    body: "Fares change by the minute. Our live data means the price you see is the price that's actually available.",
+    title: "Real-time availability",
+    body: "Fares and seats change by the minute. The options you see are the ones genuinely bookable right now.",
   },
   {
     icon: PiggyBank,
-    title: "Travelers save up to 40%",
-    body: "By comparing every provider and sending you direct, we routinely cut the cost of a typical trip.",
+    title: "No hidden fees",
+    body: "The fare you see is the fare you pay. We never add surprise booking fees at checkout — ever.",
   },
 ];
 
@@ -62,8 +62,8 @@ export default function WhyChoose() {
           <span className="t-eyebrow text-accent-600">{t("why.eyebrow")}</span>
           <h2 className="t-h2 mt-3 text-navy-900">{t("why.title")}</h2>
           <p className="t-body mt-4 text-slate-600">
-            We built a comparison engine that works for you, not the seller.
-            Here&apos;s what millions of travelers count on us for.
+            We connect travelers with the world&apos;s most trusted airlines at the
+            best available fares. Here&apos;s what millions of travelers count on us for.
           </p>
         </Reveal>
 

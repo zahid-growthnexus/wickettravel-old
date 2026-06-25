@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { Car, Hotel, Plane, Star } from "lucide-react";
+import { Car, ExternalLink, Hotel, Plane, Star } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/lib/i18n";
+import { HOLIDAYS_URL } from "@/lib/links";
 
 type DealType = "Flight" | "Hotel" | "Car";
 
@@ -14,9 +15,8 @@ type Deal = {
   title: string;
   subtitle: string;
   detail: string;
-  price: string;
-  unit: string;
-  old?: string;
+  /** Soft, number-free fare label (we don't handle bookings/pricing here). */
+  fare: string;
   badge?: string;
   rating?: string;
   img: string;
@@ -33,11 +33,9 @@ const DEALS: Deal[] = [
     type: "Flight",
     title: "London → Lisbon",
     subtitle: "Direct · 2h 45m",
-    detail: "Round-trip, departing Oct 14",
-    price: "$89",
-    unit: "round-trip",
-    old: "$146",
-    badge: "Save 39%",
+    detail: "Round-trip with a trusted airline",
+    fare: "Best available fares",
+    badge: "Great value",
     img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
   },
   {
@@ -45,9 +43,7 @@ const DEALS: Deal[] = [
     title: "Azure Bay Resort",
     subtitle: "Amalfi Coast, Italy",
     detail: "5-star · breakfast included",
-    price: "$132",
-    unit: "per night",
-    old: "$210",
+    fare: "See rates on our holidays site",
     badge: "Top rated",
     rating: "4.9",
     img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80",
@@ -57,21 +53,17 @@ const DEALS: Deal[] = [
     title: "Compact SUV",
     subtitle: "Lisbon Airport (LIS)",
     detail: "Unlimited mileage · free cancellation",
-    price: "$28",
-    unit: "per day",
-    old: "$45",
-    badge: "Save 37%",
+    fare: "Low daily rates",
+    badge: "Great value",
     img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80",
   },
   {
     type: "Flight",
     title: "New York → Cancún",
     subtitle: "1 stop · 6h 10m",
-    detail: "Round-trip, departing Nov 02",
-    price: "$214",
-    unit: "round-trip",
-    old: "$329",
-    badge: "Save 35%",
+    detail: "Round-trip with a trusted airline",
+    fare: "Best available fares",
+    badge: "Popular",
     img: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=900&q=80",
   },
   {
@@ -79,9 +71,7 @@ const DEALS: Deal[] = [
     title: "Kyoto Garden Ryokan",
     subtitle: "Kyoto, Japan",
     detail: "Traditional suite · onsen access",
-    price: "$98",
-    unit: "per night",
-    old: "$155",
+    fare: "See rates on our holidays site",
     badge: "Top rated",
     rating: "4.8",
     img: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=900&q=80",
@@ -91,9 +81,7 @@ const DEALS: Deal[] = [
     title: "Convertible",
     subtitle: "Los Angeles (LAX)",
     detail: "Unlimited mileage · GPS included",
-    price: "$54",
-    unit: "per day",
-    old: "$79",
+    fare: "Low daily rates",
     badge: "Popular",
     img: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80",
   },
@@ -151,28 +139,33 @@ function DealCard({ deal }: { deal: Deal }) {
         </p>
         <p className="mt-1 text-xs text-slate-500">{deal.detail}</p>
 
-        <div className="mt-4 flex items-end justify-between border-t border-slate-100 pt-4">
-          <div>
-            {deal.old && (
-              <span className="text-xs font-medium text-slate-400 line-through">
-                {deal.old}
-              </span>
-            )}
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-extrabold text-navy-900">
-                {deal.price}
-              </span>
-              <span className="text-xs font-medium text-slate-500">
-                {deal.unit}
-              </span>
-            </div>
+        <div className="mt-4 flex items-end justify-between gap-3 border-t border-slate-100 pt-4">
+          <div className="min-w-0">
+            <span className="block text-xs font-medium text-slate-500">
+              {deal.type === "Flight" ? "Trusted airline" : deal.type === "Car" ? "Car rental" : "Hotel stay"}
+            </span>
+            <span className="block text-sm font-extrabold text-navy-900">
+              {deal.fare}
+            </span>
           </div>
-          <button
-            type="button"
-            className="rounded-full bg-navy-800 px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
-          >
-            View deal
-          </button>
+          {deal.type === "Hotel" ? (
+            <a
+              href={HOLIDAYS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-navy-800 px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+            >
+              View
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            </a>
+          ) : (
+            <a
+              href="#top"
+              className="shrink-0 rounded-full bg-navy-800 px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+            >
+              View
+            </a>
+          )}
         </div>
       </div>
     </motion.article>
@@ -189,8 +182,8 @@ export default function FeaturedDeals() {
             <span className="t-eyebrow text-accent-600">{t("deals.eyebrow")}</span>
             <h2 className="t-h2 mt-3 text-navy-900">{t("deals.title")}</h2>
             <p className="t-body mt-4 text-slate-600">
-              A live mix of the best flight, hotel and car-rental prices our
-              partners are offering right now.
+              A hand-picked mix of trusted-airline routes and travel extras,
+              refreshed daily — always at the best available fares.
             </p>
           </div>
           <a href="#deals" className="btn-outline shrink-0 px-5 py-2.5">

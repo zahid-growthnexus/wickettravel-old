@@ -32,45 +32,45 @@ type Msg = { id: number; from: "bot" | "user"; text: string };
  */
 const SCRIPT: { match: RegExp; reply: string }[] = [
   {
-    match: /\b(price|cheap|cost|guarantee|best price|hidden fee|fee)\b/i,
+    match: /\b(price|cheap|cost|guarantee|best price|fare|hidden fee|fee)\b/i,
     reply:
-      "We compare 500+ sites to surface the lowest price, then send you straight to the provider — we never add booking fees. If you find it cheaper elsewhere, our Best-Price Guarantee helps you match it.",
+      "We find the best available fares from trusted airlines and take you straight through to book — we never add hidden booking fees. Find it cheaper elsewhere? Our Best-Price Guarantee helps you match it.",
   },
   {
     match: /\b(flight|fly|airline|airport)\b/i,
     reply:
-      "For flights, pick the Flights tab up top, enter your route and dates, and hit Search Deals. We'll line up fares from 600+ airlines so you can grab the cheapest in seconds.",
+      "For flights, use the Flights tab up top: enter your From and To airports, pick your dates and cabin, then hit Search Flights. We'll surface the best fares from the world's most trusted airlines.",
   },
   {
     match: /\b(hotel|stay|room|resort|accommodation)\b/i,
     reply:
-      "Looking for a place to stay? Use the Hotels tab to compare nightly rates from boutique stays to 5-star resorts — all with no hidden fees at checkout.",
+      "We're flights-focused here, so hotels are handled on our holidays site at wickettravelholidays.com — tap the Hotels tab and it'll open in a new tab for you.",
   },
   {
     match: /\b(car|rental|drive|vehicle|suv)\b/i,
     reply:
-      "We compare car rentals at 30,000+ locations with free cancellation. Choose the Car Rental tab, set your pick-up and drop-off, and we'll find the best daily rate.",
+      "Need wheels at your destination? Choose the Car Rental tab, set your pick-up and drop-off, and we'll line up trusted rentals with free cancellation.",
   },
   {
     match: /\b(secure|safe|security|data|privacy|trust)\b/i,
     reply:
-      "Every search is encrypted with bank-level SSL and we only redirect you to verified partners — never an unknown reseller. Your card details are never stored.",
+      "Every search is encrypted with bank-level SSL and we only connect you to verified, fully-licensed airlines — never an unknown reseller. Your card details are never stored.",
   },
   {
     match: /\b(hi|hello|hey|salam|hola|bonjour)\b/i,
-    reply: "Hello! Where are you hoping to travel? I can help with flights, hotels or car rentals.",
+    reply: "Hello! Where would you like to fly? I can help you find trusted airline tickets at the best fares.",
   },
 ];
 
 const FALLBACK =
-  "I'm a demo assistant, so I can help with the basics — flights, hotels, car rentals, pricing and security. Try asking about one of those, or tap Search Deals to start comparing!";
+  "I'm a demo assistant, so I can help with the basics — flights, fares, airlines and security. Try asking about one of those, or tap Search Flights to get started!";
 
 function getBotReply(text: string): string {
   const hit = SCRIPT.find((s) => s.match.test(text));
   return hit ? hit.reply : FALLBACK;
 }
 
-const SUGGESTIONS = ["Cheapest flights?", "Best price guarantee", "Is it secure?"];
+const SUGGESTIONS = ["How do I book a flight?", "Which airlines?", "Is it secure?"];
 
 export default function Chatbot() {
   const { t, dir } = useI18n();

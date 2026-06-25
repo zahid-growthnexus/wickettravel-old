@@ -4,19 +4,10 @@ import { ShieldCheck } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 
 const STATS = [
-  { value: "2M+", label: "Travelers helped" },
-  { value: "500+", label: "Trusted partners" },
-  { value: "120+", label: "Countries covered" },
-  { value: "£180", label: "Avg. saved per trip" },
-];
-
-const PARTNERS = [
-  "SkyJet",
-  "Atlas Air",
-  "Nova Hotels",
-  "Driveline",
-  "Coastal Stays",
-  "GlobeWings",
+  { value: "2M+", label: "Travelers flown" },
+  { value: "60+", label: "Trusted airlines" },
+  { value: "120+", label: "Countries served" },
+  { value: "4.8★", label: "Average traveler rating" },
 ];
 
 export default function TrustBar() {
@@ -47,25 +38,15 @@ export default function TrustBar() {
             ))}
           </Stagger>
 
-          {/* Promise + partner strip — visually separated band */}
-          <div className="flex flex-col items-center gap-6 border-t border-slate-200 bg-mist/60 px-6 py-6 lg:flex-row lg:justify-between">
+          {/* Promise band */}
+          <div className="flex flex-col items-center gap-4 border-t border-slate-200 bg-mist/60 px-6 py-6 text-center sm:flex-row sm:justify-center sm:gap-3">
             <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-navy-800 shadow-sm ring-1 ring-slate-200">
               <ShieldCheck
                 className="h-4 w-4 text-accent-500"
                 aria-hidden="true"
               />
-              Best-price promise on every search
+              Best available fares from the world&apos;s most trusted airlines
             </div>
-            <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-              {PARTNERS.map((p) => (
-                <li
-                  key={p}
-                  className="text-base font-bold tracking-tight text-slate-500 transition-colors hover:text-navy-700"
-                >
-                  {p}
-                </li>
-              ))}
-            </ul>
           </div>
         </Reveal>
       </div>

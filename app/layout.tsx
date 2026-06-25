@@ -15,9 +15,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Wicket Travel — Compare Cheap Flights, Hotels & Car Rentals",
+  title: "Wicket Travel — Book Trusted Airline Tickets at the Best Fares",
   description:
-    "Wicket Travel searches 500+ partners to find the lowest prices on flights, hotels and car rentals — then sends you straight to the best deal. No hidden fees.",
+    "Wicket Travel finds you the lowest available fares on the world's leading airlines and connects you straight to the best deal — trusted carriers, no hidden booking fees.",
 };
 
 export default function RootLayout({

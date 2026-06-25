@@ -5,11 +5,12 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, Plane, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/lib/i18n";
+import { HOLIDAYS_URL } from "@/lib/links";
 import TrustpilotBadge from "@/components/TrustpilotBadge";
 
-const NAV_LINKS = [
-  { key: "nav.flights", href: "#destinations" },
-  { key: "nav.hotels", href: "#destinations" },
+const NAV_LINKS: { key: string; href: string; external?: boolean }[] = [
+  { key: "nav.flights", href: "#top" },
+  { key: "nav.hotels", href: HOLIDAYS_URL, external: true },
   { key: "nav.cars", href: "#destinations" },
   { key: "nav.deals", href: "#deals" },
   { key: "nav.about", href: "#how-it-works" },
@@ -74,6 +75,7 @@ export default function Header() {
             <a
               key={link.key}
               href={link.href}
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
             >
               {t(link.key)}
@@ -167,6 +169,7 @@ export default function Header() {
                   <a
                     key={link.key}
                     href={link.href}
+                    {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     onClick={() => setOpen(false)}
                     className="flex min-h-[44px] items-center rounded-lg px-3 text-base font-medium text-slate-700 transition-colors hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
                   >

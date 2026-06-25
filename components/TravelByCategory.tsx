@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Car, Hotel, Luggage, Plane } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 import { useI18n } from "@/lib/i18n";
+import { HOLIDAYS_URL } from "@/lib/links";
 
 type Category = {
   icon: typeof Plane;
@@ -12,6 +13,8 @@ type Category = {
   title: string;
   copy: string;
   cta: string;
+  href: string;
+  external?: boolean;
   img: string;
 };
 
@@ -20,16 +23,19 @@ const CATEGORIES: Category[] = [
     icon: Plane,
     titleKey: "nav.flights",
     title: "Flights",
-    copy: "Compare fares from 600+ airlines and book direct at the lowest price.",
+    copy: "Book trusted-airline tickets at the best available fares — direct, with no hidden fees.",
     cta: "Search flights",
+    href: "#top",
     img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
   },
   {
     icon: Hotel,
     titleKey: "nav.hotels",
     title: "Hotels",
-    copy: "From boutique stays to 5-star resorts — find the best nightly rate, fast.",
+    copy: "From boutique stays to 5-star resorts — explore stays on our holidays site.",
     cta: "Find hotels",
+    href: HOLIDAYS_URL,
+    external: true,
     img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80",
   },
   {
@@ -38,14 +44,16 @@ const CATEGORIES: Category[] = [
     title: "Car Rentals",
     copy: "Pick up at 30,000+ locations with free cancellation and no hidden fees.",
     cta: "Rent a car",
+    href: "#top",
     img: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=900&q=80",
   },
   {
     icon: Luggage,
     titleKey: "cat.packages",
     title: "Packages",
-    copy: "Bundle flight, hotel and car together and save even more on your trip.",
+    copy: "Pair your trusted-airline flight with a stay and a car for a seamless trip.",
     cta: "Build a package",
+    href: "#top",
     img: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80",
   },
 ];
@@ -56,7 +64,8 @@ function CategoryCard({ c }: { c: Category }) {
   const Icon = c.icon;
   return (
     <motion.a
-      href="#top"
+      href={c.href}
+      {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       whileHover={reduce ? undefined : { y: -6 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
       className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-2xl shadow-sm ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"

@@ -1,6 +1,7 @@
 import type { SVGProps } from "react";
 import { Mail, MapPin, Phone, Plane } from "lucide-react";
 import PaymentTrustBadges from "@/components/PaymentTrustBadges";
+import { HOLIDAYS_URL } from "@/lib/links";
 
 /* Official brand marks (Simple Icons) — lucide-react no longer ships brand logos. */
 function FacebookIcon(props: SVGProps<SVGSVGElement>) {
@@ -78,8 +79,9 @@ export default function Footer() {
               </span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-navy-200">
-              We compare flights, hotels and car rentals across 500+ partners to
-              find you the cheapest deal — then send you straight to it.
+              We book trusted airline tickets at the best available fares —
+              connecting you to the world&apos;s leading carriers, with no hidden
+              booking fees.
             </p>
             <ul className="mt-6 space-y-3 text-sm">
               <li className="flex items-center gap-3">
@@ -108,16 +110,23 @@ export default function Footer() {
                 {col.title}
               </h3>
               <ul className="mt-4 space-y-3 text-sm">
-                {col.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="text-navy-200 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                ))}
+                {col.links.map((link) => {
+                  // Hotels live on the holidays site — open externally.
+                  const isHotels = link === "Hotels";
+                  return (
+                    <li key={link}>
+                      <a
+                        href={isHotels ? HOLIDAYS_URL : "#"}
+                        {...(isHotels
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
+                        className="text-navy-200 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, GitCompareArrows, PlaneTakeoff } from "lucide-react";
+import { Search, Plane, PlaneTakeoff } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 import { useI18n } from "@/lib/i18n";
 
@@ -9,19 +9,19 @@ const STEPS = [
     icon: Search,
     step: "01",
     title: "Search",
-    body: "Tell us where and when. We instantly query hundreds of airlines, hotels and rental partners at once.",
+    body: "Tell us where and when. We instantly pull the best available fares across the world's leading airlines.",
   },
   {
-    icon: GitCompareArrows,
+    icon: Plane,
     step: "02",
-    title: "Compare",
-    body: "See every option side by side — sorted by price, with no hidden fees clouding the real cost.",
+    title: "Choose your airline",
+    body: "Pick the trusted carrier and fare that suit you — clear options, no hidden fees clouding the real cost.",
   },
   {
     icon: PlaneTakeoff,
     step: "03",
-    title: "Get the best deal",
-    body: "Pick the winner and we send you straight to the provider to book at their lowest rate. Done.",
+    title: "Book & fly",
+    body: "Confirm your trusted airline ticket at the best available fare and you're all set. Done.",
   },
 ];
 
@@ -34,8 +34,8 @@ export default function HowItWorks() {
           <span className="t-eyebrow text-accent-400">{t("how.eyebrow")}</span>
           <h2 className="t-h2 mt-3 text-white">{t("how.title")}</h2>
           <p className="t-body mt-4 text-navy-100">
-            No accounts, no clutter, no pressure. Just the cheapest way to your
-            next trip.
+            No accounts, no clutter, no pressure. Just trusted airline tickets at
+            the best available fares.
           </p>
         </Reveal>
 

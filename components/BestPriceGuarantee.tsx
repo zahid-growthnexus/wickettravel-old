@@ -15,7 +15,7 @@ const FEATURES = [
   {
     icon: Tags,
     title: "Transparent pricing",
-    copy: "The price you compare is the price you pay. No surprise fees at checkout — ever.",
+    copy: "The fare you see is the fare you pay. No surprise booking fees at checkout — ever.",
   },
   {
     icon: Lock,
@@ -24,8 +24,8 @@ const FEATURES = [
   },
   {
     icon: BadgeCheck,
-    title: "Verified partners only",
-    copy: "We redirect you to vetted airlines, hotels and rental firms — never an unknown reseller.",
+    title: "Verified airlines only",
+    copy: "We connect you to vetted, fully-licensed airlines — never an unknown reseller.",
   },
   {
     icon: Headset,

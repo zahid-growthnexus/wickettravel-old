@@ -21,7 +21,7 @@ const REVIEWS: Review[] = [
     location: "London, UK",
     rating: 5,
     trip: "Flight to Lisbon",
-    text: "Found a return flight £60 cheaper than anywhere else I checked. The comparison was instant and there were genuinely no hidden fees at checkout.",
+    text: "Booked a return flight with a trusted airline at a brilliant fare. The whole thing took two minutes and there were genuinely no hidden fees at checkout.",
     avatar:
       "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=160&q=80",
   },
@@ -29,8 +29,8 @@ const REVIEWS: Review[] = [
     name: "Daniel Reyes",
     location: "Austin, USA",
     rating: 5,
-    trip: "Hotel in Tokyo",
-    text: "I booked a ryokan for a week and saved enough to add two extra nights. Wicket sent me straight to the hotel's own site for the best rate.",
+    trip: "Flight to Tokyo",
+    text: "Found a great fare on a major airline I already trusted, then booked my ticket in seconds. Exactly the kind of straightforward experience I want.",
     avatar:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80",
   },
@@ -38,8 +38,8 @@ const REVIEWS: Review[] = [
     name: "Sofia Bianchi",
     location: "Milan, Italy",
     rating: 5,
-    trip: "Car rental in LA",
-    text: "Comparing rental cars usually drives me mad. This was effortless — clear prices, free cancellation flagged up front. I'll never book any other way.",
+    trip: "Flight to Dubai",
+    text: "Booking flights usually stresses me out. This was effortless — trusted airlines, clear options, and the best available fare flagged up front. I'll never book any other way.",
     avatar:
       "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=160&q=80",
   },
