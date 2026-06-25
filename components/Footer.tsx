@@ -1,5 +1,6 @@
 import type { SVGProps } from "react";
-import { Mail, MapPin, Phone, Plane } from "lucide-react";
+import { Award, Globe2, Lock, Mail, MapPin, Phone, Plane, ShieldCheck } from "lucide-react";
+import CallUsBand from "@/components/CallUsBand";
 import PaymentTrustBadges from "@/components/PaymentTrustBadges";
 import { HOLIDAYS_URL } from "@/lib/links";
 
@@ -63,9 +64,21 @@ const SOCIALS = [
   { icon: LinkedinIcon, label: "LinkedIn" },
 ];
 
+/* Trust / certification badges. These are clean labeled placeholder slots —
+   drop official IATA / ATOL / ISO seal artwork into /public and swap the icon
+   for an <img> when you have licensed assets. We never fabricate an official
+   seal. */
+const CERTS = [
+  { icon: Globe2, label: "IATA", sub: "Accredited agent" },
+  { icon: ShieldCheck, label: "ATOL", sub: "Protected bookings" },
+  { icon: Award, label: "ISO 27001", sub: "Secure data" },
+  { icon: Lock, label: "PCI DSS", sub: "Secure payments" },
+];
+
 export default function Footer() {
   return (
     <footer className="bg-navy-950 text-navy-100">
+      <CallUsBand />
       <div className="container-page py-16">
         <div className="grid grid-cols-2 gap-10 lg:grid-cols-5">
           {/* Brand + contact */}
@@ -92,8 +105,8 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-                <a href="tel:+18005550100" className="hover:text-white">
-                  +1 (800) 555-0100
+                <a href="tel:+447417564704" className="hover:text-white">
+                  +44 7417 564704
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -132,8 +145,31 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Payment + trust badges */}
+        {/* Certifications / trust badges */}
         <div className="mt-12 border-t border-white/10 pt-8">
+          <h3 className="text-center text-xs font-bold uppercase tracking-[0.18em] text-navy-300">
+            Booking you can trust
+          </h3>
+          <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {CERTS.map(({ icon: Icon, label, sub }) => (
+              <li
+                key={label}
+                className="flex items-center gap-3 rounded-xl bg-white/5 px-4 py-3 ring-1 ring-white/10"
+              >
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/10 text-accent-400">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold text-white">{label}</span>
+                  <span className="block truncate text-xs text-navy-300">{sub}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Payment + trust badges */}
+        <div className="mt-8 border-t border-white/10 pt-8">
           <PaymentTrustBadges />
         </div>
 
@@ -153,7 +189,10 @@ export default function Footer() {
 
         {/* Legal row */}
         <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-navy-300 sm:flex-row">
-          <p>© {new Date().getFullYear()} Wicket Travel Ltd. All rights reserved.</p>
+          <div className="text-center sm:text-left">
+            <p>© {new Date().getFullYear()} Wicket Travel Ltd. All rights reserved.</p>
+            <p className="mt-1 text-navy-400">Wicket Travel Limited Reg: 17001759, UK</p>
+          </div>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <li>
               <a href="#" className="hover:text-white">

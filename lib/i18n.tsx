@@ -103,6 +103,24 @@ const en: Dict = {
   "lang.title": "Choose your language",
   "sticky.text": "Book trusted airline tickets at the best fares",
   "sticky.cta": "Search Flights",
+  "fares.eyebrow": "Featured airlines",
+  "fares.title": "Fly with the world's most trusted airlines",
+  "fares.lead":
+    "Hand-picked airlines flying the routes travelers love most — book real tickets at the best available fares, with no hidden booking fees.",
+  "fares.cta": "Search fares",
+  "city.eyebrow": "Today's best fares",
+  "city.title": "Best flight fares from the UK",
+  "city.lead":
+    "Choose your departure airport to see where you can fly next — always at the best available fares from trusted airlines.",
+  "city.from": "From",
+  "city.cta": "Search flights",
+  "call.eyebrow": "Talk to a real person",
+  "call.title": "Prefer to book by phone? We're here 24/7",
+  "call.lead":
+    "Our travel specialists can find you the best available fares and tailor your trip — call us any time, day or night.",
+  "call.cta": "Call now",
+  "call.note": "24/7 support · Trusted airlines · No hidden fees",
+  "certs.title": "Booking you can trust",
 };
 
 const es: Dict = {

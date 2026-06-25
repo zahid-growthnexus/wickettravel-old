@@ -2,8 +2,10 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import AirlineLogos from "@/components/AirlineLogos";
 import TrustBar from "@/components/TrustBar";
+import FeaturedAirlineFares from "@/components/FeaturedAirlineFares";
 import TravelByCategory from "@/components/TravelByCategory";
 import PopularDestinations from "@/components/PopularDestinations";
+import BestFaresByCity from "@/components/BestFaresByCity";
 import WhyChoose from "@/components/WhyChoose";
 import HowItWorks from "@/components/HowItWorks";
 import FeaturedDeals from "@/components/FeaturedDeals";
@@ -20,8 +22,10 @@ export default function Home() {
         <Hero />
         <AirlineLogos />
         <TrustBar />
+        <FeaturedAirlineFares />
         <TravelByCategory />
         <PopularDestinations />
+        <BestFaresByCity />
         <WhyChoose />
         <HowItWorks />
         <FeaturedDeals />
