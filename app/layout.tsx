@@ -4,7 +4,7 @@ import "./globals.css";
 import { I18nProvider } from "@/lib/i18n";
 import ScrollProgress from "@/components/ScrollProgress";
 import StickySearchBar from "@/components/StickySearchBar";
-import Chatbot from "@/components/Chatbot";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import CookieConsent from "@/components/CookieConsent";
 import BackToTop from "@/components/BackToTop";
@@ -36,7 +36,7 @@ export default function RootLayout({
           <StickySearchBar />
           {children}
           <LanguageSwitcher />
-          <Chatbot />
+          <WhatsAppButton />
           <BackToTop />
           <CookieConsent />
         </I18nProvider>

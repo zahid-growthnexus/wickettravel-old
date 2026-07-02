@@ -11,3 +11,9 @@ export const externalLinkProps = {
   target: "_blank",
   rel: "noopener noreferrer",
 } as const;
+
+/** Quote requests go to the booking portal (opens in the same tab). */
+export const PORTAL_LOGIN_URL = "https://wicket-travel-portal.vercel.app/login";
+
+/** WhatsApp deep link — +44 7417 564704 (opens in a new tab). */
+export const WHATSAPP_URL = "https://wa.me/447417564704";

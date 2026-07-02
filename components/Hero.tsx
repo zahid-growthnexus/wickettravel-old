@@ -12,7 +12,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-24"
+      className="relative isolate overflow-hidden pt-24 pb-16 sm:pt-28 sm:pb-24"
     >
       {/* Full-bleed flight background — fills the hero on every screen size,
           plane + sky kept in view with a lighter, readable overlay. */}
@@ -51,11 +51,13 @@ export default function Hero() {
             <span className="h-2 w-2 rounded-full bg-accent-400" />
             {t("hero.badge")}
           </span>
-          <h1 className="t-display mt-6 text-white [text-shadow:0_2px_24px_rgb(11_22_56_/_0.45)]">
-            {t("hero.title")}{" "}
-            <span className="text-accent-400">{t("hero.accent")}</span>
+          {/* Short two-line heading: white line + orange accent line, so the
+              search widget stays above the fold on common desktop heights. */}
+          <h1 className="t-display mt-5 text-white [text-shadow:0_2px_24px_rgb(11_22_56_/_0.45)]">
+            {t("hero.title")}
+            <span className="block text-accent-400">{t("hero.accent")}</span>
           </h1>
-          <p className="t-body-lg mx-auto mt-5 max-w-2xl text-navy-50 [text-shadow:0_1px_12px_rgb(11_22_56_/_0.5)]">
+          <p className="t-body-lg mx-auto mt-4 max-w-2xl text-navy-50 [text-shadow:0_1px_12px_rgb(11_22_56_/_0.5)]">
             {t("hero.subline")}
           </p>
         </motion.div>

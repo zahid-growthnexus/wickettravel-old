@@ -16,6 +16,7 @@ import {
   PlaneTakeoff,
   Plus,
   Search,
+  SlidersHorizontal,
   Users,
 } from "lucide-react";
 import { cn } from "@/lib/cn";
@@ -256,9 +257,20 @@ function TravelersField() {
   const [open, setOpen] = useState(false);
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
+  const [childAges, setChildAges] = useState<string[]>([]);
   const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
   const total = adults + children;
   const summary = `${total} ${total === 1 ? "traveler" : "travelers"}`;
+
+  // Keep one age box per child: grow with blanks, shrink from the end.
+  const updateChildren = (n: number) => {
+    setChildren(n);
+    setChildAges((prev) =>
+      n > prev.length
+        ? [...prev, ...Array<string>(n - prev.length).fill("")]
+        : prev.slice(0, n)
+    );
+  };
 
   return (
     <div ref={ref} className="relative min-w-0">
@@ -289,11 +301,53 @@ function TravelersField() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
             transition={{ duration: 0.15 }}
-            className="absolute left-0 right-0 top-full z-30 mt-2 w-[min(18rem,90vw)] rounded-xl border border-slate-200 bg-white p-4 shadow-xl shadow-navy-950/15"
+            className="absolute left-0 top-full z-30 mt-2 w-[min(18rem,80vw)] rounded-xl border border-slate-200 bg-white p-4 shadow-xl shadow-navy-950/15"
           >
             <Stepper label="Adults" value={adults} min={1} onChange={setAdults} />
             <div className="border-t border-slate-100" />
-            <Stepper label="Children" value={children} min={0} onChange={setChildren} />
+            <Stepper label="Children" value={children} min={0} onChange={updateChildren} />
+
+            {/* One mini age box per child — required, compact wrapping grid */}
+            {children > 0 && (
+              <div className="mt-1.5 border-t border-slate-100 pt-3">
+                <span className="block text-[0.7rem] font-bold uppercase tracking-wide text-slate-500">
+                  {t("fs.childAges")}
+                </span>
+                <div className="mt-2 grid grid-cols-4 gap-1.5">
+                  <AnimatePresence initial={false}>
+                    {childAges.map((age, i) => (
+                      <motion.label
+                        key={i}
+                        initial={reduce ? false : { opacity: 0, scale: 0.85 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.85 }}
+                        transition={{ duration: 0.15 }}
+                        className="flex flex-col items-center gap-1"
+                      >
+                        <span className="text-[0.65rem] font-semibold text-slate-500">
+                          {t("fs.age")} {i + 1}
+                        </span>
+                        <input
+                          type="number"
+                          min={0}
+                          max={17}
+                          inputMode="numeric"
+                          required
+                          aria-label={`Child ${i + 1} age`}
+                          value={age}
+                          onChange={(e) =>
+                            setChildAges((prev) =>
+                              prev.map((v, j) => (j === i ? e.target.value : v))
+                            )
+                          }
+                          className="h-10 w-full rounded-lg border border-slate-300 bg-white text-center text-sm font-semibold text-navy-900 focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-500/20"
+                        />
+                      </motion.label>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -307,17 +361,24 @@ function SelectField({
   icon: Icon,
   options,
   defaultValue,
+  value,
+  onChange,
 }: {
   label: string;
   icon: typeof Plane;
   options: readonly string[];
   defaultValue?: string;
+  /** Controlled mode — needed when the same field renders at two breakpoints. */
+  value?: string;
+  onChange?: (v: string) => void;
 }) {
   return (
     <FieldShell label={label} icon={Icon}>
       <div className="relative w-full min-w-0">
         <select
-          defaultValue={defaultValue ?? options[0]}
+          {...(onChange
+            ? { value, onChange: (e) => onChange(e.target.value) }
+            : { defaultValue: defaultValue ?? options[0] })}
           className="w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-6 text-sm font-semibold text-navy-900 focus:outline-none"
         >
           {options.map((o) => (
@@ -338,18 +399,43 @@ function SelectField({
 /* ── Flights panel ─────────────────────────────────────────────────────── */
 function FlightsPanel() {
   const { t } = useI18n();
+  const reduce = useReducedMotion();
   const [trip, setTrip] = useState<"return" | "oneway">("return");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  // Controlled so the same fields can render in the desktop row and inside
+  // the mobile "More options" disclosure without drifting apart.
+  const [direct, setDirect] = useState(false);
+  const [airline, setAirline] = useState("");
+  const [moreOpen, setMoreOpen] = useState(false);
+
+  const airlineOptions = [t("airline.any"), ...AIRLINES];
 
   const swap = () => {
     setFrom(to);
     setTo(from);
   };
 
+  const directToggle = (className?: string) => (
+    <label
+      className={cn(
+        "cursor-pointer items-center gap-2 text-sm font-semibold text-navy-800",
+        className
+      )}
+    >
+      <input
+        type="checkbox"
+        checked={direct}
+        onChange={(e) => setDirect(e.target.checked)}
+        className="h-4 w-4 rounded border-slate-300 text-accent-500 accent-accent-500 focus:ring-accent-500"
+      />
+      {t("fs.direct")}
+    </label>
+  );
+
   return (
-    <div className="space-y-4">
-      {/* Trip type + direct toggle */}
+    <div className="space-y-3 sm:space-y-4">
+      {/* Trip type + direct toggle (direct moves into More options on mobile) */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div
           role="radiogroup"
@@ -364,7 +450,7 @@ function FlightsPanel() {
               aria-checked={trip === v}
               onClick={() => setTrip(v)}
               className={cn(
-                "rounded-full px-4 py-1.5 text-sm font-semibold transition-colors",
+                "rounded-full px-4 py-2 text-sm font-semibold transition-colors sm:py-1.5",
                 trip === v
                   ? "bg-white text-navy-900 shadow-sm"
                   : "text-slate-500 hover:text-navy-800"
@@ -375,59 +461,47 @@ function FlightsPanel() {
           ))}
         </div>
 
-        <label className="inline-flex cursor-pointer items-center gap-2 text-sm font-semibold text-navy-800">
-          <input
-            type="checkbox"
-            className="h-4 w-4 rounded border-slate-300 text-accent-500 accent-accent-500 focus:ring-accent-500"
-          />
-          {t("fs.direct")}
-        </label>
+        {directToggle("hidden sm:inline-flex")}
       </div>
 
-      {/* From / swap / To */}
-      <div className="relative grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20">
-          <AirportField
-            label={t("fs.from")}
-            icon={PlaneTakeoff}
-            value={from}
-            onChange={setFrom}
-            placeholder={t("fs.searchPh")}
-          />
-        </div>
-        <div className="rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20">
-          <AirportField
-            label={t("fs.to")}
-            icon={PlaneLanding}
-            value={to}
-            onChange={setTo}
-            placeholder={t("fs.searchPh")}
-          />
+      {/* From / To — one grouped card with a right-edge swap on mobile,
+          two separate boxes with a centered swap on desktop. */}
+      <div className="relative">
+        <div className="grid grid-cols-1 rounded-xl border border-slate-200 sm:grid-cols-2 sm:gap-3 sm:rounded-none sm:border-0">
+          <div className="border-b border-slate-200 px-4 py-3.5 pr-16 transition-colors sm:rounded-xl sm:border sm:py-3 sm:pr-4 sm:focus-within:border-navy-500 sm:focus-within:ring-2 sm:focus-within:ring-navy-500/20">
+            <AirportField
+              label={t("fs.from")}
+              icon={PlaneTakeoff}
+              value={from}
+              onChange={setFrom}
+              placeholder={t("fs.searchPh")}
+            />
+          </div>
+          <div className="px-4 py-3.5 pr-16 transition-colors sm:rounded-xl sm:border sm:border-slate-200 sm:py-3 sm:pr-4 sm:focus-within:border-navy-500 sm:focus-within:ring-2 sm:focus-within:ring-navy-500/20">
+            <AirportField
+              label={t("fs.to")}
+              icon={PlaneLanding}
+              value={to}
+              onChange={setTo}
+              placeholder={t("fs.searchPh")}
+            />
+          </div>
         </div>
 
-        {/* Swap button — centered on the divider */}
+        {/* Swap — straddles the divider on mobile, sits on the seam on desktop */}
         <button
           type="button"
           onClick={swap}
           aria-label={t("fs.swap")}
-          className="absolute left-1/2 top-1/2 z-10 hidden h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-slate-200 bg-white text-navy-700 shadow-sm transition-all hover:border-navy-500 hover:text-accent-600 sm:grid"
+          className="absolute right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-slate-200 bg-white text-navy-700 shadow-sm transition-all hover:border-navy-500 hover:text-accent-600 sm:left-1/2 sm:right-auto sm:h-9 sm:w-9 sm:-translate-x-1/2"
         >
-          <ArrowRightLeft className="h-4 w-4" aria-hidden="true" />
-        </button>
-        {/* Mobile swap */}
-        <button
-          type="button"
-          onClick={swap}
-          aria-label={t("fs.swap")}
-          className="mx-auto -my-1 grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-navy-700 shadow-sm transition-all hover:border-navy-500 hover:text-accent-600 sm:hidden"
-        >
-          <ArrowRightLeft className="h-4 w-4 rotate-90" aria-hidden="true" />
+          <ArrowRightLeft className="h-4 w-4 rotate-90 sm:rotate-0" aria-hidden="true" />
         </button>
       </div>
 
-      {/* Dates */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20">
+      {/* Dates — side by side on every width */}
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+        <div className="rounded-xl border border-slate-200 px-3 py-3.5 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20 sm:px-4 sm:py-3">
           <FieldShell label={t("fs.depart")} icon={CalendarDays}>
             <input
               type="date"
@@ -437,7 +511,7 @@ function FlightsPanel() {
         </div>
         <div
           className={cn(
-            "rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20",
+            "rounded-xl border border-slate-200 px-3 py-3.5 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20 sm:px-4 sm:py-3",
             trip === "oneway" && "opacity-50"
           )}
         >
@@ -451,21 +525,74 @@ function FlightsPanel() {
         </div>
       </div>
 
-      {/* Travelers / cabin / airline */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <div className="rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20">
+      {/* Travelers / cabin (+ airline inline on desktop only) */}
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3">
+        <div className="rounded-xl border border-slate-200 px-3 py-3.5 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20 sm:px-4 sm:py-3">
           <TravelersField />
         </div>
-        <div className="rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20">
+        <div className="rounded-xl border border-slate-200 px-3 py-3.5 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20 sm:px-4 sm:py-3">
           <SelectField label={t("fs.cabin")} icon={Plane} options={CABINS} />
         </div>
-        <div className="rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20">
+        <div className="hidden rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20 sm:block">
           <SelectField
             label={t("fs.airline")}
             icon={Plane}
-            options={[t("airline.any"), ...AIRLINES]}
+            options={airlineOptions}
+            value={airline || airlineOptions[0]}
+            onChange={setAirline}
           />
         </div>
+      </div>
+
+      {/* Mobile-only: advanced options collapsed behind a disclosure */}
+      <div className="sm:hidden">
+        <button
+          type="button"
+          onClick={() => setMoreOpen((v) => !v)}
+          aria-expanded={moreOpen}
+          aria-controls="fs-more-options"
+          className="flex min-h-[44px] w-full items-center justify-between rounded-xl border border-slate-200 px-4 text-sm font-semibold text-navy-800 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+        >
+          <span className="flex items-center gap-2">
+            <SlidersHorizontal className="h-4 w-4 text-navy-600" aria-hidden="true" />
+            {t("fs.moreOptions")}
+          </span>
+          <ChevronDown
+            className={cn(
+              "h-4 w-4 text-slate-400 transition-transform",
+              moreOpen && "rotate-180"
+            )}
+            aria-hidden="true"
+          />
+        </button>
+
+        <AnimatePresence initial={false}>
+          {moreOpen && (
+            <motion.div
+              id="fs-more-options"
+              initial={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+              animate={reduce ? { opacity: 1 } : { height: "auto", opacity: 1 }}
+              exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="overflow-hidden"
+            >
+              <div className="mt-2.5 space-y-2.5">
+                <div className="rounded-xl border border-slate-200 px-4 py-3.5">
+                  <SelectField
+                    label={t("fs.airline")}
+                    icon={Plane}
+                    options={airlineOptions}
+                    value={airline || airlineOptions[0]}
+                    onChange={setAirline}
+                  />
+                </div>
+                <div className="flex min-h-[44px] items-center rounded-xl border border-slate-200 px-4">
+                  {directToggle("inline-flex")}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Search */}
@@ -534,7 +661,7 @@ export default function FlightSearch() {
   const [tab, setTab] = useState<Tab>("flights");
 
   return (
-    <div className="mx-auto mt-10 max-w-4xl text-left">
+    <div className="mx-auto mt-7 max-w-4xl text-left sm:mt-9">
       {/* Tab switcher */}
       <div
         role="tablist"

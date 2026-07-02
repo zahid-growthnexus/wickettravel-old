@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, Plane, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/lib/i18n";
-import { HOLIDAYS_URL } from "@/lib/links";
+import { HOLIDAYS_URL, PORTAL_LOGIN_URL } from "@/lib/links";
 import TrustpilotBadge from "@/components/TrustpilotBadge";
 
 const NAV_LINKS: { key: string; href: string; external?: boolean }[] = [
@@ -47,8 +47,8 @@ export default function Header() {
       className={cn(
         "sticky top-0 w-full transition-all duration-300",
         // The header owns a stacking context. While the drawer is open, lift the
-        // whole header above the floating chat / language launchers (z-50) so the
-        // backdrop covers them instead of them poking through the drawer.
+        // whole header above the floating WhatsApp / language launchers (z-50) so
+        // the backdrop covers them instead of them poking through the drawer.
         open ? "z-[70]" : "z-50",
         scrolled
           // Solid-ish white instead of bg-white/90 + backdrop-blur: a sticky,
@@ -91,10 +91,10 @@ export default function Header() {
             <TrustpilotBadge />
           </div>
           <a
-            href="#deals"
+            href={PORTAL_LOGIN_URL}
             className="hidden rounded-full bg-accent-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-accent-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 sm:inline-flex"
           >
-            {t("cta.findDeals")}
+            {t("cta.getQuote")}
           </a>
 
           {/* Mobile toggle */}
@@ -182,11 +182,11 @@ export default function Header() {
               <div className="mt-auto shrink-0 space-y-4 border-t border-navy-100 p-5">
                 <TrustpilotBadge compact className="!px-0" />
                 <a
-                  href="#deals"
+                  href={PORTAL_LOGIN_URL}
                   onClick={() => setOpen(false)}
                   className="flex min-h-[48px] items-center justify-center rounded-full bg-accent-500 px-5 text-base font-semibold text-white shadow-sm transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
                 >
-                  {t("cta.findDeals")}
+                  {t("cta.getQuote")}
                 </a>
               </div>
             </motion.div>
