@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
+import { Reveal } from "@/components/motion-primitives";
 import { useI18n } from "@/lib/i18n";
 
 /**
@@ -10,6 +11,8 @@ import { useI18n } from "@/lib/i18n";
  * they can book here. Logos load by IATA code from the avs.io airline-logo CDN.
  * If a logo fails to load (network/CDN/trademark), the slot falls back to a
  * clean labeled placeholder — we never fabricate or distort a logo.
+ * The strip auto-scrolls right-to-left in a seamless loop (two copies of the
+ * track); hover pauses it, and reduced motion swaps in a static scrollable row.
  */
 const AIRLINES = [
   { code: "BA", name: "British Airways" },
@@ -19,13 +22,14 @@ const AIRLINES = [
   { code: "QR", name: "Qatar Airways" },
   { code: "GF", name: "Gulf Air" },
   { code: "EY", name: "Etihad Airways" },
+  { code: "LH", name: "Lufthansa" },
 ];
 
 function LogoSlot({ code, name }: { code: string; name: string }) {
   const [failed, setFailed] = useState(false);
   return (
     <div
-      className="flex h-20 w-full items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 shadow-sm transition-shadow duration-300 hover:shadow-md"
+      className="flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 shadow-sm transition-shadow duration-300 hover:shadow-md sm:w-48"
       title={name}
     >
       {failed ? (
@@ -50,25 +54,46 @@ function LogoSlot({ code, name }: { code: string; name: string }) {
 
 export default function AirlineLogos() {
   const { t } = useI18n();
+  const reduce = useReducedMotion();
+
+  const row = (ariaHidden: boolean) => (
+    <div
+      aria-hidden={ariaHidden || undefined}
+      className="flex shrink-0 items-center gap-4 pr-4"
+    >
+      {AIRLINES.map((a) => (
+        <LogoSlot key={`${ariaHidden ? "dup-" : ""}${a.code}`} {...a} />
+      ))}
+    </div>
+  );
+
   return (
-    <section className="bg-white py-14 sm:py-16">
+    <section className="overflow-hidden bg-white py-14 sm:py-16">
       <div className="container-page">
         <Reveal className="text-center">
           <span className="t-eyebrow text-accent-600">{t("trust.eyebrow")}</span>
           <p className="t-h2 mt-3 text-navy-900">{t("trust.line")}</p>
         </Reveal>
+      </div>
 
-        <Stagger
-          amount={0.1}
-          className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7"
-        >
-          {AIRLINES.map((a) => (
-            <StaggerItem key={a.code}>
-              <LogoSlot {...a} />
-            </StaggerItem>
-          ))}
-        </Stagger>
+      <Reveal delay={0.05} className="mt-10">
+        {reduce ? (
+          <div className="flex gap-4 overflow-x-auto px-5 pb-2 sm:px-8">
+            {AIRLINES.map((a) => (
+              <LogoSlot key={a.code} {...a} />
+            ))}
+          </div>
+        ) : (
+          <div className="marquee overflow-hidden" aria-label="Our airline partners">
+            <div className="marquee-track [--marquee-duration:40s]">
+              {row(false)}
+              {row(true)}
+            </div>
+          </div>
+        )}
+      </Reveal>
 
+      <div className="container-page">
         <Reveal
           delay={0.1}
           className="mt-8 flex items-center justify-center gap-2 text-sm font-semibold text-slate-600"

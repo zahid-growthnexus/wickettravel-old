@@ -71,6 +71,13 @@ const AIRLINES: Airline[] = [
     routes: ["Bahrain — best available fares", "Manila — starting from low fares"],
     img: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=900&q=80",
   },
+  {
+    code: "LH",
+    name: "Lufthansa",
+    title: "Fly with Lufthansa",
+    routes: ["Frankfurt — best available fares", "Munich — starting from low fares"],
+    img: "https://images.unsplash.com/photo-1577185816322-21f2a92b1342?auto=format&fit=crop&w=900&q=80",
+  },
 ];
 
 function AirlineLogo({ code, name }: { code: string; name: string }) {
@@ -113,7 +120,7 @@ function FareCard({ a }: { a: Airline }) {
           src={a.img}
           alt={`${a.name} flights`}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-950/55 via-navy-950/10 to-transparent" />
@@ -157,7 +164,7 @@ export default function FeaturedAirlineFares() {
 
         <Stagger
           amount={0.1}
-          className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
         >
           {AIRLINES.map((a) => (
             <StaggerItem key={a.code} className="h-full">

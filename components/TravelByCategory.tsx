@@ -42,9 +42,10 @@ const CATEGORIES: Category[] = [
     icon: Car,
     titleKey: "nav.cars",
     title: "Car Rentals",
-    copy: "Pick up at 30,000+ locations with free cancellation and no hidden fees.",
+    copy: "Pick up at 30,000+ locations with free cancellation — book on our holidays site.",
     cta: "Rent a car",
-    href: "#top",
+    href: HOLIDAYS_URL,
+    external: true,
     img: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=900&q=80",
   },
   {
@@ -53,7 +54,8 @@ const CATEGORIES: Category[] = [
     title: "Packages",
     copy: "Pair your trusted-airline flight with a stay and a car for a seamless trip.",
     cta: "Build a package",
-    href: "#top",
+    href: HOLIDAYS_URL,
+    external: true,
     img: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80",
   },
 ];

@@ -11,7 +11,7 @@ import TrustpilotBadge from "@/components/TrustpilotBadge";
 const NAV_LINKS: { key: string; href: string; external?: boolean }[] = [
   { key: "nav.flights", href: "#top" },
   { key: "nav.hotels", href: HOLIDAYS_URL, external: true },
-  { key: "nav.cars", href: "#destinations" },
+  { key: "nav.cars", href: HOLIDAYS_URL, external: true },
   { key: "nav.deals", href: "#deals" },
   { key: "nav.about", href: "#how-it-works" },
   { key: "nav.contact", href: "#newsletter" },

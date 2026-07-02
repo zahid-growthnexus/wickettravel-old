@@ -9,6 +9,7 @@ import BestFaresByCity from "@/components/BestFaresByCity";
 import WhyChoose from "@/components/WhyChoose";
 import HowItWorks from "@/components/HowItWorks";
 import FeaturedDeals from "@/components/FeaturedDeals";
+import CallUsBand from "@/components/CallUsBand";
 import BestPriceGuarantee from "@/components/BestPriceGuarantee";
 import Testimonials from "@/components/Testimonials";
 import Newsletter from "@/components/Newsletter";
@@ -29,6 +30,7 @@ export default function Home() {
         <WhyChoose />
         <HowItWorks />
         <FeaturedDeals />
+        <CallUsBand />
         <BestPriceGuarantee />
         <Testimonials />
         <Newsletter />

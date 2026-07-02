@@ -148,7 +148,7 @@ function DealCard({ deal }: { deal: Deal }) {
               {deal.fare}
             </span>
           </div>
-          {deal.type === "Hotel" ? (
+          {deal.type === "Hotel" || deal.type === "Car" ? (
             <a
               href={HOLIDAYS_URL}
               target="_blank"

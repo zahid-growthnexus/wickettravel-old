@@ -9,7 +9,6 @@ import {
   ChevronDown,
   ExternalLink,
   Hotel,
-  MapPin,
   Minus,
   Plane,
   PlaneLanding,
@@ -607,52 +606,13 @@ function FlightsPanel() {
   );
 }
 
-/* ── Cars panel (kept simple; flights are the focus) ───────────────────── */
-function CarsPanel() {
-  const { t } = useI18n();
-  const [loc, setLoc] = useState("");
-  return (
-    <div className="space-y-4">
-      <div className="rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20">
-        <AirportField
-          label="Pick-up location"
-          icon={MapPin}
-          value={loc}
-          onChange={setLoc}
-          placeholder={t("fs.searchPh")}
-        />
-      </div>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20">
-          <FieldShell label="Pick-up" icon={CalendarDays}>
-            <input
-              type="date"
-              className="w-full min-w-0 bg-transparent text-sm font-semibold text-navy-900 focus:outline-none [color-scheme:light]"
-            />
-          </FieldShell>
-        </div>
-        <div className="rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20">
-          <FieldShell label="Drop-off" icon={CalendarDays}>
-            <input
-              type="date"
-              className="w-full min-w-0 bg-transparent text-sm font-semibold text-navy-900 focus:outline-none [color-scheme:light]"
-            />
-          </FieldShell>
-        </div>
-      </div>
-      <button type="button" className="btn-primary h-13 w-full py-4 text-base">
-        <Search className="h-5 w-5" aria-hidden="true" />
-        Search Cars
-      </button>
-    </div>
-  );
-}
-
 /* ── Main widget ───────────────────────────────────────────────────────── */
+/* Hotels AND car rentals are handled on the holidays site — both tabs
+   redirect there in a new tab; only Flights renders a panel here. */
 const TABS: { id: Tab; labelKey: string; icon: typeof Plane; redirect?: boolean }[] = [
   { id: "flights", labelKey: "tab.flights", icon: Plane },
   { id: "hotels", labelKey: "tab.hotels", icon: Hotel, redirect: true },
-  { id: "cars", labelKey: "tab.cars", icon: Car },
+  { id: "cars", labelKey: "tab.cars", icon: Car, redirect: true },
 ];
 
 export default function FlightSearch() {
@@ -714,7 +674,7 @@ export default function FlightSearch() {
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
             transition={{ duration: 0.2 }}
           >
-            {tab === "cars" ? <CarsPanel /> : <FlightsPanel />}
+            <FlightsPanel />
           </motion.div>
         </AnimatePresence>
         <p className="mt-3 px-1 text-xs text-slate-500">{t("hero.helper")}</p>

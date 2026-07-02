@@ -117,6 +117,32 @@ body {
   }
 }
 
+/* ───────────────────────────────────────────────────────────
+   Continuous marquee — used by the airline-logo strip and the
+   Trustpilot review slider. The track holds TWO copies of its
+   content and slides by exactly half its width, so the loop is
+   seamless. Pause on hover; reduced-motion renders a static,
+   scrollable row instead (handled in the components via JS).
+   ─────────────────────────────────────────────────────────── */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-duration, 45s) linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
 /* Respect reduced-motion globally as a safety net */
 @media (prefers-reduced-motion: reduce) {
   *,
