@@ -4,6 +4,7 @@ import AirlineLogos from "@/components/AirlineLogos";
 import TrustBar from "@/components/TrustBar";
 import FeaturedAirlineFares from "@/components/FeaturedAirlineFares";
 import TravelByCategory from "@/components/TravelByCategory";
+import SisterBrand from "@/components/SisterBrand";
 import PopularDestinations from "@/components/PopularDestinations";
 import BestFaresByCity from "@/components/BestFaresByCity";
 import WhyChoose from "@/components/WhyChoose";
@@ -25,6 +26,7 @@ export default function Home() {
         <TrustBar />
         <FeaturedAirlineFares />
         <TravelByCategory />
+        <SisterBrand />
         <PopularDestinations />
         <BestFaresByCity />
         <WhyChoose />

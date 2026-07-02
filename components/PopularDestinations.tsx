@@ -106,6 +106,16 @@ export default function PopularDestinations() {
           <span className="t-eyebrow text-accent-600">{t("hotels.eyebrow")}</span>
           <h2 className="t-h2 mt-3 text-navy-900">{t("hotels.title")}</h2>
           <p className="t-body mt-4 text-slate-600">{t("hotels.lead")}</p>
+          <a
+            href={HOLIDAYS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-navy-600 transition-colors hover:text-navy-700"
+          >
+            In partnership with Wicket Travel Holidays
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
         </Reveal>
 
         <Stagger
