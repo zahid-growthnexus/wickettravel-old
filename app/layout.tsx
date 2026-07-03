@@ -12,6 +12,19 @@ import BackToTop from "@/components/BackToTop";
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
+  // Self-hosted by next/font (no render-blocking Google request). `swap` paints
+  // text immediately in the fallback, and the matched fallback metrics below
+  // keep the swap from shifting layout (near-zero CLS).
+  display: "swap",
+  preload: true,
+  fallback: [
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Arial",
+    "Helvetica",
+    "sans-serif",
+  ],
 });
 
 export const metadata: Metadata = {
@@ -30,6 +43,19 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakartaSans.variable} h-full antialiased`}
     >
+      <head>
+        {/* Warm up the origins the browser fetches directly (next/image proxies
+            Unsplash through /_next/image, so only these raw logo CDNs need it):
+            avs.io airline logos appear just below the hero, Simple Icons in the
+            footer. */}
+        <link
+          rel="preconnect"
+          href="https://pics.avs.io"
+          crossOrigin="anonymous"
+        />
+        <link rel="dns-prefetch" href="https://pics.avs.io" />
+        <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         <I18nProvider>
           <ScrollProgress />
