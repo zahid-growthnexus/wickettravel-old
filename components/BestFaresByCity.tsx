@@ -207,7 +207,7 @@ function DestCard({ d }: { d: Dest }) {
       <div className="relative h-20 w-24 shrink-0 overflow-hidden rounded-xl">
         <Image
           src={d.img}
-          alt={`${d.city}, ${d.country}`}
+          alt={`Flights to ${d.city}, ${d.country}`}
           fill
           sizes="96px"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"

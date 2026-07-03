@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { SITE_URL, BUSINESS } from "@/lib/seo";
 import { I18nProvider } from "@/lib/i18n";
 import ScrollProgress from "@/components/ScrollProgress";
 import StickySearchBar from "@/components/StickySearchBar";
@@ -28,9 +29,64 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Wicket Travel — Book Trusted Airline Tickets at the Best Fares",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Cheap Flights UK | Best Airline Ticket Deals — Wicket Travel",
+    template: "%s | Wicket Travel",
+  },
   description:
-    "Wicket Travel finds you the lowest available fares on the world's leading airlines and connects you straight to the best deal — trusted carriers, no hidden booking fees.",
+    "Book cheap flights from the UK with Wicket Travel. Compare the best airline ticket deals to Pakistan, India, Dubai & worldwide from Heathrow, Manchester & more. No hidden fees.",
+  applicationName: BUSINESS.name,
+  authors: [{ name: BUSINESS.legalName }],
+  creator: BUSINESS.legalName,
+  publisher: BUSINESS.legalName,
+  keywords: [
+    "cheap flights UK",
+    "best airline ticket deals UK",
+    "flights to Pakistan from UK",
+    "flights to India from UK",
+    "flights to Dubai from UK",
+    "cheap flights from Heathrow",
+    "cheap flights from Manchester",
+    "book airline tickets UK",
+    "trusted airline tickets",
+    "Wicket Travel",
+  ],
+  category: "travel",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: BUSINESS.name,
+    title: "Cheap Flights UK | Best Airline Ticket Deals — Wicket Travel",
+    description:
+      "Book cheap flights from the UK with Wicket Travel. Best airline ticket deals to Pakistan, India, Dubai & worldwide from Heathrow, Manchester, Birmingham & more — no hidden fees.",
+    locale: "en_GB",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@WicketTravel",
+    creator: "@WicketTravel",
+    title: "Cheap Flights UK | Best Airline Ticket Deals — Wicket Travel",
+    description:
+      "Book cheap flights from the UK — best airline ticket deals to Pakistan, India, Dubai & worldwide. Trusted airlines, no hidden booking fees.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: {
+    telephone: true,
+  },
 };
 
 export default function RootLayout({
@@ -40,7 +96,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en-GB"
       className={`${plusJakartaSans.variable} h-full antialiased`}
     >
       <head>

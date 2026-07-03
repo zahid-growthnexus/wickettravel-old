@@ -118,7 +118,7 @@ function FareCard({ a }: { a: Airline }) {
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
           src={a.img}
-          alt={`${a.name} flights`}
+          alt={`Flights with ${a.name} from the UK at the best available fares`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"

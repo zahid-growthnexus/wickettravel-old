@@ -15,6 +15,9 @@ export default function TrustBar() {
     <section className="bg-white py-14 sm:py-16">
       <div className="container-page">
         <Reveal className="card overflow-hidden">
+          <h2 className="sr-only">
+            Trusted by millions of UK travelers booking cheap flights
+          </h2>
           {/* Stats band */}
           <Stagger className="grid grid-cols-2 sm:grid-cols-4" amount={0.3}>
             {STATS.map((s, i) => (

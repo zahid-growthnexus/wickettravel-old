@@ -72,7 +72,7 @@ export default function AirlineLogos() {
       <div className="container-page">
         <Reveal className="text-center">
           <span className="t-eyebrow text-accent-600">{t("trust.eyebrow")}</span>
-          <p className="t-h2 mt-3 text-navy-900">{t("trust.line")}</p>
+          <h2 className="t-h2 mt-3 text-navy-900">{t("trust.line")}</h2>
         </Reveal>
       </div>
 
