@@ -88,8 +88,8 @@ export default function Footer() {
             <ul className="mt-6 space-y-3 text-sm">
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-                <a href="mailto:hello@wickettravel.com" className="hover:text-white">
-                  hello@wickettravel.com
+                <a href="mailto:info@wickettravel.com" className="hover:text-white">
+                  info@wickettravel.com
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -203,7 +203,7 @@ export default function Footer() {
         </div>
 
         {/* Company registration — centered, soft white */}
-        <p className="mt-6 text-center text-xs text-white/60">
+        <p className="mt-6 text-center text-sm text-white">
           Wicket Travel Limited Reg: 17001759, UK
         </p>
       </div>

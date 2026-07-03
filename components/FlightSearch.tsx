@@ -21,7 +21,7 @@ import {
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/lib/i18n";
 import { type Airport, formatAirport, searchAirports } from "@/lib/airports";
-import { HOLIDAYS_URL } from "@/lib/links";
+import { HOLIDAYS_URL, PORTAL_BOOKING_URL } from "@/lib/links";
 
 type Tab = "flights" | "hotels" | "cars";
 
@@ -250,20 +250,28 @@ function Stepper({
   );
 }
 
-function TravelersField() {
+function TravelersField({
+  adults,
+  childrenCount,
+  onAdultsChange,
+  onChildrenChange,
+}: {
+  adults: number;
+  childrenCount: number;
+  onAdultsChange: (v: number) => void;
+  onChildrenChange: (v: number) => void;
+}) {
   const { t } = useI18n();
   const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
-  const [adults, setAdults] = useState(1);
-  const [children, setChildren] = useState(0);
   const [childAges, setChildAges] = useState<string[]>([]);
   const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
-  const total = adults + children;
+  const total = adults + childrenCount;
   const summary = `${total} ${total === 1 ? "traveler" : "travelers"}`;
 
   // Keep one age box per child: grow with blanks, shrink from the end.
   const updateChildren = (n: number) => {
-    setChildren(n);
+    onChildrenChange(n);
     setChildAges((prev) =>
       n > prev.length
         ? [...prev, ...Array<string>(n - prev.length).fill("")]
@@ -302,12 +310,12 @@ function TravelersField() {
             transition={{ duration: 0.15 }}
             className="absolute left-0 top-full z-30 mt-2 w-[min(18rem,80vw)] rounded-xl border border-slate-200 bg-white p-4 shadow-xl shadow-navy-950/15"
           >
-            <Stepper label="Adults" value={adults} min={1} onChange={setAdults} />
+            <Stepper label="Adults" value={adults} min={1} onChange={onAdultsChange} />
             <div className="border-t border-slate-100" />
-            <Stepper label="Children" value={children} min={0} onChange={updateChildren} />
+            <Stepper label="Children" value={childrenCount} min={0} onChange={updateChildren} />
 
             {/* One mini age box per child — required, compact wrapping grid */}
-            {children > 0 && (
+            {childrenCount > 0 && (
               <div className="mt-1.5 border-t border-slate-100 pt-3">
                 <span className="block text-[0.7rem] font-bold uppercase tracking-wide text-slate-500">
                   {t("fs.childAges")}
@@ -362,6 +370,7 @@ function SelectField({
   defaultValue,
   value,
   onChange,
+  onFocus,
 }: {
   label: string;
   icon: typeof Plane;
@@ -370,11 +379,13 @@ function SelectField({
   /** Controlled mode — needed when the same field renders at two breakpoints. */
   value?: string;
   onChange?: (v: string) => void;
+  onFocus?: () => void;
 }) {
   return (
     <FieldShell label={label} icon={Icon}>
       <div className="relative w-full min-w-0">
         <select
+          onFocus={onFocus}
           {...(onChange
             ? { value, onChange: (e) => onChange(e.target.value) }
             : { defaultValue: defaultValue ?? options[0] })}
@@ -396,12 +407,39 @@ function SelectField({
 }
 
 /* ── Flights panel ─────────────────────────────────────────────────────── */
+
+/** Portal query values for each cabin label shown in the widget. */
+const CABIN_PARAM: Record<string, string> = {
+  Economy: "economy",
+  "Premium Economy": "premium",
+  Business: "business",
+  First: "first",
+};
+
+/** Pull the IATA code out of an autocomplete pick ("London Heathrow (LHR),
+ *  UK" → "LHR"); free-typed text is passed through as-is. */
+function toRouteParam(value: string): string {
+  const m = value.match(/\(([A-Z]{3})\)/);
+  return m ? m[1] : value.trim();
+}
+
 function FlightsPanel() {
   const { t } = useI18n();
   const reduce = useReducedMotion();
   const [trip, setTrip] = useState<"return" | "oneway">("return");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [depart, setDepart] = useState("");
+  const [returnDate, setReturnDate] = useState("");
+  const [cabin, setCabin] = useState<string>(CABINS[0]);
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
+  // The portal wizard should only be pre-filled with fields the traveler
+  // actually chose, so cabin/travelers track whether they were touched —
+  // untouched defaults stay out of the handoff URL.
+  const [cabinTouched, setCabinTouched] = useState(false);
+  const [travelersTouched, setTravelersTouched] = useState(false);
+  const [routeNudge, setRouteNudge] = useState(false);
   // Controlled so the same fields can render in the desktop row and inside
   // the mobile "More options" disclosure without drifting apart.
   const [direct, setDirect] = useState(false);
@@ -413,6 +451,27 @@ function FlightsPanel() {
   const swap = () => {
     setFrom(to);
     setTo(from);
+  };
+
+  /* Hand off to the portal booking wizard with whatever the traveler filled
+     in — empty fields are simply omitted. Child ages stay here; the wizard
+     collects them in its Step 1. */
+  const search = () => {
+    if (!from.trim() && !to.trim()) {
+      setRouteNudge(true);
+      return;
+    }
+    const params = new URLSearchParams();
+    if (from.trim()) params.set("from", toRouteParam(from));
+    if (to.trim()) params.set("to", toRouteParam(to));
+    if (direct) params.set("tripType", "direct");
+    if (depart) params.set("depart", depart);
+    if (trip === "return" && returnDate) params.set("return", returnDate);
+    if (cabinTouched) params.set("cabin", CABIN_PARAM[cabin]);
+    if (travelersTouched || adults > 1 || children > 0)
+      params.set("adults", String(adults));
+    if (children > 0) params.set("children", String(children));
+    window.location.assign(`${PORTAL_BOOKING_URL}?${params.toString()}`);
   };
 
   const directToggle = (className?: string) => (
@@ -472,7 +531,10 @@ function FlightsPanel() {
               label={t("fs.from")}
               icon={PlaneTakeoff}
               value={from}
-              onChange={setFrom}
+              onChange={(v) => {
+                setFrom(v);
+                setRouteNudge(false);
+              }}
               placeholder={t("fs.searchPh")}
             />
           </div>
@@ -481,7 +543,10 @@ function FlightsPanel() {
               label={t("fs.to")}
               icon={PlaneLanding}
               value={to}
-              onChange={setTo}
+              onChange={(v) => {
+                setTo(v);
+                setRouteNudge(false);
+              }}
               placeholder={t("fs.searchPh")}
             />
           </div>
@@ -504,6 +569,8 @@ function FlightsPanel() {
           <FieldShell label={t("fs.depart")} icon={CalendarDays}>
             <input
               type="date"
+              value={depart}
+              onChange={(e) => setDepart(e.target.value)}
               className="w-full min-w-0 bg-transparent text-sm font-semibold text-navy-900 focus:outline-none [color-scheme:light]"
             />
           </FieldShell>
@@ -518,6 +585,8 @@ function FlightsPanel() {
             <input
               type="date"
               disabled={trip === "oneway"}
+              value={returnDate}
+              onChange={(e) => setReturnDate(e.target.value)}
               className="w-full min-w-0 bg-transparent text-sm font-semibold text-navy-900 focus:outline-none disabled:cursor-not-allowed [color-scheme:light]"
             />
           </FieldShell>
@@ -527,10 +596,28 @@ function FlightsPanel() {
       {/* Travelers / cabin (+ airline inline on desktop only) */}
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3">
         <div className="rounded-xl border border-slate-200 px-3 py-3.5 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20 sm:px-4 sm:py-3">
-          <TravelersField />
+          <TravelersField
+            adults={adults}
+            childrenCount={children}
+            onAdultsChange={(v) => {
+              setAdults(v);
+              setTravelersTouched(true);
+            }}
+            onChildrenChange={(v) => {
+              setChildren(v);
+              setTravelersTouched(true);
+            }}
+          />
         </div>
         <div className="rounded-xl border border-slate-200 px-3 py-3.5 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20 sm:px-4 sm:py-3">
-          <SelectField label={t("fs.cabin")} icon={Plane} options={CABINS} />
+          <SelectField
+            label={t("fs.cabin")}
+            icon={Plane}
+            options={CABINS}
+            value={cabin}
+            onChange={setCabin}
+            onFocus={() => setCabinTouched(true)}
+          />
         </div>
         <div className="hidden rounded-xl border border-slate-200 px-4 py-3 transition-colors focus-within:border-navy-500 focus-within:ring-2 focus-within:ring-navy-500/20 sm:block">
           <SelectField
@@ -595,8 +682,14 @@ function FlightsPanel() {
       </div>
 
       {/* Search */}
+      {routeNudge && (
+        <p role="status" className="px-1 text-sm font-semibold text-accent-600">
+          {t("fs.routeNudge")}
+        </p>
+      )}
       <button
         type="button"
+        onClick={search}
         className="btn-primary h-13 w-full py-4 text-base"
       >
         <Search className="h-5 w-5" aria-hidden="true" />

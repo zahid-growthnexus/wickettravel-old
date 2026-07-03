@@ -15,5 +15,10 @@ export const externalLinkProps = {
 /** Quote requests go to the booking portal (opens in the same tab). */
 export const PORTAL_LOGIN_URL = "https://wicket-travel-portal.vercel.app/login";
 
+/** Flight searches hand off to the portal's booking wizard (same tab); the
+ *  widget appends the traveler's entries as query params to pre-fill it. */
+export const PORTAL_BOOKING_URL =
+  "https://wicket-travel-portal.vercel.app/customer/book";
+
 /** WhatsApp deep link — +44 7417 564704 (opens in a new tab). */
 export const WHATSAPP_URL = "https://wa.me/447417564704";
