@@ -18,6 +18,7 @@ const AIRLINES = [
   { code: "BA", name: "British Airways" },
   { code: "VS", name: "Virgin Atlantic" },
   { code: "AI", name: "Air India" },
+  { code: "6E", name: "IndiGo" },
   { code: "EK", name: "Emirates" },
   { code: "QR", name: "Qatar Airways" },
   { code: "GF", name: "Gulf Air" },

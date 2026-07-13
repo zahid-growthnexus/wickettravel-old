@@ -14,9 +14,9 @@ export const FAQ_ITEMS: FaqItem[] = [
       "We search the best available fares across the world's leading airlines — British Airways, Emirates, Qatar Airways, Virgin Atlantic and more — on departures from Heathrow, Manchester, Birmingham, Gatwick, Luton and Edinburgh, then connect you straight to the best deal. There are no hidden booking fees, so the fare you see is the fare you pay.",
   },
   {
-    question: "Can I book flights from the UK to Pakistan, India or Dubai?",
+    question: "Can I book flights from the UK to India or Dubai?",
     answer:
-      "Yes. Popular routes to Pakistan (Karachi, Lahore, Islamabad), India (Delhi, Mumbai) and Dubai are among our most-booked, with trusted carriers flying direct and one-stop from major UK cities. Enter your route and dates to see the best airline ticket deals available right now.",
+      "Yes. Popular routes to India (Delhi, Mumbai, Bengaluru, Hyderabad, Chennai, Kochi) and Dubai are among our most-booked, with trusted carriers like Air India, IndiGo and Emirates flying direct and one-stop from major UK cities. Enter your route and dates to see the best airline ticket deals available right now.",
   },
   {
     question: "Are the airline tickets I book trusted and protected?",

@@ -43,7 +43,7 @@ const en: Dict = {
   "hero.title": "Trusted airline tickets",
   "hero.accent": "at the best fares",
   "hero.subline":
-    "We find you the lowest available fares on the world's leading airlines from the UK and connect you straight to the best deal — trusted carriers, no hidden booking fees.",
+    "We find you the lowest available fares on the world's leading airlines from the UK and connect you straight to the best deal — trusted carriers, no hidden fees.",
   "hero.helper": "Best available fares · Trusted airlines only · No hidden booking fees",
   "tab.flights": "Flights",
   "tab.hotels": "Hotels",

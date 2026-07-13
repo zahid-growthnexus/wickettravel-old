@@ -65,9 +65,9 @@ export const AIRPORTS: Airport[] = [
   { code: "BLR", city: "Bengaluru", name: "Kempegowda", country: "India" },
   { code: "MAA", city: "Chennai", name: "Chennai Intl", country: "India" },
   { code: "HYD", city: "Hyderabad", name: "Rajiv Gandhi", country: "India" },
-  { code: "KHI", city: "Karachi", name: "Jinnah Intl", country: "Pakistan" },
-  { code: "LHE", city: "Lahore", name: "Allama Iqbal", country: "Pakistan" },
-  { code: "ISB", city: "Islamabad", name: "Islamabad Intl", country: "Pakistan" },
+  { code: "COK", city: "Kochi", name: "Cochin Intl", country: "India" },
+  { code: "CCU", city: "Kolkata", name: "Netaji Subhas Chandra Bose", country: "India" },
+  { code: "ATQ", city: "Amritsar", name: "Sri Guru Ram Dass Jee", country: "India" },
   { code: "CMB", city: "Colombo", name: "Bandaranaike", country: "Sri Lanka" },
 
   // Asia-Pacific

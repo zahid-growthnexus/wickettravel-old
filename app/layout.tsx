@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     template: "%s | Wicket Travel",
   },
   description:
-    "Book cheap flights from the UK with Wicket Travel. Compare the best airline ticket deals to Pakistan, India, Dubai & worldwide from Heathrow, Manchester & more. No hidden fees.",
+    "Book cheap flights from the UK with Wicket Travel. Compare the best airline ticket deals to India, Dubai & worldwide from Heathrow, Manchester & more. No hidden fees.",
   applicationName: BUSINESS.name,
   authors: [{ name: BUSINESS.legalName }],
   creator: BUSINESS.legalName,
@@ -43,8 +43,9 @@ export const metadata: Metadata = {
   keywords: [
     "cheap flights UK",
     "best airline ticket deals UK",
-    "flights to Pakistan from UK",
     "flights to India from UK",
+    "flights to Delhi from UK",
+    "flights to Mumbai from UK",
     "flights to Dubai from UK",
     "cheap flights from Heathrow",
     "cheap flights from Manchester",
@@ -62,7 +63,7 @@ export const metadata: Metadata = {
     siteName: BUSINESS.name,
     title: "Cheap Flights UK | Best Airline Ticket Deals — Wicket Travel",
     description:
-      "Book cheap flights from the UK with Wicket Travel. Best airline ticket deals to Pakistan, India, Dubai & worldwide from Heathrow, Manchester, Birmingham & more — no hidden fees.",
+      "Book cheap flights from the UK with Wicket Travel. Best airline ticket deals to India, Dubai & worldwide from Heathrow, Manchester, Birmingham & more — no hidden fees.",
     locale: "en_GB",
   },
   twitter: {
@@ -71,7 +72,7 @@ export const metadata: Metadata = {
     creator: "@WicketTravel",
     title: "Cheap Flights UK | Best Airline Ticket Deals — Wicket Travel",
     description:
-      "Book cheap flights from the UK — best airline ticket deals to Pakistan, India, Dubai & worldwide. Trusted airlines, no hidden booking fees.",
+      "Book cheap flights from the UK — best airline ticket deals to India, Dubai & worldwide. Trusted airlines, no hidden booking fees.",
   },
   robots: {
     index: true,

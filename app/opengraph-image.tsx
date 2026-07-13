@@ -64,7 +64,7 @@ export default function OpengraphImage() {
 
         {/* Footline */}
         <div style={{ fontSize: 30, color: "#c7d2e8", fontWeight: 600 }}>
-          Trusted airlines · Pakistan · India · Dubai · Worldwide · No hidden fees
+          Trusted airlines · India · Dubai · Worldwide · No hidden fees
         </div>
       </div>
     ),

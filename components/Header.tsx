@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Menu, Plane, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/lib/i18n";
 import { HOLIDAYS_URL, PORTAL_LOGIN_URL } from "@/lib/links";
@@ -60,14 +61,17 @@ export default function Header() {
       )}
     >
       <div className="container-page flex h-16 items-center justify-between">
-        {/* Logo */}
-        <a href="#top" className="group flex items-center gap-2" aria-label="Wicket Travel home">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-navy-800 text-white shadow-sm transition-transform duration-200 group-hover:-translate-y-0.5">
-            <Plane className="h-5 w-5 -rotate-45" strokeWidth={2.25} />
-          </span>
-          <span className="text-lg font-extrabold tracking-tight text-navy-900">
-            Wicket<span className="text-accent-500">Travel</span>
-          </span>
+        {/* Logo — 2172×724 source (3:1); explicit width/height so there's no
+            layout shift, height utilities keep it tidy inside the h-16 bar. */}
+        <a href="#top" className="group flex items-center" aria-label="Wicket Travel home">
+          <Image
+            src="/logo-trans.png"
+            alt="Wicket Travel"
+            width={144}
+            height={48}
+            priority
+            className="h-10 w-auto transition-transform duration-200 group-hover:-translate-y-0.5 sm:h-11"
+          />
         </a>
 
         {/* Desktop nav */}
@@ -147,14 +151,13 @@ export default function Header() {
             >
               {/* Drawer header */}
               <div className="flex h-16 shrink-0 items-center justify-between border-b border-navy-100 px-5">
-                <span className="flex items-center gap-2">
-                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-navy-800 text-white shadow-sm">
-                    <Plane className="h-5 w-5 -rotate-45" strokeWidth={2.25} />
-                  </span>
-                  <span className="text-lg font-extrabold tracking-tight text-navy-900">
-                    Wicket<span className="text-accent-500">Travel</span>
-                  </span>
-                </span>
+                <Image
+                  src="/logo-trans.png"
+                  alt="Wicket Travel"
+                  width={120}
+                  height={40}
+                  className="h-9 w-auto"
+                />
                 <button
                   type="button"
                   onClick={() => setOpen(false)}

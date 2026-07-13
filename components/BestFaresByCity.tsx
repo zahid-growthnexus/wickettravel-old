@@ -158,23 +158,8 @@ const REGIONS: { name: string; cities: Dest[] }[] = [
     ],
   },
   {
-    name: "South Asia",
+    name: "India",
     cities: [
-      {
-        city: "Karachi",
-        country: "Pakistan",
-        img: "https://images.unsplash.com/photo-1617373743747-3bb331fd4e8d?auto=format&fit=crop&w=800&q=80",
-      },
-      {
-        city: "Lahore",
-        country: "Pakistan",
-        img: "/cities/lahore.jpg",
-      },
-      {
-        city: "Islamabad",
-        country: "Pakistan",
-        img: "https://images.unsplash.com/photo-1608020932658-d0e19a69580b?auto=format&fit=crop&w=800&q=80",
-      },
       {
         city: "Delhi",
         country: "India",
@@ -186,9 +171,24 @@ const REGIONS: { name: string; cities: Dest[] }[] = [
         img: "https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?auto=format&fit=crop&w=800&q=80",
       },
       {
-        city: "Dhaka",
-        country: "Bangladesh",
-        img: "/cities/dhaka.jpg",
+        city: "Bengaluru",
+        country: "India",
+        img: "/cities/bangalore.jpg",
+      },
+      {
+        city: "Hyderabad",
+        country: "India",
+        img: "/cities/hyderabad.jpg",
+      },
+      {
+        city: "Chennai",
+        country: "India",
+        img: "/cities/chennai.jpg",
+      },
+      {
+        city: "Kochi",
+        country: "India",
+        img: "/cities/kochi.jpg",
       },
     ],
   },

@@ -5,6 +5,7 @@ import { cn } from "@/lib/cn";
  * Trustpilot-style trust signal (text + green stars treatment).
  * Avoids using Trustpilot's trademarked logo file; the green star is the
  * recognizable convention. `compact` drops the review count for tight spaces.
+ * Links out to the live Trustpilot review profile in a new tab.
  */
 export default function TrustpilotBadge({
   className,
@@ -15,12 +16,14 @@ export default function TrustpilotBadge({
 }) {
   return (
     <a
-      href="#newsletter"
+      href="https://www.trustpilot.com/review/wickettravel.com"
+      target="_blank"
+      rel="noopener noreferrer"
       className={cn(
         "group inline-flex items-center gap-2 rounded-lg px-1.5 py-1 transition-colors hover:bg-navy-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500",
         className
       )}
-      aria-label="Rated Excellent 4.8 out of 5 on Trustpilot"
+      aria-label="Rated Excellent 4.8 out of 5 on Trustpilot — read our reviews (opens in a new tab)"
     >
       <span className="text-xs font-bold text-navy-900">
         Excellent <span className="tabular-nums">4.8</span>

@@ -1,5 +1,6 @@
 import type { SVGProps } from "react";
-import { Award, Globe2, Lock, Mail, MapPin, Phone, Plane, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import { Award, Globe2, Lock, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import PaymentTrustBadges from "@/components/PaymentTrustBadges";
 import { HOLIDAYS_URL } from "@/lib/links";
 
@@ -72,14 +73,16 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-10 lg:grid-cols-5">
           {/* Brand + contact */}
           <div className="col-span-2">
-            <div className="flex items-center gap-2">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-accent-500 text-white">
-                <Plane className="h-5 w-5 -rotate-45" strokeWidth={2.25} />
-              </span>
-              <span className="text-lg font-extrabold tracking-tight text-white">
-                Wicket<span className="text-accent-500">Travel</span>
-              </span>
-            </div>
+            {/* White-recolored logo variant: the navy artwork would vanish on
+                the navy-950 footer, so mark + "Wicket" are flipped to white
+                while the orange "Travel" is kept as-is. */}
+            <Image
+              src="/logo-white.png"
+              alt="Wicket Travel"
+              width={144}
+              height={48}
+              className="h-11 w-auto"
+            />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-navy-200">
               We book trusted airline tickets at the best available fares —
               connecting you to the world&apos;s leading carriers, with no hidden
@@ -100,7 +103,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <MapPin className="h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-                <span>21 Harbour Street, London, UK</span>
+                <span>Lampton Avenue, Hounslow, London, TW3 4EW, UK.</span>
               </li>
             </ul>
           </div>
