@@ -261,7 +261,7 @@ function fieldError(field: Field, data: FormData): string | undefined {
 /* ── Shared field primitives ─────────────────────────────── */
 
 const inputBase =
-  "h-11 w-full rounded-lg border bg-white px-3.5 text-base text-navy-900 placeholder:text-slate-400 transition-colors focus:outline-none focus:ring-2";
+  "h-12 w-full rounded-lg border bg-white px-4 text-base text-navy-900 placeholder:text-slate-400 transition-colors focus:outline-none focus:ring-2";
 const inputTone =
   "border-slate-300 focus:border-navy-600 focus:ring-navy-500/25";
 const inputErrorTone =
@@ -288,7 +288,7 @@ function FieldShell({
     <div className={className}>
       <label
         htmlFor={id}
-        className="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-navy-900"
+        className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-navy-900"
       >
         {label}
         {required && (
@@ -303,13 +303,13 @@ function FieldShell({
         <p
           id={`${id}-error`}
           role="alert"
-          className="mt-1.5 flex items-start gap-1 text-xs font-medium text-red-600"
+          className="mt-2 flex items-start gap-1 text-xs font-medium text-red-600"
         >
           <AlertCircle className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           {error}
         </p>
       ) : hint ? (
-        <p className="mt-1.5 text-xs text-slate-400">{hint}</p>
+        <p className="mt-2 text-xs text-slate-400">{hint}</p>
       ) : null}
     </div>
   );
@@ -405,7 +405,7 @@ function SelectField({
           ))}
         </select>
         <ChevronDown
-          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+          className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
           aria-hidden="true"
         />
       </div>
@@ -438,7 +438,7 @@ function TextAreaField({
         onBlur={onBlur}
         className={cn(
           inputBase,
-          "h-auto min-h-[96px] py-2.5",
+          "h-auto min-h-[112px] py-3",
           error ? inputErrorTone : inputTone
         )}
       />
@@ -457,7 +457,7 @@ function YesNoField({
 }: Omit<CommonFieldProps, "onBlur">) {
   return (
     <fieldset className={className}>
-      <legend className="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-navy-900">
+      <legend className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-navy-900">
         {label}
         {required && (
           <span className="text-red-500" aria-hidden="true">
@@ -466,14 +466,14 @@ function YesNoField({
           </span>
         )}
       </legend>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-3">
         {["Yes", "No"].map((opt) => {
           const selected = value === opt;
           return (
             <label
               key={opt}
               className={cn(
-                "flex h-11 cursor-pointer items-center justify-center rounded-lg border text-sm font-semibold transition-colors",
+                "flex h-12 cursor-pointer items-center justify-center rounded-lg border text-sm font-semibold transition-colors",
                 "focus-within:ring-2 focus-within:ring-navy-500/40",
                 selected
                   ? "border-navy-800 bg-navy-800 text-white shadow-sm"
@@ -503,7 +503,7 @@ function YesNoField({
         <p
           id={`${id}-error`}
           role="alert"
-          className="mt-1.5 flex items-start gap-1 text-xs font-medium text-red-600"
+          className="mt-2 flex items-start gap-1 text-xs font-medium text-red-600"
         >
           <AlertCircle className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           {error}
@@ -524,7 +524,7 @@ function ContactMethodField({
 }: Omit<CommonFieldProps, "onBlur">) {
   return (
     <fieldset className={className}>
-      <legend className="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-navy-900">
+      <legend className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-navy-900">
         {label}
         {required && (
           <span className="text-red-500" aria-hidden="true">
@@ -533,14 +533,14 @@ function ContactMethodField({
           </span>
         )}
       </legend>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
         {CONTACT_METHODS.map(({ value: opt, icon: Icon }, i) => {
           const selected = value === opt;
           return (
             <label
               key={opt}
               className={cn(
-                "flex min-h-11 cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border px-2 py-2.5 text-xs font-semibold transition-colors sm:flex-row sm:gap-2 sm:text-sm",
+                "flex min-h-12 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border px-3 py-3 text-xs font-semibold transition-colors sm:flex-row sm:gap-2 sm:text-sm",
                 "focus-within:ring-2 focus-within:ring-navy-500/40",
                 selected
                   ? "border-navy-800 bg-navy-800 text-white shadow-sm"
@@ -577,13 +577,23 @@ function ContactMethodField({
         <p
           id={`${id}-error`}
           role="alert"
-          className="mt-1.5 flex items-start gap-1 text-xs font-medium text-red-600"
+          className="mt-2 flex items-start gap-1 text-xs font-medium text-red-600"
         >
           <AlertCircle className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           {error}
         </p>
       )}
     </fieldset>
+  );
+}
+
+/**
+ * Hairline break between logical field groups inside a step grid. The grid's
+ * row gap on either side turns the 1px rule into a calm ~2x group separation.
+ */
+function GroupBreak() {
+  return (
+    <div aria-hidden="true" className="border-t border-slate-100 sm:col-span-2" />
   );
 }
 
@@ -840,17 +850,17 @@ export default function DubaiVisa() {
               className="scroll-mt-24 overflow-hidden rounded-2xl bg-white shadow-2xl shadow-navy-950/40 ring-1 ring-white/20"
             >
               {/* Card header */}
-              <div className="bg-gradient-to-r from-navy-900 to-navy-800 px-5 py-5 sm:px-7">
+              <div className="bg-gradient-to-r from-navy-900 to-navy-800 px-5 py-5 sm:px-8 sm:py-6">
                 <h3 className="text-lg font-extrabold tracking-tight text-white sm:text-xl">
                   Apply For Dubai Visa
                 </h3>
-                <p className="mt-1 flex items-center gap-1.5 text-sm text-navy-100/85">
+                <p className="mt-1.5 flex items-center gap-1.5 text-sm text-navy-100/85">
                   <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                   Fill in below — our expert contacts you within 2 hours.
                 </p>
               </div>
 
-              <div className="p-5 sm:p-7">
+              <div className="px-5 py-6 sm:p-8">
                 {submitted ? (
                   <motion.div
                     initial={reduce ? false : { opacity: 0, y: 12 }}
@@ -888,7 +898,7 @@ export default function DubaiVisa() {
 
                     <form
                       noValidate
-                      className="mt-6"
+                      className="mt-7 sm:mt-8"
                       onSubmit={(e) => {
                         e.preventDefault();
                         if (step < STEPS.length) next();
@@ -914,7 +924,7 @@ export default function DubaiVisa() {
                           </h4>
 
                           {step === 1 && (
-                            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-6">
                               <YesNoField
                                 id="dv-multiPerson"
                                 label="Applying for more than 1 person?"
@@ -975,7 +985,7 @@ export default function DubaiVisa() {
                           )}
 
                           {step === 2 && (
-                            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-6">
                               <TextField
                                 id="dv-firstName"
                                 label="First Name"
@@ -1006,6 +1016,7 @@ export default function DubaiVisa() {
                                 onChange={set("otherNames")}
                                 className="sm:col-span-2"
                               />
+                              <GroupBreak />
                               <TextField
                                 id="dv-dob"
                                 type="date"
@@ -1049,6 +1060,7 @@ export default function DubaiVisa() {
                                 options={MARITAL_STATUSES}
                                 className="sm:col-span-2"
                               />
+                              <GroupBreak />
                               <TextField
                                 id="dv-email"
                                 type="email"
@@ -1086,7 +1098,7 @@ export default function DubaiVisa() {
                           )}
 
                           {step === 3 && (
-                            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-6">
                               <SelectField
                                 id="dv-passportType"
                                 label="Passport Type"
@@ -1143,6 +1155,7 @@ export default function DubaiVisa() {
                                 onChange={set("issuingCountry")}
                                 className="sm:col-span-2"
                               />
+                              <GroupBreak />
                               <TextField
                                 id="dv-ukVisaRef"
                                 label="UK Visa / BRP Reference"
@@ -1165,6 +1178,7 @@ export default function DubaiVisa() {
                                 value={data.ukVisaEnd}
                                 onChange={set("ukVisaEnd")}
                               />
+                              <GroupBreak />
                               <YesNoField
                                 id="dv-visitedUae"
                                 label="Previously visited the UAE?"
@@ -1182,7 +1196,7 @@ export default function DubaiVisa() {
                           )}
 
                           {step === 4 && (
-                            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-6">
                               <SelectField
                                 id="dv-occupation"
                                 label="Occupation"
@@ -1218,6 +1232,7 @@ export default function DubaiVisa() {
                                 onChange={set("employerAddress")}
                                 className="sm:col-span-2"
                               />
+                              <GroupBreak />
                               <YesNoField
                                 id="dv-refusedEntry"
                                 label="Have you ever been refused entry to the UAE?"
@@ -1230,6 +1245,7 @@ export default function DubaiVisa() {
                                 value={data.criminalConviction}
                                 onChange={set("criminalConviction")}
                               />
+                              <GroupBreak />
                               <SelectField
                                 id="dv-costCoverer"
                                 label="Who is covering your travel costs?"
@@ -1251,7 +1267,7 @@ export default function DubaiVisa() {
                           )}
 
                           {step === 5 && (
-                            <div className="mt-4 space-y-4">
+                            <div className="mt-6 space-y-5 sm:space-y-6">
                               <p className="t-small text-slate-600">
                                 Upload your passport, BRP card and any
                                 supporting documents. You can also email them
@@ -1374,7 +1390,7 @@ export default function DubaiVisa() {
                                 onChange={set("notes")}
                               />
 
-                              <div className="flex items-start gap-3 rounded-xl border border-navy-100 bg-navy-50/70 p-4">
+                              <div className="flex items-start gap-3 rounded-xl border border-navy-100 bg-navy-50/70 p-4 sm:p-5">
                                 <span
                                   className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent-500 text-white"
                                   aria-hidden="true"
@@ -1395,12 +1411,12 @@ export default function DubaiVisa() {
                       </AnimatePresence>
 
                       {/* Wizard controls */}
-                      <div className="mt-6 flex items-center justify-between gap-3 border-t border-slate-100 pt-5">
+                      <div className="mt-8 flex items-center justify-between gap-4 border-t border-slate-100 pt-6">
                         <button
                           type="button"
                           onClick={() => goTo(step - 1)}
                           className={cn(
-                            "btn-outline h-11 px-5",
+                            "btn-outline h-12 px-6",
                             step === 1 && "invisible"
                           )}
                           aria-hidden={step === 1 || undefined}
@@ -1416,7 +1432,7 @@ export default function DubaiVisa() {
                           Step {step} of {STEPS.length}
                         </span>
                         {step < STEPS.length ? (
-                          <button type="submit" className="btn-primary h-11 px-6">
+                          <button type="submit" className="btn-primary h-12 px-7">
                             Next
                             <ChevronRight className="h-4 w-4" aria-hidden="true" />
                           </button>
@@ -1425,7 +1441,7 @@ export default function DubaiVisa() {
                             type="submit"
                             disabled={submitting}
                             className={cn(
-                              "btn-primary h-11 px-6",
+                              "btn-primary h-12 px-7",
                               submitting && "cursor-wait opacity-70"
                             )}
                           >
