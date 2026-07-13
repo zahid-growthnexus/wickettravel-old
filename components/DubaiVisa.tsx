@@ -11,11 +11,17 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  Lock,
+  Mail,
+  MessageCircle,
+  Phone,
   Send,
-  ShieldCheck,
+  UploadCloud,
+  X,
 } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 import { cn } from "@/lib/cn";
+import { BUSINESS } from "@/lib/seo";
 
 /**
  * Dubai Visa lead-capture section: benefits on the left, a 5-step application
@@ -31,8 +37,8 @@ const STEPS = [
   { label: "Visa Type", title: "Visa Type & Travel Details" },
   { label: "Personal", title: "Personal Information" },
   { label: "Passport", title: "Passport & UK Visa" },
-  { label: "Background", title: "Background & Declarations" },
-  { label: "Submit", title: "Review & Submit" },
+  { label: "Background", title: "Employment & Background" },
+  { label: "Submit", title: "Upload Documents & Submit" },
 ];
 
 const BENEFITS = [
@@ -78,6 +84,32 @@ const PASSPORT_TYPES = [
   "Other",
 ];
 
+const OCCUPATIONS = [
+  "Employed",
+  "Self-Employed",
+  "Student",
+  "Retired",
+  "Dependent",
+  "Unemployed",
+  "Other",
+];
+
+const COST_COVERERS = [
+  "Self",
+  "Family / Relative",
+  "Employer",
+  "Sponsor in UAE",
+  "Other",
+];
+
+const CONTACT_METHODS = [
+  { value: "Call", icon: Phone },
+  { value: "WhatsApp", icon: MessageCircle },
+  { value: "Email", icon: Mail },
+] as const;
+
+const ACCEPTED_FILES = ".pdf,.jpg,.jpeg,.png";
+
 type FormData = {
   multiPerson: string;
   visaType: string;
@@ -107,6 +139,15 @@ type FormData = {
   ukVisaEnd: string;
   visitedUae: string;
   prevUaeVisa: string;
+  occupation: string;
+  employer: string;
+  jobTitle: string;
+  employerAddress: string;
+  refusedEntry: string;
+  criminalConviction: string;
+  costCoverer: string;
+  contactMethod: string;
+  notes: string;
 };
 
 const EMPTY_FORM: FormData = {
@@ -138,6 +179,15 @@ const EMPTY_FORM: FormData = {
   ukVisaEnd: "",
   visitedUae: "",
   prevUaeVisa: "",
+  occupation: "",
+  employer: "",
+  jobTitle: "",
+  employerAddress: "",
+  refusedEntry: "",
+  criminalConviction: "",
+  costCoverer: "",
+  contactMethod: "",
+  notes: "",
 };
 
 type Field = keyof FormData;
@@ -149,7 +199,7 @@ const STEP_FIELDS: Record<number, Field[]> = {
   1: ["multiPerson", "visaType", "purpose", "arrivalDate", "departureDate"],
   2: ["firstName", "lastName", "dob", "nationality", "email", "phone"],
   3: ["passportNumber", "confirmPassport", "issueDate", "expiryDate"],
-  4: [],
+  4: ["occupation", "contactMethod"],
   5: [],
 };
 
@@ -199,6 +249,10 @@ function fieldError(field: Field, data: FormData): string | undefined {
       if (data.issueDate && v <= data.issueDate)
         return "Expiry must be after the issue date.";
       return undefined;
+    case "occupation":
+      return v ? undefined : "Please select your occupation.";
+    case "contactMethod":
+      return v ? undefined : "Please choose how you'd like us to contact you.";
     default:
       return undefined;
   }
@@ -436,11 +490,83 @@ function YesNoField({
                 name={id}
                 value={opt}
                 checked={selected}
-                aria-required={required || undefined}
-                aria-invalid={error ? true : undefined}
                 aria-describedby={error ? `${id}-error` : undefined}
                 onChange={() => onChange(opt)}
                 className="sr-only"
+              />
+              {opt}
+            </label>
+          );
+        })}
+      </div>
+      {error && (
+        <p
+          id={`${id}-error`}
+          role="alert"
+          className="mt-1.5 flex items-start gap-1 text-xs font-medium text-red-600"
+        >
+          <AlertCircle className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+          {error}
+        </p>
+      )}
+    </fieldset>
+  );
+}
+
+function ContactMethodField({
+  id,
+  label,
+  required,
+  error,
+  className,
+  value,
+  onChange,
+}: Omit<CommonFieldProps, "onBlur">) {
+  return (
+    <fieldset className={className}>
+      <legend className="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-navy-900">
+        {label}
+        {required && (
+          <span className="text-red-500" aria-hidden="true">
+            {" "}
+            *
+          </span>
+        )}
+      </legend>
+      <div className="grid grid-cols-3 gap-2">
+        {CONTACT_METHODS.map(({ value: opt, icon: Icon }, i) => {
+          const selected = value === opt;
+          return (
+            <label
+              key={opt}
+              className={cn(
+                "flex min-h-11 cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border px-2 py-2.5 text-xs font-semibold transition-colors sm:flex-row sm:gap-2 sm:text-sm",
+                "focus-within:ring-2 focus-within:ring-navy-500/40",
+                selected
+                  ? "border-navy-800 bg-navy-800 text-white shadow-sm"
+                  : cn(
+                      "bg-white text-navy-800 hover:bg-navy-50",
+                      error ? "border-red-400" : "border-slate-300"
+                    )
+              )}
+            >
+              <input
+                type="radio"
+                // First option carries the group id so error focus lands here.
+                id={i === 0 ? id : undefined}
+                name={id}
+                value={opt}
+                checked={selected}
+                aria-describedby={error ? `${id}-error` : undefined}
+                onChange={() => onChange(opt)}
+                className="sr-only"
+              />
+              <Icon
+                className={cn(
+                  "h-4 w-4 shrink-0",
+                  selected ? "text-accent-400" : "text-slate-400"
+                )}
+                aria-hidden="true"
               />
               {opt}
             </label>
@@ -489,7 +615,7 @@ function StepIndicator({
                 <span className="relative mx-1.5 h-0.5 flex-1 overflow-hidden rounded-full bg-slate-200 sm:mx-2">
                   <motion.span
                     aria-hidden="true"
-                    className="absolute inset-0 origin-left rounded-full bg-emerald-500"
+                    className="absolute inset-0 origin-left rounded-full bg-accent-500"
                     initial={false}
                     animate={{ scaleX: n <= step ? 1 : 0 }}
                     transition={
@@ -507,7 +633,7 @@ function StepIndicator({
                   className={cn(
                     "grid h-9 w-9 place-items-center rounded-full text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2",
                     done &&
-                      "cursor-pointer bg-emerald-500 text-white hover:bg-emerald-600",
+                      "cursor-pointer bg-accent-500 text-white hover:bg-accent-600",
                     current &&
                       "bg-navy-800 text-white shadow-md ring-4 ring-accent-500/30",
                     !done &&
@@ -534,7 +660,7 @@ function StepIndicator({
                     current
                       ? "text-navy-900"
                       : done
-                        ? "text-emerald-600"
+                        ? "text-accent-600"
                         : "text-slate-400"
                   )}
                   aria-hidden="true"
@@ -562,12 +688,29 @@ function StepIndicator({
 export default function DubaiVisa() {
   const reduce = useReducedMotion();
   const cardRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState(1);
   const [dir, setDir] = useState(1);
   const [data, setData] = useState<FormData>(EMPTY_FORM);
   const [errors, setErrors] = useState<Errors>({});
+  // Held client-side only until the submission API is wired.
+  const [files, setFiles] = useState<File[]>([]);
+  const [dragOver, setDragOver] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const addFiles = (incoming: FileList | null) => {
+    if (!incoming) return;
+    setFiles((prev) => {
+      const next = [...prev];
+      for (const f of Array.from(incoming)) {
+        if (!/\.(pdf|jpe?g|png)$/i.test(f.name)) continue;
+        if (!next.some((p) => p.name === f.name && p.size === f.size))
+          next.push(f);
+      }
+      return next;
+    });
+  };
 
   const set = (field: Field) => (value: string) => {
     setData((d) => ({ ...d, [field]: value }));
@@ -606,6 +749,7 @@ export default function DubaiVisa() {
   };
 
   const submit = () => {
+    if (submitting) return;
     // Placeholder: submission API is wired in a later phase.
     setSubmitting(true);
     window.setTimeout(() => {
@@ -725,10 +869,15 @@ export default function DubaiVisa() {
                       Application received!
                     </h4>
                     <p className="t-small mx-auto mt-2 max-w-sm text-slate-600">
-                      Thank you, {data.firstName || "traveler"} — one of our
-                      Dubai visa experts will contact you within 2 hours on{" "}
+                      Thanks, {data.firstName || "traveler"} — our visa expert
+                      will contact you within 2 hours{" "}
+                      {data.contactMethod === "Call"
+                        ? "by phone on "
+                        : `via ${data.contactMethod || "email"} on `}
                       <span className="font-semibold text-navy-900">
-                        {data.email}
+                        {data.contactMethod === "Email" || !data.contactMethod
+                          ? data.email
+                          : data.phone}
                       </span>{" "}
                       to complete your application.
                     </p>
@@ -1033,64 +1182,213 @@ export default function DubaiVisa() {
                           )}
 
                           {step === 4 && (
-                            <div className="mt-4 rounded-xl border border-navy-100 bg-navy-50/60 p-5">
-                              <div className="flex items-start gap-3.5">
-                                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-navy-800 text-white">
-                                  <ShieldCheck
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                                <div>
-                                  <p className="text-sm font-bold text-navy-900">
-                                    A few short background questions
-                                  </p>
-                                  <p className="t-small mt-1 text-slate-600">
-                                    Previous visa history, refusals and standard
-                                    declarations — our visa expert confirms
-                                    these with you during your free
-                                    consultation, so you can continue straight
-                                    to submission.
-                                  </p>
-                                </div>
-                              </div>
+                            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                              <SelectField
+                                id="dv-occupation"
+                                label="Occupation"
+                                required
+                                error={errors.occupation}
+                                value={data.occupation}
+                                onChange={set("occupation")}
+                                onBlur={blurCheck("occupation")}
+                                options={OCCUPATIONS}
+                                className="sm:col-span-2"
+                              />
+                              <TextField
+                                id="dv-employer"
+                                label="Employer / Business Name"
+                                placeholder="Employer name"
+                                autoComplete="organization"
+                                value={data.employer}
+                                onChange={set("employer")}
+                              />
+                              <TextField
+                                id="dv-jobTitle"
+                                label="Job Title"
+                                placeholder="Your role"
+                                autoComplete="organization-title"
+                                value={data.jobTitle}
+                                onChange={set("jobTitle")}
+                              />
+                              <TextField
+                                id="dv-employerAddress"
+                                label="Employer Address"
+                                placeholder="Full employer address"
+                                value={data.employerAddress}
+                                onChange={set("employerAddress")}
+                                className="sm:col-span-2"
+                              />
+                              <YesNoField
+                                id="dv-refusedEntry"
+                                label="Have you ever been refused entry to the UAE?"
+                                value={data.refusedEntry}
+                                onChange={set("refusedEntry")}
+                              />
+                              <YesNoField
+                                id="dv-criminalConviction"
+                                label="Have you been convicted of any criminal offence?"
+                                value={data.criminalConviction}
+                                onChange={set("criminalConviction")}
+                              />
+                              <SelectField
+                                id="dv-costCoverer"
+                                label="Who is covering your travel costs?"
+                                value={data.costCoverer}
+                                onChange={set("costCoverer")}
+                                options={COST_COVERERS}
+                                className="sm:col-span-2"
+                              />
+                              <ContactMethodField
+                                id="dv-contactMethod"
+                                label="Preferred Contact Method"
+                                required
+                                error={errors.contactMethod}
+                                value={data.contactMethod}
+                                onChange={set("contactMethod")}
+                                className="sm:col-span-2"
+                              />
                             </div>
                           )}
 
                           {step === 5 && (
-                            <div className="mt-4">
-                              <dl className="divide-y divide-slate-100 rounded-xl border border-slate-200 px-4">
-                                {(
-                                  [
-                                    ["Visa type", data.visaType],
-                                    [
-                                      "Applicant",
-                                      `${data.firstName} ${data.lastName}`.trim(),
-                                    ],
-                                    ["Email", data.email],
-                                    ["Phone / WhatsApp", data.phone],
-                                    ["Arrival", data.arrivalDate],
-                                    ["Passport no.", data.passportNumber],
-                                  ] as const
-                                ).map(([k, v]) => (
-                                  <div
-                                    key={k}
-                                    className="flex items-baseline justify-between gap-4 py-2.5"
-                                  >
-                                    <dt className="shrink-0 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                                      {k}
-                                    </dt>
-                                    <dd className="min-w-0 truncate text-sm font-semibold text-navy-900">
-                                      {v || "—"}
-                                    </dd>
-                                  </div>
-                                ))}
-                              </dl>
-                              <p className="t-small mt-4 text-slate-500">
-                                By submitting, you agree to be contacted by our
-                                visa team about your application. Nothing is
-                                sent to immigration authorities at this stage.
+                            <div className="mt-4 space-y-4">
+                              <p className="t-small text-slate-600">
+                                Upload your passport, BRP card and any
+                                supporting documents. You can also email them
+                                to{" "}
+                                <a
+                                  href={`mailto:${BUSINESS.email}`}
+                                  className="font-semibold text-navy-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
+                                >
+                                  {BUSINESS.email}
+                                </a>
+                                .
                               </p>
+
+                              <div>
+                                <input
+                                  ref={fileInputRef}
+                                  type="file"
+                                  multiple
+                                  accept={ACCEPTED_FILES}
+                                  className="sr-only"
+                                  aria-hidden="true"
+                                  tabIndex={-1}
+                                  onChange={(e) => {
+                                    addFiles(e.target.files);
+                                    e.target.value = "";
+                                  }}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => fileInputRef.current?.click()}
+                                  onDragOver={(e) => {
+                                    e.preventDefault();
+                                    setDragOver(true);
+                                  }}
+                                  onDragLeave={() => setDragOver(false)}
+                                  onDrop={(e) => {
+                                    e.preventDefault();
+                                    setDragOver(false);
+                                    addFiles(e.dataTransfer.files);
+                                  }}
+                                  aria-label="Upload documents — PDF, JPG and PNG accepted"
+                                  className={cn(
+                                    "flex w-full flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-8 text-center transition-colors",
+                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2",
+                                    dragOver
+                                      ? "border-accent-500 bg-accent-50"
+                                      : "border-slate-300 bg-slate-50/60 hover:border-accent-400 hover:bg-accent-50/50"
+                                  )}
+                                >
+                                  <span
+                                    className="grid h-11 w-11 place-items-center rounded-full bg-accent-100 text-accent-600"
+                                    aria-hidden="true"
+                                  >
+                                    <UploadCloud className="h-5 w-5" />
+                                  </span>
+                                  <span className="text-sm font-bold text-navy-900">
+                                    Click to upload documents
+                                  </span>
+                                  <span className="text-xs text-slate-500">
+                                    PDF, JPG, PNG accepted
+                                  </span>
+                                </button>
+
+                                {files.length > 0 && (
+                                  <ul
+                                    className="mt-3 flex flex-wrap gap-2"
+                                    aria-label="Selected documents"
+                                  >
+                                    <AnimatePresence initial={false}>
+                                      {files.map((f) => (
+                                        <motion.li
+                                          key={`${f.name}-${f.size}`}
+                                          initial={
+                                            reduce
+                                              ? false
+                                              : { opacity: 0, scale: 0.9 }
+                                          }
+                                          animate={{ opacity: 1, scale: 1 }}
+                                          exit={
+                                            reduce
+                                              ? { opacity: 0 }
+                                              : { opacity: 0, scale: 0.9 }
+                                          }
+                                          transition={{
+                                            duration: 0.18,
+                                            ease: EASE,
+                                          }}
+                                          className="flex max-w-full items-center gap-1.5 rounded-full border border-navy-100 bg-navy-50 py-1 pl-3 pr-1 text-xs font-semibold text-navy-800"
+                                        >
+                                          <span className="max-w-[180px] truncate">
+                                            {f.name}
+                                          </span>
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              setFiles((prev) =>
+                                                prev.filter((p) => p !== f)
+                                              )
+                                            }
+                                            aria-label={`Remove ${f.name}`}
+                                            className="grid h-6 w-6 place-items-center rounded-full text-navy-500 transition-colors hover:bg-navy-100 hover:text-navy-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+                                          >
+                                            <X
+                                              className="h-3.5 w-3.5"
+                                              aria-hidden="true"
+                                            />
+                                          </button>
+                                        </motion.li>
+                                      ))}
+                                    </AnimatePresence>
+                                  </ul>
+                                )}
+                              </div>
+
+                              <TextAreaField
+                                id="dv-notes"
+                                label="Additional Notes / Questions"
+                                placeholder="Anything else we should know about your application?"
+                                value={data.notes}
+                                onChange={set("notes")}
+                              />
+
+                              <div className="flex items-start gap-3 rounded-xl border border-navy-100 bg-navy-50/70 p-4">
+                                <span
+                                  className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent-500 text-white"
+                                  aria-hidden="true"
+                                >
+                                  <Lock className="h-4 w-4" />
+                                </span>
+                                <p className="text-xs leading-relaxed text-navy-800">
+                                  <span className="font-bold text-navy-900">
+                                    GDPR Compliant &amp; Secure
+                                  </span>{" "}
+                                  — your data is used solely for your visa
+                                  application.
+                                </p>
+                              </div>
                             </div>
                           )}
                         </motion.div>
