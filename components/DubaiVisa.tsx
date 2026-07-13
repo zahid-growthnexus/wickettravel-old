@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  Loader2,
   Lock,
   Mail,
   MessageCircle,
@@ -26,8 +27,9 @@ import { BUSINESS } from "@/lib/seo";
 /**
  * Dubai Visa lead-capture section: benefits on the left, a 5-step application
  * wizard in an elevated card on the right. Steps 1–3 collect travel, personal
- * and passport details; steps 4–5 are the shell for the background questions
- * and submission (submit is a frontend placeholder until the API is wired).
+ * and passport details; step 4 covers background questions and step 5 uploads
+ * documents and submits to the portal via our same-origin /api/visa-enquiry
+ * relay (multipart: `payload` JSON string + `documents` file parts).
  * All values live in one state object so nothing is lost moving back/forward.
  */
 
@@ -109,6 +111,18 @@ const CONTACT_METHODS = [
 ] as const;
 
 const ACCEPTED_FILES = ".pdf,.jpg,.jpeg,.png";
+const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10MB per file, matching the portal
+
+// Same-origin relay (app/api/visa-enquiry) that forwards to the portal —
+// the portal's CORS allowlist doesn't cover every domain this site runs on.
+const ENQUIRY_ENDPOINT = "/api/visa-enquiry";
+
+// UI labels → the portal's preferred_contact_method enum.
+const CONTACT_METHOD_API: Record<string, "phone" | "whatsapp" | "email"> = {
+  Call: "phone",
+  WhatsApp: "whatsapp",
+  Email: "email",
+};
 
 type FormData = {
   multiPerson: string;
@@ -256,6 +270,55 @@ function fieldError(field: Field, data: FormData): string | undefined {
     default:
       return undefined;
   }
+}
+
+/**
+ * Map wizard state onto the portal's visa_enquiries keys. Empty optional
+ * fields become `undefined` so JSON.stringify drops them; Yes/No radios
+ * become booleans. `status` / `admin_notes` are portal-managed — never sent.
+ */
+function buildPayload(data: FormData) {
+  const opt = (v: string) => v.trim() || undefined;
+  const yesNo = (v: string) =>
+    v === "Yes" ? true : v === "No" ? false : undefined;
+  return {
+    more_than_one_person: yesNo(data.multiPerson),
+    visa_type: data.visaType.trim(),
+    purpose_of_visit: opt(data.purpose),
+    arrival_date: opt(data.arrivalDate),
+    departure_date: opt(data.departureDate),
+    planned_activities: opt(data.plans),
+    first_name: data.firstName.trim(),
+    last_name: data.lastName.trim(),
+    other_names: opt(data.otherNames),
+    date_of_birth: opt(data.dob),
+    place_of_birth: opt(data.birthPlace),
+    nationality: opt(data.nationality),
+    gender: opt(data.gender),
+    marital_status: opt(data.maritalStatus),
+    email: data.email.trim(),
+    phone: data.phone.trim(),
+    uk_address: opt(data.ukAddress),
+    passport_type: opt(data.passportType),
+    passport_number: opt(data.passportNumber),
+    passport_issue_date: opt(data.issueDate),
+    passport_expiry_date: opt(data.expiryDate),
+    issuing_country: opt(data.issuingCountry),
+    uk_visa_brp_ref: opt(data.ukVisaRef),
+    uk_visa_start_date: opt(data.ukVisaStart),
+    uk_visa_expiry_date: opt(data.ukVisaEnd),
+    previously_visited_uae: yesNo(data.visitedUae),
+    previous_uae_visa_number: opt(data.prevUaeVisa),
+    occupation: opt(data.occupation),
+    employer_name: opt(data.employer),
+    job_title: opt(data.jobTitle),
+    employer_address: opt(data.employerAddress),
+    refused_entry_uae: yesNo(data.refusedEntry),
+    criminal_conviction: yesNo(data.criminalConviction),
+    who_covers_costs: opt(data.costCoverer),
+    preferred_contact_method: CONTACT_METHOD_API[data.contactMethod],
+    additional_notes: opt(data.notes),
+  };
 }
 
 /* ── Shared field primitives ─────────────────────────────── */
@@ -703,23 +766,44 @@ export default function DubaiVisa() {
   const [dir, setDir] = useState(1);
   const [data, setData] = useState<FormData>(EMPTY_FORM);
   const [errors, setErrors] = useState<Errors>({});
-  // Held client-side only until the submission API is wired.
   const [files, setFiles] = useState<File[]>([]);
+  const [fileError, setFileError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [reference, setReference] = useState<string | null>(null);
 
   const addFiles = (incoming: FileList | null) => {
     if (!incoming) return;
+    // Snapshot the FileList now — it's live and is emptied when the input's
+    // value is reset, before React runs the state updater.
+    const wrongType: string[] = [];
+    const tooBig: string[] = [];
+    const accepted: File[] = [];
+    for (const f of Array.from(incoming)) {
+      if (!/\.(pdf|jpe?g|png)$/i.test(f.name)) wrongType.push(f.name);
+      else if (f.size > MAX_FILE_BYTES) tooBig.push(f.name);
+      else accepted.push(f);
+    }
     setFiles((prev) => {
       const next = [...prev];
-      for (const f of Array.from(incoming)) {
-        if (!/\.(pdf|jpe?g|png)$/i.test(f.name)) continue;
+      for (const f of accepted) {
         if (!next.some((p) => p.name === f.name && p.size === f.size))
           next.push(f);
       }
       return next;
     });
+    const problems: string[] = [];
+    if (wrongType.length)
+      problems.push(
+        `${wrongType.join(", ")} — only PDF, JPG and PNG files are accepted`
+      );
+    if (tooBig.length)
+      problems.push(`${tooBig.join(", ")} — each file must be under 10MB`);
+    setFileError(
+      problems.length ? `We couldn't add ${problems.join("; ")}.` : null
+    );
   };
 
   const set = (field: Field) => (value: string) => {
@@ -758,14 +842,52 @@ export default function DubaiVisa() {
     goTo(step + 1);
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (submitting) return;
-    // Placeholder: submission API is wired in a later phase.
     setSubmitting(true);
-    window.setTimeout(() => {
+    setSubmitError(null);
+
+    const body = new window.FormData();
+    body.append("payload", JSON.stringify(buildPayload(data)));
+    for (const f of files) body.append("documents", f, f.name);
+
+    try {
+      const res = await fetch(ENQUIRY_ENDPOINT, {
+        method: "POST",
+        body,
+        signal: AbortSignal.timeout(60_000),
+      });
+      const result: { ok?: boolean; reference?: string; error?: string } =
+        await res.json();
+      if (res.ok && result.ok) {
+        setReference(result.reference ?? null);
+        setSubmitted(true);
+      } else {
+        setSubmitError(
+          result.error ?? "The application could not be submitted."
+        );
+      }
+    } catch {
+      // Network failure, timeout or an unparseable response — the entered
+      // data stays in state so the user can simply retry.
+      setSubmitError(
+        "We couldn't reach our server — please check your connection."
+      );
+    } finally {
       setSubmitting(false);
-      setSubmitted(true);
-    }, 900);
+    }
+  };
+
+  const startNewApplication = () => {
+    setData(EMPTY_FORM);
+    setFiles([]);
+    setErrors({});
+    setFileError(null);
+    setSubmitError(null);
+    setReference(null);
+    setSubmitted(false);
+    setDir(-1);
+    setStep(1);
   };
 
   const paneVariants = {
@@ -878,7 +1000,15 @@ export default function DubaiVisa() {
                     <h4 className="t-h3 mt-5 text-xl text-navy-900">
                       Application received!
                     </h4>
-                    <p className="t-small mx-auto mt-2 max-w-sm text-slate-600">
+                    {reference && (
+                      <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-navy-50 px-4 py-1.5 text-sm text-navy-800">
+                        Your reference:{" "}
+                        <span className="font-extrabold tracking-wide text-navy-900">
+                          {reference}
+                        </span>
+                      </p>
+                    )}
+                    <p className="t-small mx-auto mt-3 max-w-sm text-slate-600">
                       Thanks, {data.firstName || "traveler"} — our visa expert
                       will contact you within 2 hours{" "}
                       {data.contactMethod === "Call"
@@ -891,6 +1021,13 @@ export default function DubaiVisa() {
                       </span>{" "}
                       to complete your application.
                     </p>
+                    <button
+                      type="button"
+                      onClick={startNewApplication}
+                      className="btn-outline mt-7 h-12 px-6"
+                    >
+                      Start a new application
+                    </button>
                   </motion.div>
                 ) : (
                   <>
@@ -1380,6 +1517,19 @@ export default function DubaiVisa() {
                                     </AnimatePresence>
                                   </ul>
                                 )}
+
+                                {fileError && (
+                                  <p
+                                    role="alert"
+                                    className="mt-3 flex items-start gap-1.5 text-xs font-medium text-red-600"
+                                  >
+                                    <AlertCircle
+                                      className="mt-px h-3.5 w-3.5 shrink-0"
+                                      aria-hidden="true"
+                                    />
+                                    {fileError}
+                                  </p>
+                                )}
                               </div>
 
                               <TextAreaField
@@ -1409,6 +1559,35 @@ export default function DubaiVisa() {
                           )}
                         </motion.div>
                       </AnimatePresence>
+
+                      {submitError && (
+                        <div
+                          role="alert"
+                          className="mt-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 sm:p-5"
+                        >
+                          <AlertCircle
+                            className="mt-0.5 h-5 w-5 shrink-0 text-red-500"
+                            aria-hidden="true"
+                          />
+                          <div className="text-sm leading-relaxed text-red-800">
+                            <p className="font-bold">
+                              We couldn&apos;t submit your application.
+                            </p>
+                            <p className="mt-1">
+                              {submitError} Everything you&apos;ve entered is
+                              still here — please try again, or call / WhatsApp
+                              us on{" "}
+                              <a
+                                href={`tel:${BUSINESS.phone}`}
+                                className="font-semibold underline decoration-red-300 decoration-2 underline-offset-2 hover:text-red-900"
+                              >
+                                {BUSINESS.phoneDisplay}
+                              </a>{" "}
+                              and we&apos;ll take it from there.
+                            </p>
+                          </div>
+                        </div>
+                      )}
 
                       {/* Wizard controls */}
                       <div className="mt-8 flex items-center justify-between gap-4 border-t border-slate-100 pt-6">
@@ -1445,9 +1624,19 @@ export default function DubaiVisa() {
                               submitting && "cursor-wait opacity-70"
                             )}
                           >
-                            {submitting ? "Submitting…" : "Submit Application"}
-                            {!submitting && (
-                              <Send className="h-4 w-4" aria-hidden="true" />
+                            {submitting ? (
+                              <>
+                                <Loader2
+                                  className="h-4 w-4 animate-spin"
+                                  aria-hidden="true"
+                                />
+                                Submitting…
+                              </>
+                            ) : (
+                              <>
+                                Submit Application
+                                <Send className="h-4 w-4" aria-hidden="true" />
+                              </>
                             )}
                           </button>
                         )}
