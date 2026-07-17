@@ -8,6 +8,7 @@ import SisterBrand from "@/components/SisterBrand";
 import PopularDestinations from "@/components/PopularDestinations";
 import BestFaresByCity from "@/components/BestFaresByCity";
 import DubaiVisa from "@/components/DubaiVisa";
+import ParentsTickets from "@/components/ParentsTickets";
 import WhyChoose from "@/components/WhyChoose";
 import HowItWorks from "@/components/HowItWorks";
 import FeaturedDeals from "@/components/FeaturedDeals";
@@ -160,6 +161,7 @@ export default function Home() {
         <HowItWorks />
         <FeaturedDeals />
         <CallUsBand />
+        <ParentsTickets />
         <BestPriceGuarantee />
         <Testimonials />
         <Faq />
