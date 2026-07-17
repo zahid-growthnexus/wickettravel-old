@@ -33,11 +33,11 @@ const COLUMNS = [
   },
   {
     title: "Company",
-    links: ["How it works", "Partners", "Careers", "Press"],
+    links: ["About us", "How it works", "Partners", "Careers", "Press"],
   },
   {
     title: "Support",
-    links: ["Help center", "Manage booking", "Refunds", "FAQs"],
+    links: ["Help center", "Contact us", "Manage booking", "Refunds", "FAQs"],
   },
 ];
 
