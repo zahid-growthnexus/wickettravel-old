@@ -656,6 +656,10 @@ export default function ParentsTickets() {
                 real person who calls you back.
               </p>
             </Reveal>
+
+            {/* Live community feed — sits under the pitch so the left column
+                fills out beside the taller form and the layout stays balanced. */}
+            <ParentsListings />
           </div>
 
           {/* Right — the lead form */}
@@ -1085,9 +1089,6 @@ export default function ParentsTickets() {
             </div>
           </Reveal>
         </div>
-
-        {/* Live community feed — active travellers & families, right now */}
-        <ParentsListings />
       </div>
     </section>
   );

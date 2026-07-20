@@ -509,8 +509,8 @@ export default function ParentsListings() {
   const reload = () => setReloadKey((k) => k + 1);
 
   return (
-    <div className="mt-16 lg:mt-24">
-      <Reveal className="text-center">
+    <div className="mt-12 border-t border-white/10 pt-10 lg:mt-14 lg:pt-12">
+      <Reveal>
         <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2">
           <span className="relative flex h-2 w-2" aria-hidden="true">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-400 opacity-75" />
@@ -518,10 +518,10 @@ export default function ParentsListings() {
           </span>
           <span className="t-eyebrow text-white">Our community, live</span>
         </span>
-        <h3 className="t-h2 mt-5 text-[clamp(1.6rem,1.2rem+1.6vw,2.25rem)] text-white">
+        <h3 className="t-h2 mt-5 text-[clamp(1.5rem,1.2rem+1.4vw,2rem)] text-white">
           People helping people, right now
         </h3>
-        <p className="section-lead t-body-lg mt-4 text-navy-100/85">
+        <p className="t-body-lg mt-4 max-w-xl text-navy-100/85">
           Real travellers offering a hand, and real families looking for one —
           on their way through airports just like yours.
         </p>
@@ -611,7 +611,7 @@ export default function ParentsListings() {
           {showFilters && (
             <div className="mt-9 space-y-3">
               {airports.length > 1 && (
-                <div className="flex flex-wrap items-center justify-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="mr-1 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-navy-100/75">
                     <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
                     Airport
@@ -632,7 +632,7 @@ export default function ParentsListings() {
                 </div>
               )}
               {months.length > 1 && (
-                <div className="flex flex-wrap items-center justify-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="mr-1 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-navy-100/75">
                     <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" />
                     Month
@@ -718,8 +718,8 @@ export default function ParentsListings() {
 
       {/* Reassurance strip */}
       {status === "ready" && (
-        <p className="mt-8 flex items-center justify-center gap-2 text-center text-xs text-navy-100/75">
-          <Globe className="h-3.5 w-3.5 shrink-0 text-accent-400" aria-hidden="true" />
+        <p className="mt-8 flex items-start gap-2 text-left text-xs text-navy-100/75">
+          <Globe className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-400" aria-hidden="true" />
           Names are shortened and contact details are never shown publicly.
           Entries appear only after our team reviews them.
         </p>
