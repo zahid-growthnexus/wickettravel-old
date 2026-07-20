@@ -143,6 +143,31 @@ body {
   animation-play-state: paused;
 }
 
+/* Second lane runs the opposite way for a lively, two-directional feel.
+   Same seamless -50% loop, just reversed (left-to-right visually). */
+.marquee-track--reverse {
+  animation-direction: reverse;
+}
+
+/* Soft fade at both edges so cards glide in/out instead of hard-clipping.
+   Pure mask — no extra DOM, GPU-friendly, and invisible to reduced-motion. */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 5.5rem,
+    #000 calc(100% - 5.5rem),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 5.5rem,
+    #000 calc(100% - 5.5rem),
+    transparent
+  );
+}
+
 /* Respect reduced-motion globally as a safety net */
 @media (prefers-reduced-motion: reduce) {
   *,

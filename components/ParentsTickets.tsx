@@ -19,6 +19,7 @@ import {
   Users,
 } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
+import ParentsListings from "@/components/ParentsListings";
 import { cn } from "@/lib/cn";
 import { BUSINESS } from "@/lib/seo";
 
@@ -167,7 +168,7 @@ function fieldError(field: Field, data: FormState): string | undefined {
 
 /** Map form state onto the portal's parent-ticket keys. Empty optionals become
  *  `undefined` so JSON.stringify drops them; numbers are sent as numbers. */
-function buildPayload(mode: Mode, data: FormState) {
+function buildPayload(mode: Mode, data: FormState, consentPublic: boolean) {
   const opt = (v: string) => v.trim() || undefined;
   const num = (v: string) => (v.trim() === "" ? undefined : Number(v));
   const shared = {
@@ -181,6 +182,8 @@ function buildPayload(mode: Mode, data: FormState) {
     airline: opt(data.airline),
     languages_spoken: opt(data.languages),
     notes: opt(data.notes),
+    // Only true lets an approved entry ever appear on the public feed.
+    consent_public: consentPublic,
   };
   if (mode === "traveller") {
     return {
@@ -498,6 +501,7 @@ export default function ParentsTickets() {
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [reference, setReference] = useState<string | null>(null);
+  const [consentPublic, setConsentPublic] = useState(false);
 
   const set = (field: Field) => (value: string) => {
     setData((d) => ({ ...d, [field]: value }));
@@ -542,7 +546,7 @@ export default function ParentsTickets() {
       const res = await fetch(ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildPayload(mode, data)),
+        body: JSON.stringify(buildPayload(mode, data, consentPublic)),
         signal: AbortSignal.timeout(60_000),
       });
       const result: { ok?: boolean; reference?: string; error?: string } =
@@ -571,6 +575,7 @@ export default function ParentsTickets() {
     setSubmitError(null);
     setReference(null);
     setSubmitted(false);
+    setConsentPublic(false);
   };
 
   return (
@@ -966,6 +971,34 @@ export default function ParentsTickets() {
                       />
                     </div>
 
+                    {/* Public-feed consent — nothing is ever published without it */}
+                    <div className="mt-6 rounded-xl border border-navy-100 bg-navy-50/60 p-4">
+                      <label
+                        htmlFor="pt-consent"
+                        className="flex cursor-pointer items-start gap-3"
+                      >
+                        <input
+                          id="pt-consent"
+                          type="checkbox"
+                          checked={consentPublic}
+                          onChange={(e) => setConsentPublic(e.target.checked)}
+                          className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border-slate-300 accent-accent-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-1"
+                        />
+                        <span className="text-xs leading-relaxed text-navy-800">
+                          <span className="font-bold text-navy-900">
+                            Show my route and travel date publicly on the website
+                            so others can find me
+                          </span>{" "}
+                          (your name is shortened and your contact details are
+                          never shown).
+                          <span className="mt-1.5 block text-slate-500">
+                            Entries appear on our public community feed only after
+                            our team reviews them.
+                          </span>
+                        </span>
+                      </label>
+                    </div>
+
                     {submitError && (
                       <div
                         role="alert"
@@ -1052,6 +1085,9 @@ export default function ParentsTickets() {
             </div>
           </Reveal>
         </div>
+
+        {/* Live community feed — active travellers & families, right now */}
+        <ParentsListings />
       </div>
     </section>
   );
