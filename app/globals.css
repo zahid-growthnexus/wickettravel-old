@@ -143,27 +143,49 @@ body {
   animation-play-state: paused;
 }
 
-/* Second lane runs the opposite way for a lively, two-directional feel.
-   Same seamless -50% loop, just reversed (left-to-right visually). */
-.marquee-track--reverse {
+/* ───────────────────────────────────────────────────────────
+   Vertical marquee — used by the Parents Tickets community board.
+   A fixed-height column auto-scrolls its list; the track holds TWO
+   copies of the content and slides by exactly half its height, so the
+   loop is seamless. Pause on hover/focus; the component swaps in a
+   static, manually-scrollable list for reduced-motion or short lists.
+   ─────────────────────────────────────────────────────────── */
+@keyframes marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+.vmarquee-track {
+  display: flex;
+  flex-direction: column;
+  animation: marquee-y var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+.vmarquee:hover .vmarquee-track,
+.vmarquee:focus-within .vmarquee-track {
+  animation-play-state: paused;
+}
+/* One column can run the opposite way for a lively, counter-moving feel. */
+.vmarquee-track--reverse {
   animation-direction: reverse;
 }
-
-/* Soft fade at both edges so cards glide in/out instead of hard-clipping.
-   Pure mask — no extra DOM, GPU-friendly, and invisible to reduced-motion. */
-.marquee-mask {
+/* Soft fade top & bottom so rows glide in/out instead of hard-clipping. */
+.vmarquee-mask {
   -webkit-mask-image: linear-gradient(
-    to right,
+    to bottom,
     transparent,
-    #000 2.5rem,
-    #000 calc(100% - 2.5rem),
+    #000 1.25rem,
+    #000 calc(100% - 1.25rem),
     transparent
   );
   mask-image: linear-gradient(
-    to right,
+    to bottom,
     transparent,
-    #000 2.5rem,
-    #000 calc(100% - 2.5rem),
+    #000 1.25rem,
+    #000 calc(100% - 1.25rem),
     transparent
   );
 }

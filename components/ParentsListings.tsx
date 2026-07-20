@@ -9,44 +9,41 @@ import {
   Globe,
   HandHeart,
   HeartHandshake,
-  Languages,
   Loader2,
   Lock,
-  MapPin,
   Plane,
   RefreshCw,
   SlidersHorizontal,
   Sparkles,
   UserRound,
-  Users,
 } from "lucide-react";
 import { Reveal } from "@/components/motion-primitives";
 import { cn } from "@/lib/cn";
 import { PORTAL_LOGIN_URL } from "@/lib/links";
 
 /**
- * Live "Parents Tickets" community feed. Fetches approved, anonymised public
+ * Live "Parents Tickets" community board. Fetches approved, anonymised public
  * entries from our same-origin read relay (app/api/parent-ticket/public →
- * portal) and shows them in two continuously scrolling lanes:
- *   • Travellers who can help  (enquiry_type "traveller") — scrolls right→left
- *   • Families who need help    (enquiry_type "requester") — scrolls left→right
+ * portal) and shows them in a FIXED-HEIGHT, two-column board:
+ *   • Left  — Families who need help  (enquiry_type "requester")
+ *   • Right — Travellers who can help (enquiry_type "traveller")
+ *
+ * Each column is a compact scrolling list, so the section never grows however
+ * many entries are approved — 3 or 30, the container stays the same size and the
+ * list scrolls inside it. Longer lists auto-scroll vertically (opposite ways for
+ * a lively feel), pause on hover, and fall back to a static, manually-scrollable
+ * list under reduced-motion or when a column is short.
  *
  * Only the fields the endpoint returns are shown — there are NO contact details
- * in the payload, and we never invent entries. Cards render cleanly when the
- * optional fields (airline, languages, assistance_*) are null. The feed degrades
- * gracefully: a friendly message on error/429, a warm "be the first" empty
- * state when there's nothing yet, and a calm static row (no marquee) when a lane
- * has only a few entries or the visitor prefers reduced motion.
+ * in the payload, and we never invent entries. The rest of each person's details
+ * stay gated behind sign-in (the teaser), keeping privacy intact.
  */
 
 const ENDPOINT = "/api/parent-ticket/public";
 
-// Below this count a lane renders as a calm, centred static row instead of a
-// scrolling marquee — so 1–3 entries never look like a stuttering carousel.
-const STATIC_MAX = 4;
-// A marquee's base track is padded up to this many cards so the loop always
-// fills the width and never leaves an obvious gap on wide screens.
-const MIN_LANE = 6;
+// Above this many rows a column auto-scrolls; at or below it, the list fits and
+// stays static (no distracting motion for just a handful of entries).
+const AUTOSCROLL_MIN = 6;
 
 type Kind = "traveller" | "requester";
 
@@ -100,15 +97,12 @@ function initials(name: string | null): string {
   return (first + last).toUpperCase();
 }
 
-function formatDate(iso: string | null): string | null {
+/** Short, space-friendly date for a compact row (e.g. "30 Jul"). */
+function shortDate(iso: string | null): string | null {
   if (!iso) return null;
   const d = new Date(iso.length <= 10 ? `${iso}T00:00:00` : iso);
   if (Number.isNaN(d.getTime())) return null;
-  return d.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 }
 
 function monthKey(iso: string | null): string | null {
@@ -122,198 +116,198 @@ function monthLabel(ym: string): string {
   return d.toLocaleDateString("en-GB", { month: "short", year: "numeric" });
 }
 
-/* ── Listing card ─────────────────────────────────────────────────────── */
+/* ── Compact listing row ──────────────────────────────────────────────── */
 
-function MetaChip({
-  icon: Icon,
-  children,
-}: {
-  icon: typeof Plane;
-  children: React.ReactNode;
-}) {
+function ListingRow({ entry }: { entry: Entry }) {
+  const isTraveller = entry.enquiry_type === "traveller";
+  const name = entry.display_name ?? "A Wicket member";
+  const monogram = initials(entry.display_name);
+  const date = shortDate(entry.travel_date);
+  const hasRoute = entry.from_location && entry.to_location;
+
   return (
-    <span className="inline-flex max-w-full items-center gap-1.5 rounded-full bg-navy-50 px-2.5 py-1 text-[11px] font-semibold text-navy-700 ring-1 ring-navy-100">
-      <Icon className="h-3 w-3 shrink-0 text-navy-400" aria-hidden="true" />
-      <span className="truncate">{children}</span>
-    </span>
+    <div
+      role="listitem"
+      className="group flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-white/[0.07]"
+    >
+      <span
+        className={cn(
+          "grid h-9 w-9 shrink-0 place-items-center rounded-full text-[11px] font-extrabold ring-1",
+          isTraveller
+            ? "bg-accent-500/15 text-accent-300 ring-accent-400/25"
+            : "bg-white/10 text-navy-50 ring-white/15"
+        )}
+        aria-hidden="true"
+      >
+        {monogram || <UserRound className="h-4 w-4" />}
+      </span>
+
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-[13px] font-bold text-white">{name}</p>
+        <p className="mt-0.5 flex items-center gap-1 truncate text-[11px] text-navy-100/70">
+          {hasRoute ? (
+            <>
+              <span className="truncate">{entry.from_location}</span>
+              <Plane
+                className="h-2.5 w-2.5 shrink-0 rotate-45 text-accent-400"
+                aria-hidden="true"
+              />
+              <span className="truncate">{entry.to_location}</span>
+            </>
+          ) : (
+            <span className="truncate">
+              {entry.from_location ?? entry.to_location ?? "Route shared privately"}
+            </span>
+          )}
+          {date && (
+            <>
+              <span className="text-navy-100/30" aria-hidden="true">
+                ·
+              </span>
+              <span className="shrink-0 whitespace-nowrap text-navy-100/60">
+                {date}
+              </span>
+            </>
+          )}
+        </p>
+      </div>
+
+      {/* Subtle hint that the full picture is behind sign-in */}
+      <ArrowRight
+        className="h-3.5 w-3.5 shrink-0 text-navy-100/0 transition-colors group-hover:text-accent-400"
+        aria-hidden="true"
+      />
+    </div>
   );
 }
 
-function ListingCard({
-  entry,
-  className,
+/* ── Fixed-height column ──────────────────────────────────────────────── */
+
+function Column({
+  kind,
+  items,
+  total,
+  reverse,
 }: {
-  entry: Entry;
-  className?: string;
+  kind: Kind;
+  items: Entry[];
+  total: number;
+  reverse: boolean;
 }) {
-  const isTraveller = entry.enquiry_type === "traveller";
-  const name = entry.display_name ?? "A Wicket member";
-  const date = formatDate(entry.travel_date);
-  const blurb = isTraveller ? entry.assistance_offered : entry.assistance_needed;
-  const hasRoute = entry.from_location && entry.to_location;
-  const monogram = initials(entry.display_name);
+  const reduce = useReducedMotion();
+  const isTraveller = kind === "traveller";
+  const Icon = isTraveller ? HandHeart : HeartHandshake;
+  const animate = !reduce && items.length > AUTOSCROLL_MIN;
+  const duration = Math.max(26, items.length * 4);
+
+  const segment = (dup: boolean) => (
+    <div
+      aria-hidden={dup || undefined}
+      role={dup ? undefined : "list"}
+      className="flex flex-col gap-1 pb-1"
+    >
+      {items.map((e, i) => (
+        <ListingRow key={`${dup ? "d-" : ""}${e.reference}-${i}`} entry={e} />
+      ))}
+    </div>
+  );
 
   return (
-    <article
-      className={cn(
-        "flex flex-col rounded-2xl bg-white p-4 text-left shadow-lg shadow-navy-950/20 ring-1 ring-white/40 sm:p-5",
-        className
-      )}
-    >
-      {/* Header — who they are + intent */}
-      <div className="flex items-center gap-3">
+    <div className="flex h-[20rem] flex-col overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04] sm:h-[24rem]">
+      {/* Column header (fixed) */}
+      <div
+        className={cn(
+          "flex items-center gap-2.5 border-b px-3.5 py-3",
+          isTraveller ? "border-accent-400/20" : "border-white/10"
+        )}
+      >
         <span
           className={cn(
-            "grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-extrabold",
+            "grid h-8 w-8 shrink-0 place-items-center rounded-lg",
             isTraveller
-              ? "bg-accent-50 text-accent-600 ring-1 ring-accent-200"
-              : "bg-navy-50 text-navy-700 ring-1 ring-navy-100"
+              ? "bg-accent-500/15 text-accent-300"
+              : "bg-white/10 text-navy-100"
           )}
           aria-hidden="true"
         >
-          {monogram || <UserRound className="h-5 w-5" />}
+          <Icon className="h-4 w-4" />
         </span>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold text-navy-900">{name}</p>
-          <span
-            className={cn(
-              "mt-0.5 inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide",
-              isTraveller ? "text-accent-600" : "text-navy-600"
-            )}
-          >
-            {isTraveller ? (
-              <>
-                <HandHeart className="h-3 w-3" aria-hidden="true" />
-                Can help
-              </>
-            ) : (
-              <>
-                <HeartHandshake className="h-3 w-3" aria-hidden="true" />
-                Needs a companion
-              </>
-            )}
-          </span>
-        </div>
+        <p className="min-w-0 flex-1 truncate text-[13px] font-bold text-white">
+          {isTraveller ? "Travellers who can help" : "Families who need help"}
+        </p>
+        <span className="shrink-0 rounded-full bg-white/10 px-2 py-0.5 text-[11px] font-bold text-navy-100/85">
+          {total}
+        </span>
       </div>
 
-      {/* Route — from → to with a flight motif */}
-      {hasRoute ? (
-        <div className="mt-4 flex items-center gap-2">
-          <span className="min-w-0 flex-1 truncate text-right text-sm font-bold text-navy-900">
-            {entry.from_location}
-          </span>
-          <span
-            className="relative grid h-6 w-11 shrink-0 place-items-center"
-            aria-hidden="true"
+      {/* List area (fills remaining height) */}
+      {items.length === 0 ? (
+        <div className="flex flex-1 items-center justify-center p-6 text-center">
+          <p className="text-xs leading-relaxed text-navy-100/70">
+            {isTraveller
+              ? "No travellers on these routes yet — could you be the first to offer a hand?"
+              : "No families on these routes yet — be the first to ask for a companion."}
+          </p>
+        </div>
+      ) : animate ? (
+        <div className="vmarquee relative flex-1 overflow-hidden">
+          <div
+            className={cn(
+              "vmarquee-track vmarquee-mask px-2 py-2",
+              reverse && "vmarquee-track--reverse"
+            )}
+            style={{ "--marquee-duration": `${duration}s` } as CSSProperties}
           >
-            <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-gradient-to-r from-navy-200 via-accent-400 to-navy-200" />
-            <Plane className="relative h-3.5 w-3.5 rotate-45 text-accent-500" />
-          </span>
-          <span className="min-w-0 flex-1 truncate text-sm font-bold text-navy-900">
-            {entry.to_location}
-          </span>
+            {segment(false)}
+            {segment(true)}
+          </div>
         </div>
       ) : (
-        (entry.from_location || entry.to_location) && (
-          <p className="mt-4 flex items-center gap-1.5 text-sm font-bold text-navy-900">
-            <MapPin className="h-3.5 w-3.5 text-accent-500" aria-hidden="true" />
-            {entry.from_location ?? entry.to_location}
-          </p>
-        )
-      )}
-
-      {/* Optional meta — only what's present */}
-      {(date || entry.airline || entry.languages) && (
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {date && <MetaChip icon={CalendarDays}>{date}</MetaChip>}
-          {entry.airline && <MetaChip icon={Plane}>{entry.airline}</MetaChip>}
-          {entry.languages && (
-            <MetaChip icon={Languages}>{entry.languages}</MetaChip>
-          )}
+        <div
+          role="list"
+          className="flex flex-1 flex-col gap-1 overflow-y-auto px-2 py-2"
+        >
+          {items.map((e, i) => (
+            <ListingRow key={`${e.reference}-${i}`} entry={e} />
+          ))}
         </div>
       )}
-
-      {/* A glimpse of what they wrote — clamped */}
-      {blurb && (
-        <p className="mt-3 line-clamp-2 rounded-lg bg-navy-50/70 px-2.5 py-2 text-xs leading-relaxed text-slate-600">
-          {blurb}
-        </p>
-      )}
-    </article>
-  );
-}
-
-/* ── Lanes ────────────────────────────────────────────────────────────── */
-
-const CARD_MARQUEE = "w-[280px] shrink-0 sm:w-[300px]";
-const CARD_STATIC = "w-[280px] max-w-full";
-
-/** Calm, centred, wrapping row — used for small lanes and reduced motion. */
-function StaticLane({ items }: { items: Entry[] }) {
-  return (
-    <div className="flex flex-wrap justify-center gap-4 sm:gap-5">
-      {items.map((e, i) => (
-        <ListingCard
-          key={`${e.reference}-${i}`}
-          entry={e}
-          className={CARD_STATIC}
-        />
-      ))}
     </div>
   );
 }
 
-/** Seamless infinite marquee (two identical rows, track shifts −50%). */
-function MarqueeLane({
-  items,
-  reverse,
-}: {
-  items: Entry[];
-  reverse: boolean;
-}) {
-  // Pad the base track up to MIN_LANE cards so the loop always fills the width.
-  let base = items;
-  if (base.length < MIN_LANE) {
-    const reps = Math.ceil(MIN_LANE / base.length);
-    base = Array.from({ length: reps }, () => items).flat();
-  }
-  // Slow & readable: ~6s per card keeps the velocity constant and calm.
-  const duration = Math.max(28, base.length * 6);
-
-  const row = (dup: boolean) => (
-    <div
-      aria-hidden={dup || undefined}
-      className="flex shrink-0 items-stretch gap-4 pr-4 sm:gap-5 sm:pr-5"
-    >
-      {base.map((e, i) => (
-        <ListingCard
-          key={`${dup ? "dup-" : ""}${e.reference}-${i}`}
-          entry={e}
-          className={CARD_MARQUEE}
+/** Two placeholder columns while the feed loads. */
+function BoardSkeleton() {
+  const col = (accent: boolean) => (
+    <div className="h-[20rem] overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04] sm:h-[24rem]">
+      <div className="flex items-center gap-2.5 border-b border-white/10 px-3.5 py-3">
+        <span
+          className={cn(
+            "h-8 w-8 shrink-0 rounded-lg",
+            accent ? "bg-accent-500/15" : "bg-white/10"
+          )}
         />
-      ))}
-    </div>
-  );
-
-  return (
-    <div className="marquee marquee-mask overflow-hidden py-1">
-      <div
-        className={cn("marquee-track", reverse && "marquee-track--reverse")}
-        style={{ "--marquee-duration": `${duration}s` } as CSSProperties}
-      >
-        {row(false)}
-        {row(true)}
+        <span className="h-3 w-32 rounded bg-white/10" />
+      </div>
+      <div className="space-y-2 p-3">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="flex items-center gap-2.5">
+            <span className="h-9 w-9 shrink-0 rounded-full bg-white/10" />
+            <div className="flex-1 space-y-1.5">
+              <span className="block h-2.5 w-24 rounded bg-white/10" />
+              <span className="block h-2 w-36 rounded bg-white/[0.07]" />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
-}
-
-function Lane({ items, reverse }: { items: Entry[]; reverse: boolean }) {
-  const reduce = useReducedMotion();
-  if (reduce || items.length <= STATIC_MAX) {
-    return <StaticLane items={items} />;
-  }
-  return <MarqueeLane items={items} reverse={reverse} />;
+  return (
+    <div className="mt-8 grid animate-pulse grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+      {col(false)}
+      {col(true)}
+    </div>
+  );
 }
 
 /* ── Filter chips ─────────────────────────────────────────────────────── */
@@ -335,7 +329,7 @@ function Chip({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950",
+        "inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950",
         active
           ? "border-accent-400 bg-accent-500 text-white shadow-sm"
           : "border-white/25 bg-white/10 text-navy-50 hover:bg-white/20"
@@ -344,68 +338,6 @@ function Chip({
       {Icon && <Icon className="h-3.5 w-3.5" aria-hidden="true" />}
       {children}
     </button>
-  );
-}
-
-/* ── Group heading ────────────────────────────────────────────────────── */
-
-function GroupHeading({
-  kind,
-  count,
-}: {
-  kind: Kind;
-  count: number;
-}) {
-  const isTraveller = kind === "traveller";
-  const Icon = isTraveller ? HandHeart : HeartHandshake;
-  return (
-    <div className="mb-4 flex items-center gap-3">
-      <span
-        className={cn(
-          "grid h-9 w-9 shrink-0 place-items-center rounded-xl ring-1",
-          isTraveller
-            ? "bg-accent-500/15 text-accent-400 ring-accent-400/30"
-            : "bg-white/10 text-navy-100 ring-white/20"
-        )}
-        aria-hidden="true"
-      >
-        <Icon className="h-4.5 w-4.5" />
-      </span>
-      <div>
-        <h4 className="text-base font-bold text-white sm:text-lg">
-          {isTraveller ? "Travellers who can help" : "Families who need help"}
-        </h4>
-        <p className="text-xs text-navy-100/70">
-          {isTraveller
-            ? "Kind souls already flying your parent's route"
-            : "Loved ones hoping for a hand along the way"}
-          {count > 0 && (
-            <span className="ml-1.5 font-semibold text-navy-100/90">
-              · {count} {count === 1 ? "post" : "posts"}
-            </span>
-          )}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/** Invite shown when a whole group is empty — turns absence into a nudge. */
-function GroupInvite({ kind }: { kind: Kind }) {
-  const isTraveller = kind === "traveller";
-  return (
-    <div className="rounded-2xl border border-dashed border-white/20 bg-white/[0.04] p-6 text-center">
-      <p className="text-sm text-navy-100/85">
-        {isTraveller
-          ? "No travellers have offered on these routes yet."
-          : "No families are waiting on these routes right now."}
-      </p>
-      <p className="mt-1 text-sm font-semibold text-white">
-        {isTraveller
-          ? "Flying soon? You could be the first to offer a hand."
-          : "Need a companion? Be the first to post your parent's trip."}
-      </p>
-    </div>
   );
 }
 
@@ -500,10 +432,8 @@ export default function ParentsListings() {
     });
   }, [entries, airport, month]);
 
-  const travellersAll = entries.filter((e) => e.enquiry_type === "traveller");
-  const requestersAll = entries.filter((e) => e.enquiry_type === "requester");
-  const travellers = filtered.filter((e) => e.enquiry_type === "traveller");
   const requesters = filtered.filter((e) => e.enquiry_type === "requester");
+  const travellers = filtered.filter((e) => e.enquiry_type === "traveller");
 
   const showFilters =
     status === "ready" &&
@@ -526,33 +456,24 @@ export default function ParentsListings() {
           People helping people, right now
         </h3>
         <p className="t-body-lg mt-4 max-w-xl text-navy-100/85">
-          Real travellers offering a hand, and real families looking for one —
-          on their way through airports just like yours.
+          Real families looking for a hand, and trusted travellers offering one —
+          matched on the routes through airports just like yours.
         </p>
       </Reveal>
 
       {/* Loading */}
-      {status === "loading" && (
-        <div
-          className="mt-10 flex items-center justify-center gap-2 py-16 text-navy-100/80"
-          role="status"
-          aria-live="polite"
-        >
-          <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-          <span className="text-sm font-medium">Loading the community feed…</span>
-        </div>
-      )}
+      {status === "loading" && <BoardSkeleton />}
 
       {/* Error / rate limited — never a broken section */}
       {(status === "error" || status === "rate_limited") && (
-        <div className="mx-auto mt-10 max-w-lg rounded-2xl border border-white/15 bg-white/[0.06] p-8 text-center">
+        <div className="mt-8 rounded-2xl border border-white/15 bg-white/[0.06] p-8 text-center">
           <span
-            className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-white/10 text-accent-400"
+            className="mx-auto grid h-13 w-13 place-items-center rounded-full bg-white/10 text-accent-400"
             aria-hidden="true"
           >
-            <AlertCircle className="h-7 w-7" />
+            <AlertCircle className="h-6 w-6" />
           </span>
-          <p className="mt-5 text-base font-bold text-white">
+          <p className="mt-4 text-base font-bold text-white">
             {status === "rate_limited"
               ? "The community feed is very busy right now"
               : "We couldn't load the community feed just now"}
@@ -565,7 +486,7 @@ export default function ParentsListings() {
           <button
             type="button"
             onClick={reload}
-            className="btn-outline mt-6 h-11 px-5"
+            className="btn-outline mt-6 h-11 border-white/25 bg-white/10 px-5 text-white hover:bg-white/20"
           >
             <RefreshCw className="h-4 w-4" aria-hidden="true" />
             Try again
@@ -575,17 +496,17 @@ export default function ParentsListings() {
 
       {/* Empty — warm invitation to be first */}
       {status === "ready" && entries.length === 0 && (
-        <div className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-2xl border border-white/15 bg-white/[0.06] p-8 text-center sm:p-12">
+        <div className="mt-8 overflow-hidden rounded-2xl border border-white/15 bg-white/[0.06] p-8 text-center sm:p-10">
           <span
             className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-accent-500/15 text-accent-400 ring-1 ring-accent-400/30"
             aria-hidden="true"
           >
             <Sparkles className="h-8 w-8" />
           </span>
-          <h4 className="mt-6 text-xl font-extrabold text-white sm:text-2xl">
+          <h4 className="mt-6 text-xl font-extrabold text-white">
             Be the first to start the journey
           </h4>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-navy-100/85 sm:text-base">
+          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-navy-100/85">
             Our community is just taking off. Post your route — whether you can
             help a parent or need a companion for yours — and we'll gently match
             you with the right person heading the same way.
@@ -609,11 +530,11 @@ export default function ParentsListings() {
         </div>
       )}
 
-      {/* Ready with entries */}
+      {/* Ready with entries — the fixed-height two-column board */}
       {status === "ready" && entries.length > 0 && (
         <>
           {showFilters && (
-            <div className="mt-9 space-y-3">
+            <div className="mt-8 space-y-3">
               {airports.length > 1 && (
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="mr-1 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-navy-100/75">
@@ -621,7 +542,7 @@ export default function ParentsListings() {
                     Airport
                   </span>
                   <Chip active={!airport} onClick={() => setAirport(null)}>
-                    All airports
+                    All
                   </Chip>
                   {airports.map((a) => (
                     <Chip
@@ -642,7 +563,7 @@ export default function ParentsListings() {
                     Month
                   </span>
                   <Chip active={!month} onClick={() => setMonth(null)}>
-                    Any month
+                    Any
                   </Chip>
                   {months.map((m) => (
                     <Chip
@@ -658,60 +579,43 @@ export default function ParentsListings() {
             </div>
           )}
 
-          <div className="mt-10 space-y-12">
-            {/* Travellers who can help — scrolls right → left */}
-            <div>
-              <GroupHeading kind="traveller" count={travellersAll.length} />
-              {travellersAll.length === 0 ? (
-                <GroupInvite kind="traveller" />
-              ) : travellers.length === 0 ? (
-                <p className="rounded-2xl border border-dashed border-white/20 bg-white/[0.04] px-6 py-8 text-center text-sm text-navy-100/80">
-                  No travellers match these filters — try another airport or
-                  month.
-                </p>
-              ) : (
-                <Lane items={travellers} reverse={false} />
-              )}
-            </div>
-
-            {/* Families who need help — scrolls left → right */}
-            <div>
-              <GroupHeading kind="requester" count={requestersAll.length} />
-              {requestersAll.length === 0 ? (
-                <GroupInvite kind="requester" />
-              ) : requesters.length === 0 ? (
-                <p className="rounded-2xl border border-dashed border-white/20 bg-white/[0.04] px-6 py-8 text-center text-sm text-navy-100/80">
-                  No families match these filters — try another airport or month.
-                </p>
-              ) : (
-                <Lane items={requesters} reverse />
-              )}
-            </div>
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+            {/* Left — families who need help (scrolls up) */}
+            <Column
+              kind="requester"
+              items={requesters}
+              total={requesters.length}
+              reverse={false}
+            />
+            {/* Right — travellers who can help (scrolls the opposite way) */}
+            <Column
+              kind="traveller"
+              items={travellers}
+              total={travellers.length}
+              reverse
+            />
           </div>
 
           {/* Teaser → sign-up */}
-          <div className="mt-12 overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-r from-white/[0.09] to-white/[0.04] p-6 sm:flex sm:items-center sm:justify-between sm:gap-6 sm:p-7">
+          <div className="mt-6 overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-r from-white/[0.09] to-white/[0.04] p-5 sm:flex sm:items-center sm:justify-between sm:gap-6">
             <div className="flex items-start gap-3">
               <span
-                className="mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-accent-500 text-white"
+                className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-500 text-white"
                 aria-hidden="true"
               >
-                <Lock className="h-5 w-5" />
+                <Lock className="h-4.5 w-4.5" />
               </span>
-              <div>
-                <p className="text-sm font-bold text-white sm:text-base">
-                  You're seeing just a glimpse
-                </p>
-                <p className="mt-1 max-w-xl text-sm text-navy-100/80">
-                  Full details are shared once you're registered, so everyone's
-                  privacy stays protected. Sign in to see the full picture and
-                  connect with your match.
-                </p>
-              </div>
+              <p className="text-sm text-navy-100/85">
+                <span className="font-bold text-white">
+                  You're seeing just a glimpse.
+                </span>{" "}
+                Full details are shared once you're registered, so everyone's
+                privacy stays protected.
+              </p>
             </div>
             <a
               href={PORTAL_LOGIN_URL}
-              className="btn-primary mt-4 h-12 w-full whitespace-nowrap px-6 sm:mt-0 sm:w-auto"
+              className="btn-primary mt-4 h-11 w-full whitespace-nowrap px-5 sm:mt-0 sm:w-auto"
             >
               Register to connect
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -722,7 +626,7 @@ export default function ParentsListings() {
 
       {/* Reassurance strip */}
       {status === "ready" && (
-        <p className="mt-8 flex items-start gap-2 text-left text-xs text-navy-100/75">
+        <p className="mt-6 flex items-start gap-2 text-left text-xs text-navy-100/75">
           <Globe className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-400" aria-hidden="true" />
           Names are shortened and contact details are never shown publicly.
           Entries appear only after our team reviews them.
