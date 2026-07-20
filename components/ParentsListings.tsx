@@ -433,6 +433,10 @@ export default function ParentsListings() {
         const res = await fetch(`${ENDPOINT}?limit=50`, {
           signal: controller.signal,
           headers: { Accept: "application/json" },
+          // Always revalidate against the relay so a freshly-approved entry
+          // shows up — never a stale copy from the browser's own cache. The
+          // relay's short shared CDN cache still shields the upstream.
+          cache: "no-store",
         });
         if (res.status === 429) {
           setStatus("rate_limited");

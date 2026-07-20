@@ -19,9 +19,10 @@ const PORTAL_PUBLIC_ENDPOINT =
   "https://wicket-travel-portal.vercel.app/api/parent-ticket/public";
 
 // Short shared cache so a burst of visitors doesn't hammer the upstream, while
-// keeping the feed feeling live. stale-while-revalidate serves instantly while
-// a fresh copy is fetched in the background.
-const CACHE_CONTROL = "public, s-maxage=60, stale-while-revalidate=300";
+// keeping the feed feeling live. Kept low (30s) so newly-approved entries show
+// up quickly; stale-while-revalidate serves instantly while a fresh copy is
+// fetched in the background.
+const CACHE_CONTROL = "public, s-maxage=30, stale-while-revalidate=120";
 
 const LOAD_ERROR = { ok: false, error: "Could not load listings." } as const;
 
