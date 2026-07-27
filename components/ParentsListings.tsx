@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/motion-primitives";
 import { cn } from "@/lib/cn";
-import { PORTAL_LOGIN_URL } from "@/lib/links";
+import { PORTAL_SIGNUP_URL } from "@/lib/links";
 
 /**
  * Live "Parents Tickets" community board. Fetches approved, anonymised public
@@ -343,13 +343,12 @@ function Chip({
 
 /* ── Section ──────────────────────────────────────────────────────────── */
 
-function scrollToForm() {
-  document
-    .getElementById("pt-fullName")
-    ?.scrollIntoView({ behavior: "smooth", block: "center" });
-}
-
-export default function ParentsListings() {
+export default function ParentsListings({
+  onStart,
+}: {
+  /** Opens the enquiry form (a modal owned by the parent section). */
+  onStart?: () => void;
+}) {
   const [status, setStatus] = useState<Status>("loading");
   const [entries, setEntries] = useState<Entry[]>([]);
   const [airport, setAirport] = useState<string | null>(null);
@@ -443,7 +442,7 @@ export default function ParentsListings() {
   const reload = () => setReloadKey((k) => k + 1);
 
   return (
-    <div className="mt-12 border-t border-white/10 pt-10 lg:mt-14 lg:pt-12">
+    <div className="lg:pt-4">
       <Reveal>
         <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2">
           <span className="relative flex h-2 w-2" aria-hidden="true">
@@ -514,14 +513,14 @@ export default function ParentsListings() {
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <button
               type="button"
-              onClick={scrollToForm}
+              onClick={onStart}
               className="btn-primary h-12 w-full px-6 sm:w-auto"
             >
               <HandHeart className="h-4 w-4" aria-hidden="true" />
               Post your journey
             </button>
             <a
-              href={PORTAL_LOGIN_URL}
+              href={PORTAL_SIGNUP_URL}
               className="btn-outline h-12 w-full border-white/25 bg-white/10 px-6 text-white hover:bg-white/20 sm:w-auto"
             >
               Register or sign in
@@ -614,7 +613,7 @@ export default function ParentsListings() {
               </p>
             </div>
             <a
-              href={PORTAL_LOGIN_URL}
+              href={PORTAL_SIGNUP_URL}
               className="btn-primary mt-4 h-11 w-full whitespace-nowrap px-5 sm:mt-0 sm:w-auto"
             >
               Register to connect

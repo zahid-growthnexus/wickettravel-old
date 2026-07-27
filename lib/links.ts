@@ -16,6 +16,10 @@ export const externalLinkProps = {
  *  branded custom domain (opens in the same tab). */
 export const PORTAL_LOGIN_URL = "https://www.portal.wickettravel.com/login";
 
+/** New-member registration on the booking portal (same tab). Submitting a
+ *  Parents Tickets enquiry funnels here — an account keeps every match private. */
+export const PORTAL_SIGNUP_URL = "https://www.portal.wickettravel.com/signup";
+
 /** Flight searches hand off to the portal's booking wizard (same tab); the
  *  widget appends the traveler's entries as query params to pre-fill it. */
 export const PORTAL_BOOKING_URL =
