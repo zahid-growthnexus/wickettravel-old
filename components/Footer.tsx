@@ -181,9 +181,9 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Legal row */}
-        <div className="mt-8 border-t border-white/10 pt-8 text-xs text-navy-300">
-          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+        {/* Legal links — centered on mobile, right-aligned on desktop (as before) */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 border-t border-white/10 pt-8 text-xs text-navy-300 sm:justify-end">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <li>
               <a href="#" className="hover:text-white">
                 Privacy Policy
@@ -200,12 +200,12 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-
-          {/* Copyright — centered, directly above the company registration line */}
-          <p className="mt-6 text-center">
-            © {new Date().getFullYear()} Wicket Travel Ltd. All rights reserved.
-          </p>
         </div>
+
+        {/* Copyright — centered, directly above the company registration line */}
+        <p className="mt-6 text-center text-xs text-navy-300">
+          © {new Date().getFullYear()} Wicket Travel Ltd. All rights reserved.
+        </p>
 
         {/* Company registration — centered, soft white */}
         <p className="mt-2 text-center text-sm text-white">
