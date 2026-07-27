@@ -5,10 +5,11 @@ import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   AlertCircle,
-  ArrowRight,
+  CheckCircle2,
   ChevronDown,
   HandHeart,
   HeartHandshake,
+  Loader2,
   Lock,
   Phone,
   Send,
@@ -22,7 +23,6 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 import ParentsListings from "@/components/ParentsListings";
 import { cn } from "@/lib/cn";
 import { BUSINESS } from "@/lib/seo";
-import { PORTAL_LOGIN_URL, PORTAL_SIGNUP_URL } from "@/lib/links";
 
 /**
  * "Parents Tickets" lead-capture section, laid out as two equal columns:
@@ -34,12 +34,14 @@ import { PORTAL_LOGIN_URL, PORTAL_SIGNUP_URL } from "@/lib/links";
  *   • Traveller  — "I can help a parent"      → enquiry_type: "traveller"
  *   • Requester  — "I need help for my parent" → enquiry_type: "requester"
  * The toggle swaps the conditional fields; shared fields stay put so nothing is
- * lost when switching. Submitting a request requires a free portal account, so
- * the final step funnels the visitor to sign-up (existing members sign in) —
- * keeping every match private and verified.
+ * lost when switching. Submitting posts JSON to our same-origin relay — no
+ * account, sign-in or fee is needed to enquire.
  */
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Same-origin relay → the portal's public parent-ticket endpoint. */
+const ENDPOINT = "/api/parent-ticket";
 
 type Mode = "traveller" | "requester";
 
@@ -126,6 +128,10 @@ const EMPTY_FORM: FormState = {
 type Field = keyof FormState;
 type Errors = Partial<Record<Field, string>>;
 
+// Only the shared five are required — matching the portal's contract
+// (enquiry_type is set by the toggle, not the user).
+const REQUIRED: Field[] = ["fullName", "email", "phone", "from", "to"];
+
 function fieldError(field: Field, data: FormState): string | undefined {
   const v = data[field].trim();
   switch (field) {
@@ -161,6 +167,44 @@ function fieldError(field: Field, data: FormState): string | undefined {
     default:
       return undefined;
   }
+}
+
+/** Map form state onto the portal's parent-ticket keys. Empty optionals become
+ *  `undefined` so JSON.stringify drops them; numbers are sent as numbers. */
+function buildPayload(mode: Mode, data: FormState, consentPublic: boolean) {
+  const opt = (v: string) => v.trim() || undefined;
+  const num = (v: string) => (v.trim() === "" ? undefined : Number(v));
+  const shared = {
+    enquiry_type: mode,
+    full_name: data.fullName.trim(),
+    email: data.email.trim(),
+    phone: data.phone.trim(),
+    from_location: data.from.trim(),
+    to_location: data.to.trim(),
+    travel_date: opt(data.travelDate),
+    airline: opt(data.airline),
+    languages_spoken: opt(data.languages),
+    notes: opt(data.notes),
+    // Only true lets an approved entry ever appear on the public feed.
+    consent_public: consentPublic,
+  };
+  if (mode === "traveller") {
+    return {
+      ...shared,
+      assistance_offered: opt(data.assistanceOffered),
+      parents_capacity: num(data.parentsCapacity),
+      assistance_fee: num(data.assistanceFee),
+    };
+  }
+  return {
+    ...shared,
+    parent_name: opt(data.parentName),
+    parent_age: num(data.parentAge),
+    relationship: opt(data.relationship),
+    assistance_needed: opt(data.assistanceNeeded),
+    mobility_needs: opt(data.mobilityNeeds),
+    offer_amount: num(data.offerAmount),
+  };
 }
 
 /* ── Shared field primitives (mirrors the Dubai Visa form) ─────────── */
@@ -571,6 +615,11 @@ function EnquiryForm({ onClose }: { onClose: () => void }) {
   const [mode, setMode] = useState<Mode>("requester");
   const [data, setData] = useState<FormState>(EMPTY_FORM);
   const [errors, setErrors] = useState<Errors>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [reference, setReference] = useState<string | null>(null);
+  const [consentPublic, setConsentPublic] = useState(false);
 
   const set = (field: Field) => (value: string) => {
     setData((d) => ({ ...d, [field]: value }));
@@ -580,6 +629,69 @@ function EnquiryForm({ onClose }: { onClose: () => void }) {
   const blurCheck = (field: Field) => () => {
     const msg = fieldError(field, data);
     if (msg) setErrors((e) => ({ ...e, [field]: msg }));
+  };
+
+  // Validate the required five plus any constraint fields for the active mode.
+  const validate = (): boolean => {
+    const checkFields: Field[] = [
+      ...REQUIRED,
+      "travelDate",
+      ...(mode === "traveller"
+        ? (["parentsCapacity", "assistanceFee"] as Field[])
+        : (["parentAge", "offerAmount"] as Field[])),
+    ];
+    const found: Errors = {};
+    for (const f of checkFields) {
+      const msg = fieldError(f, data);
+      if (msg) found[f] = msg;
+    }
+    setErrors(found);
+    const first = checkFields.find((f) => found[f]);
+    if (first) {
+      document.getElementById(`pt-${first}`)?.focus();
+      return false;
+    }
+    return true;
+  };
+
+  const submit = async () => {
+    if (submitting) return;
+    if (!validate()) return;
+    setSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildPayload(mode, data, consentPublic)),
+        signal: AbortSignal.timeout(60_000),
+      });
+      const result: { ok?: boolean; reference?: string; error?: string } =
+        await res.json();
+      if (res.ok && result.ok) {
+        setReference(result.reference ?? null);
+        setSubmitted(true);
+      } else {
+        setSubmitError(result.error ?? "Your enquiry could not be submitted.");
+      }
+    } catch {
+      // Network failure / timeout — the entered data stays in state to retry.
+      setSubmitError(
+        "We couldn't reach our server — please check your connection."
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const startNew = () => {
+    setData(EMPTY_FORM);
+    setErrors({});
+    setSubmitError(null);
+    setReference(null);
+    setSubmitted(false);
+    setConsentPublic(false);
   };
 
   return (
@@ -607,13 +719,71 @@ function EnquiryForm({ onClose }: { onClose: () => void }) {
       </div>
 
       <div className="px-5 py-6 sm:p-8">
-        <form noValidate onSubmit={(e) => e.preventDefault()}>
+        {submitted ? (
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: EASE }}
+            className="py-8 text-center"
+            role="status"
+          >
+            <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-50">
+              <CheckCircle2
+                className="h-9 w-9 text-emerald-500"
+                aria-hidden="true"
+              />
+            </span>
+            <h4 className="t-h3 mt-5 text-xl text-navy-900">
+              Enquiry received!
+            </h4>
+            {reference && (
+              <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-navy-50 px-4 py-1.5 text-sm text-navy-800">
+                Your reference:{" "}
+                <span className="font-extrabold tracking-wide text-navy-900">
+                  {reference}
+                </span>
+              </p>
+            )}
+            <p className="t-small mx-auto mt-3 max-w-sm text-slate-600">
+              Thank you, {data.fullName.split(" ")[0] || "friend"} — our team
+              will be in touch shortly on{" "}
+              <span className="font-semibold text-navy-900">
+                {data.phone || data.email}
+              </span>{" "}
+              to personally arrange the next step.
+            </p>
+            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={startNew}
+                className="btn-outline h-12 px-6"
+              >
+                Submit another enquiry
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="btn-primary h-12 px-6"
+              >
+                Done
+              </button>
+            </div>
+          </motion.div>
+        ) : (
+        <form
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            submit();
+          }}
+        >
           <ModeToggle
             mode={mode}
             onChange={(m) => {
               setMode(m);
               // Drop errors that belong to the other mode's fields.
               setErrors({});
+              setSubmitError(null);
             }}
           />
 
@@ -853,9 +1023,86 @@ function EnquiryForm({ onClose }: { onClose: () => void }) {
             />
           </div>
 
-          {/* Sign-up gate — a request can only be submitted from an account */}
+          {/* Public-feed consent — nothing is ever published without it */}
+          <div className="mt-6 rounded-xl border border-navy-100 bg-navy-50/60 p-4">
+            <label
+              htmlFor="pt-consent"
+              className="flex cursor-pointer items-start gap-3"
+            >
+              <input
+                id="pt-consent"
+                type="checkbox"
+                checked={consentPublic}
+                onChange={(e) => setConsentPublic(e.target.checked)}
+                className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border-slate-300 accent-accent-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-1"
+              />
+              <span className="text-xs leading-relaxed text-navy-800">
+                <span className="font-bold text-navy-900">
+                  Show my route and travel date publicly on the website so
+                  others can find me
+                </span>{" "}
+                (your name is shortened and your contact details are never
+                shown).
+                <span className="mt-1.5 block text-slate-500">
+                  Entries appear on our public community feed only after our
+                  team reviews them.
+                </span>
+              </span>
+            </label>
+          </div>
+
+          {submitError && (
+            <div
+              role="alert"
+              className="mt-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 sm:p-5"
+            >
+              <AlertCircle
+                className="mt-0.5 h-5 w-5 shrink-0 text-red-500"
+                aria-hidden="true"
+              />
+              <div className="text-sm leading-relaxed text-red-800">
+                <p className="font-bold">We couldn&apos;t submit your enquiry.</p>
+                <p className="mt-1">
+                  {submitError} Everything you&apos;ve entered is still here —
+                  please try again, or call / WhatsApp us on{" "}
+                  <a
+                    href={`tel:${BUSINESS.phone}`}
+                    className="font-semibold underline decoration-red-300 decoration-2 underline-offset-2 hover:text-red-900"
+                  >
+                    {BUSINESS.phoneDisplay}
+                  </a>{" "}
+                  and we&apos;ll take it from there.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Submit — no account needed */}
           <div className="mt-8 border-t border-slate-100 pt-6">
-            <div className="flex items-start gap-3 rounded-xl border border-accent-200 bg-accent-50 p-4">
+            <button
+              type="submit"
+              disabled={submitting}
+              className={cn(
+                "btn-primary h-12 w-full text-base",
+                submitting && "cursor-wait opacity-70"
+              )}
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
+                  Submitting…
+                </>
+              ) : (
+                <>
+                  {mode === "traveller"
+                    ? "Offer to help"
+                    : "Request a companion"}
+                  <Send className="h-4 w-4" aria-hidden="true" />
+                </>
+              )}
+            </button>
+
+            <div className="mt-5 flex items-start gap-3 rounded-xl border border-navy-100 bg-navy-50/70 p-4">
               <span
                 className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent-500 text-white"
                 aria-hidden="true"
@@ -864,54 +1111,23 @@ function EnquiryForm({ onClose }: { onClose: () => void }) {
               </span>
               <p className="text-xs leading-relaxed text-navy-800">
                 <span className="font-bold text-navy-900">
-                  Sign-up required to submit.
+                  Private &amp; secure
                 </span>{" "}
-                To send your request and be matched securely, please create a
-                free Wicket account — it keeps everyone&apos;s details private.
-              </p>
-            </div>
-
-            <a
-              href={PORTAL_SIGNUP_URL}
-              className="btn-primary mt-4 h-12 w-full text-base"
-            >
-              Sign up to submit your request
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-
-            <p className="mt-3 text-center text-sm text-slate-600">
-              Already a member?{" "}
-              <a
-                href={PORTAL_LOGIN_URL}
-                className="font-semibold text-navy-900 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
-              >
-                Sign in
-              </a>
-            </p>
-
-            <div className="mt-5 flex items-start gap-3 rounded-xl border border-navy-100 bg-navy-50/70 p-4">
-              <span
-                className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-navy-800 text-white"
-                aria-hidden="true"
-              >
-                <Phone className="h-4 w-4" />
-              </span>
-              <p className="text-xs leading-relaxed text-navy-800">
-                <span className="font-bold text-navy-900">
-                  Prefer to talk first?
-                </span>{" "}
-                Call or WhatsApp us on{" "}
+                — your details are used only to arrange your match. Prefer to
+                talk first? Call{" "}
                 <a
                   href={`tel:${BUSINESS.phone}`}
                   className="inline-flex items-center gap-1 font-semibold text-navy-900 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
                 >
+                  <Phone className="h-3 w-3" aria-hidden="true" />
                   {BUSINESS.phoneDisplay}
-                </a>{" "}
-                — a real person will call you back.
+                </a>
+                .
               </p>
             </div>
           </div>
         </form>
+        )}
       </div>
     </div>
   );
