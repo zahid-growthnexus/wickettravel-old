@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/cn";
@@ -9,13 +10,18 @@ import { useI18n } from "@/lib/i18n";
 import { HOLIDAYS_URL, PORTAL_LOGIN_URL } from "@/lib/links";
 import TrustpilotBadge from "@/components/TrustpilotBadge";
 
+/* Hrefs are "/"-rooted (rather than bare "#anchor") so they still resolve
+   correctly to the right homepage section when clicked from About, Contact
+   or any other non-homepage route — not just from the homepage itself. */
 const NAV_LINKS: { key: string; href: string; external?: boolean }[] = [
-  { key: "nav.flights", href: "#top" },
+  { key: "nav.flights", href: "/" },
   { key: "nav.hotels", href: HOLIDAYS_URL, external: true },
   { key: "nav.cars", href: HOLIDAYS_URL, external: true },
-  { key: "nav.deals", href: "#deals" },
-  { key: "nav.dubaiVisa", href: "#dubai-visa" },
-  { key: "nav.parentsTickets", href: "#parents-tickets" },
+  { key: "nav.deals", href: "/#deals" },
+  { key: "nav.dubaiVisa", href: "/#dubai-visa" },
+  { key: "nav.parentsTickets", href: "/#parents-tickets" },
+  { key: "nav.about", href: "/about" },
+  { key: "nav.contact", href: "/contact" },
 ];
 
 export default function Header() {
@@ -62,7 +68,7 @@ export default function Header() {
       <div className="container-page flex h-16 items-center justify-between">
         {/* Logo — 2172×724 source (3:1); explicit width/height so there's no
             layout shift, height utilities keep it tidy inside the h-16 bar. */}
-        <a href="#top" className="group flex items-center" aria-label="Wicket Travel home">
+        <Link href="/" className="group flex items-center" aria-label="Wicket Travel home">
           <Image
             src="/logo-trans.png"
             alt="Wicket Travel"
@@ -71,20 +77,31 @@ export default function Header() {
             priority
             className="h-10 w-auto transition-transform duration-200 group-hover:-translate-y-0.5 sm:h-11"
           />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.key}
-              href={link.href}
-              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
-            >
-              {t(link.key)}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) =>
+            link.external ? (
+              <a
+                key={link.key}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+              >
+                {t(link.key)}
+              </a>
+            ) : (
+              <Link
+                key={link.key}
+                href={link.href}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+              >
+                {t(link.key)}
+              </Link>
+            )
+          )}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -168,17 +185,29 @@ export default function Header() {
               </div>
 
               <nav className="flex flex-1 flex-col gap-1 p-4" aria-label="Mobile">
-                {NAV_LINKS.map((link) => (
-                  <a
-                    key={link.key}
-                    href={link.href}
-                    {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    onClick={() => setOpen(false)}
-                    className="flex min-h-[44px] items-center rounded-lg px-3 text-base font-medium text-slate-700 transition-colors hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
-                  >
-                    {t(link.key)}
-                  </a>
-                ))}
+                {NAV_LINKS.map((link) =>
+                  link.external ? (
+                    <a
+                      key={link.key}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setOpen(false)}
+                      className="flex min-h-[44px] items-center rounded-lg px-3 text-base font-medium text-slate-700 transition-colors hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+                    >
+                      {t(link.key)}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.key}
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className="flex min-h-[44px] items-center rounded-lg px-3 text-base font-medium text-slate-700 transition-colors hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+                    >
+                      {t(link.key)}
+                    </Link>
+                  )
+                )}
               </nav>
 
               {/* Footer block — trust signal + primary CTA, pinned to bottom */}

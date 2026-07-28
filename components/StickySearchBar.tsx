@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Plane, Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
@@ -41,10 +42,10 @@ export default function StickySearchBar() {
                 {t("sticky.text")}
               </span>
             </div>
-            <a href="#top" className="btn-primary shrink-0 px-4 py-2 sm:px-5 sm:py-2.5">
+            <Link href="/" className="btn-primary shrink-0 px-4 py-2 sm:px-5 sm:py-2.5">
               <Search className="h-4 w-4" aria-hidden="true" />
               <span className="hidden sm:inline">{t("sticky.cta")}</span>
-            </a>
+            </Link>
           </div>
         </motion.div>
       )}
