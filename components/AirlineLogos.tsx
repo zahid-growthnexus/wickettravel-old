@@ -72,8 +72,7 @@ export default function AirlineLogos() {
     <section className="overflow-hidden bg-neutral-000 py-12 sm:py-16">
       <div className="container-page">
         <Reveal className="text-center">
-          <span className="t-overline text-accent-600">{t("trust.eyebrow")}</span>
-          <h2 className="t-h2 mt-3 text-primary-800">{t("trust.line")}</h2>
+          <h2 className="t-h2 text-primary-800">{t("trust.line")}</h2>
         </Reveal>
       </div>
 

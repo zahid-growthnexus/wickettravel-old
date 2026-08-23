@@ -157,8 +157,7 @@ export default function FeaturedAirlineFares() {
     <section id="deals" className="section scroll-mt-16 bg-neutral-000">
       <div className="container-page">
         <Reveal className="section-lead text-center">
-          <span className="t-overline text-accent-600">{t("fares.eyebrow")}</span>
-          <h2 className="t-h2 mt-3 text-primary-800">{t("fares.title")}</h2>
+          <h2 className="t-h2 text-primary-800">{t("fares.title")}</h2>
           <p className="t-body mt-4 text-text-secondary">{t("fares.lead")}</p>
         </Reveal>
 

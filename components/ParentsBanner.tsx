@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { HandHeart, MessageCircle, PhoneCall, Sparkles } from "lucide-react";
+import { MessageCircle, PhoneCall, Sparkles } from "lucide-react";
 import { Reveal } from "@/components/motion-primitives";
 import { WHATSAPP_URL } from "@/lib/links";
 
@@ -25,24 +25,11 @@ export default function ParentsBanner() {
       <div className="container-page">
         <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10">
           {/* Soft accent glows */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-accent-500/20 blur-3xl"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-primary-500/20 blur-3xl"
-          />
 
           <div className="relative grid items-center gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-[1fr_auto] lg:gap-12">
             <div className="text-center lg:text-left">
-              <span className="inline-flex items-center gap-2 rounded-full border border-neutral-000/20 bg-neutral-000/10 px-4 py-2">
-                <HandHeart className="h-4 w-4 text-accent-400" aria-hidden="true" />
-                <span className="t-overline text-text-on-dark">Parents Tickets</span>
-              </span>
-              <h2 id="parents-tickets-heading" className="t-h2 mt-6 text-text-on-dark">
-                Travelling with elderly parents,
-                <span className="text-accent-400"> made easier</span>
+              <h2 id="parents-tickets-heading" className="t-h2 text-text-on-dark">
+                Travelling with elderly parents, made easier
               </h2>
               <p className="t-body-lg mx-auto mt-4 max-w-xl text-primary-200 lg:mx-0">
                 We connect families who need someone to accompany an elderly

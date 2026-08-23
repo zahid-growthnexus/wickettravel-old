@@ -272,7 +272,6 @@ export default function TermsOfServicePage() {
       <Header />
       <main className="flex-1">
         <PageHero
-          eyebrow="Legal"
           title="Terms of Service"
           lead="The terms that apply when you search, enquire about or book a flight with Wicket Travel."
           breadcrumbs={[{ label: "Home", href: "/" }, { label: "Terms of Service" }]}

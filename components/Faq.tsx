@@ -16,8 +16,7 @@ export default function Faq() {
     >
       <div className="container-page">
         <div className="section-lead text-center">
-          <span className="t-overline text-accent-600">Frequently asked questions</span>
-          <h2 id="faq-heading" className="t-h2 mt-3 text-primary-800">
+          <h2 id="faq-heading" className="t-h2 text-primary-800">
             Booking cheap flights from the UK, answered
           </h2>
           <p className="t-body mt-4 text-text-secondary">

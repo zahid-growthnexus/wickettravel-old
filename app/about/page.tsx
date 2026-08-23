@@ -101,7 +101,6 @@ export default function AboutPage() {
       <Header />
       <main className="flex-1">
         <PageHero
-          eyebrow="About Wicket Travel"
           title="Trusted airline tickets, honest fares."
           lead="We compare fares across the world's leading airlines and connect you straight to the best deal from the UK — no reseller mark-ups, no hidden fees, just a straightforward way to book your next flight."
           breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
@@ -111,8 +110,7 @@ export default function AboutPage() {
         <section className="section bg-neutral-000">
           <div className="container-page grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal>
-              <span className="t-overline text-accent-600">Who we are</span>
-              <h2 className="t-h2 mt-3 text-primary-800">
+              <h2 className="t-h2 text-primary-800">
                 A UK flight-booking service built around one job: the best fare, done right
               </h2>
               <div className="t-body mt-6 space-y-4 text-text-secondary">
@@ -156,8 +154,7 @@ export default function AboutPage() {
         <section className="section bg-sand-500">
           <div className="container-page">
             <Reveal className="section-lead text-center">
-              <span className="t-overline text-accent-600">Our mission &amp; values</span>
-              <h2 className="t-h2 mt-3 text-primary-800">
+              <h2 className="t-h2 text-primary-800">
                 What guides every fare we find
               </h2>
               <p className="t-body mt-4 text-text-on-sand">
@@ -186,8 +183,7 @@ export default function AboutPage() {
         <section className="section bg-neutral-000">
           <div className="container-page">
             <Reveal className="section-lead text-center">
-              <span className="t-overline text-accent-600">Why choose us</span>
-              <h2 className="t-h2 mt-3 text-primary-800">
+              <h2 className="t-h2 text-primary-800">
                 Four reasons travelers keep coming back
               </h2>
             </Reveal>
@@ -215,8 +211,7 @@ export default function AboutPage() {
         <section className="section bg-sand-500">
           <div className="container-page">
             <div className="mx-auto max-w-3xl text-center">
-              <span className="t-overline text-accent-600">Booking with confidence</span>
-              <h2 className="t-h2 mt-3 text-primary-800">
+              <h2 className="t-h2 text-primary-800">
                 Real reviews, real protection
               </h2>
             </div>
@@ -270,10 +265,6 @@ export default function AboutPage() {
         <section className="section bg-neutral-000">
           <div className="container-page">
             <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 px-6 py-12 text-center shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10 sm:px-10 sm:py-16">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-accent-500/20 blur-3xl"
-              />
               <div className="relative mx-auto max-w-xl">
                 <h2 className="t-h2 text-text-on-dark">Ready to find your fare?</h2>
                 <p className="t-body mt-4 text-primary-100">

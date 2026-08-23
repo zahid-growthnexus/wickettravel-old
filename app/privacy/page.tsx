@@ -311,7 +311,6 @@ export default function PrivacyPolicyPage() {
       <Header />
       <main className="flex-1">
         <PageHero
-          eyebrow="Legal"
           title="Privacy Policy"
           lead="How we collect, use and protect your personal data — in plain English, under UK GDPR."
           breadcrumbs={[{ label: "Home", href: "/" }, { label: "Privacy Policy" }]}

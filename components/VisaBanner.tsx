@@ -8,7 +8,6 @@ import {
   Clock,
   Loader2,
   Send,
-  ShieldCheck,
   X,
 } from"lucide-react";
 import { Reveal } from"@/components/motion-primitives";
@@ -141,24 +140,11 @@ export default function VisaBanner() {
       <div className="container-page">
         <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10">
           {/* Soft accent glows */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-accent-500/20 blur-3xl"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-primary-500/20 blur-3xl"
-          />
 
           <div className="relative grid items-center gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-[1fr_auto] lg:gap-12">
             <div className="text-center lg:text-left">
-              <span className="inline-flex items-center gap-2 rounded-full border border-neutral-000/20 bg-neutral-000/10 px-4 py-2">
-                <ShieldCheck className="h-4 w-4 text-accent-400" aria-hidden="true" />
-                <span className="t-overline text-text-on-dark">Dubai Visa Specialists</span>
-              </span>
-              <h2 id="dubai-visa-heading" className="t-h2 mt-6 text-text-on-dark">
-                Dubai visa help,
-                <span className="text-accent-400"> handled end to end</span>
+              <h2 id="dubai-visa-heading" className="t-h2 text-text-on-dark">
+                Dubai visa help, handled end to end
               </h2>
               <p className="t-body-lg mx-auto mt-4 max-w-xl text-primary-200 lg:mx-0">
                 Expert support for your UAE tourist or visit visa — from the

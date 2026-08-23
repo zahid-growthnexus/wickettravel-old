@@ -31,8 +31,7 @@ export default function HowItWorks() {
     <section id="how-it-works" className="section scroll-mt-16 bg-primary-800">
       <div className="container-page">
         <Reveal className="section-lead text-center">
-          <span className="t-overline text-accent-400">{t("how.eyebrow")}</span>
-          <h2 className="t-h2 mt-3 text-text-on-dark">{t("how.title")}</h2>
+          <h2 className="t-h2 text-text-on-dark">{t("how.title")}</h2>
           <p className="t-body mt-4 text-primary-100">
             No accounts, no clutter, no pressure. Just trusted airline tickets at
             the best available fares.

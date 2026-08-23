@@ -7,31 +7,21 @@ type Crumb = { label: string; href?: string };
 
 /**
  * Shared banner for every interior content page (About, Contact, Privacy,
- * Terms, Refunds) — same navy gradient + accent glow treatment as the
- * homepage's dark sections (CallUsBand / DubaiVisa), so these pages read as
- * native extensions of the site rather than bolted-on static pages.
+ * Terms, Refunds) — same navy gradient treatment as the homepage's dark
+ * sections, so these pages read as native extensions of the site rather
+ * than bolted-on static pages.
  */
 export default function PageHero({
-  eyebrow,
   title,
   lead,
   breadcrumbs,
 }: {
-  eyebrow: string;
   title: ReactNode;
   lead?: ReactNode;
   breadcrumbs: Crumb[];
 }) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-900 to-primary-900 py-12 sm:py-16">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-accent-500/15 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-28 -left-16 h-64 w-64 rounded-full bg-primary-500/20 blur-3xl"
-      />
 
       <div className="container-page relative">
         <Reveal>
@@ -62,14 +52,7 @@ export default function PageHero({
             </ol>
           </nav>
 
-          <span className="t-overline mt-6 inline-flex items-center gap-2 text-accent-400">
-            <span
-              className="h-1.5 w-1.5 rounded-full bg-accent-400"
-              aria-hidden="true"
-            />
-            {eyebrow}
-          </span>
-          <h1 className="t-h1 mt-3 max-w-3xl text-text-on-dark">{title}</h1>
+          <h1 className="t-h1 mt-6 max-w-3xl text-text-on-dark">{title}</h1>
           {lead && (
             <p className="t-body-lg mt-4 max-w-2xl text-primary-100">{lead}</p>
           )}

@@ -38,7 +38,6 @@ const en: Dict = {
   "nav.parentsTickets": "Parents Tickets",
   "cta.getQuote": "Get Quote",
   "cta.searchDeals": "Search Flights",
-  "hero.badge": "Flights · Hotels & Car Rentals",
   "hero.title": "Trusted airline tickets",
   "hero.accent": "at the best fares",
   "hero.subline":
@@ -123,7 +122,6 @@ const es: Dict = {
   "nav.parentsTickets": "Billetes para Padres",
   "cta.getQuote": "Obtener cotización",
   "cta.searchDeals": "Buscar vuelos",
-  "hero.badge": "Vuelos · Hoteles y coches",
   "hero.title": "Billetes de avión de confianza",
   "hero.accent": "a las mejores tarifas",
   "hero.subline":
@@ -185,7 +183,6 @@ const fr: Dict = {
   "nav.parentsTickets": "Billets Parents",
   "cta.getQuote": "Obtenir un devis",
   "cta.searchDeals": "Rechercher des vols",
-  "hero.badge": "Vols · Hôtels et voitures",
   "hero.title": "Billets d'avion de confiance",
   "hero.accent": "aux meilleurs tarifs",
   "hero.subline":
@@ -246,7 +243,6 @@ const ar: Dict = {
   "nav.parentsTickets": "تذاكر الوالدين",
   "cta.getQuote": "اطلب عرض سعر",
   "cta.searchDeals": "ابحث عن رحلات",
-  "hero.badge": "رحلات · فنادق وسيارات",
   "hero.title": "تذاكر طيران موثوقة",
   "hero.accent": "بأفضل الأسعار",
   "hero.subline":
@@ -307,7 +303,6 @@ const ur: Dict = {
   "nav.parentsTickets": "والدین کے ٹکٹ",
   "cta.getQuote": "کوٹ حاصل کریں",
   "cta.searchDeals": "پروازیں تلاش کریں",
-  "hero.badge": "پروازیں · ہوٹل اور گاڑیاں",
   "hero.title": "بھروسہ مند ایئر لائن ٹکٹ",
   "hero.accent": "بہترین کرایوں پر",
   "hero.subline":

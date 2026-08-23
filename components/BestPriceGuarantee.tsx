@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import {
   BadgeCheck,
   Headset,
@@ -36,26 +35,14 @@ const FEATURES = [
 
 export default function BestPriceGuarantee() {
   const { t } = useI18n();
-  const reduce = useReducedMotion();
   return (
     <section className="section bg-sand-500">
       <div className="container-page">
         <div className="relative overflow-hidden rounded-lg bg-primary-800 p-8 sm:p-12 lg:p-16">
-          {/* Decorative glow */}
-          {!reduce && (
-            <motion.div
-              aria-hidden="true"
-              className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent-500/20 blur-3xl"
-              animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-            />
-          )}
-
           <div className="relative grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
             {/* Left — promise */}
             <Reveal>
-              <span className="t-overline text-accent-400">{t("guar.eyebrow")}</span>
-              <h2 className="t-h2 mt-3 text-text-on-dark">{t("guar.title")}</h2>
+              <h2 className="t-h2 text-text-on-dark">{t("guar.title")}</h2>
               <p className="t-body-lg mt-4 max-w-md text-primary-100">
                 We&apos;re on your side, not the seller&apos;s. From the first
                 search to the final redirect, every step is built to protect your

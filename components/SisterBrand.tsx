@@ -35,14 +35,6 @@ export default function SisterBrand() {
         className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-primary-500 via-[#f78839] to-[#188dd3]"
       />
       {/* Ambient brand glows — sunset behind the story, ocean behind the collage */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[#f78839]/15 blur-3xl"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-40 -right-24 h-[28rem] w-[28rem] rounded-full bg-[#188dd3]/15 blur-3xl"
-      />
 
       <div className="container-page relative">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">

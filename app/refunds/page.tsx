@@ -179,7 +179,6 @@ export default function RefundPolicyPage() {
       <Header />
       <main className="flex-1">
         <PageHero
-          eyebrow="Legal"
           title="Refund Policy"
           lead="How refunds and cancellations work when your flight is booked through Wicket Travel."
           breadcrumbs={[{ label: "Home", href: "/" }, { label: "Refund Policy" }]}

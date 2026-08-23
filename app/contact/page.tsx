@@ -52,7 +52,6 @@ export default function ContactPage() {
       <Header />
       <main className="flex-1">
         <PageHero
-          eyebrow="Get in touch"
           title="We're here to help, day or night."
           lead="Questions about a fare, an existing booking, or just want to talk to a real person before you pay? Reach us however suits you best."
           breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
@@ -63,8 +62,7 @@ export default function ContactPage() {
             {/* Contact details */}
             <div>
               <Reveal>
-                <span className="t-overline text-accent-600">Ways to reach us</span>
-                <h2 className="t-h2 mt-3 text-primary-800">Talk to a real person</h2>
+                <h2 className="t-h2 text-primary-800">Talk to a real person</h2>
               </Reveal>
 
               <Stagger className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
