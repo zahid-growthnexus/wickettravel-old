@@ -23,7 +23,7 @@ export default function ParentsBanner() {
       aria-labelledby="parents-tickets-heading"
     >
       <div className="container-page">
-        <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-2xl shadow-primary-900/30 ring-1 ring-neutral-000/10">
+        <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10">
           {/* Soft accent glows */}
           <div
             aria-hidden="true"
@@ -40,7 +40,7 @@ export default function ParentsBanner() {
                 <HandHeart className="h-4 w-4 text-accent-400" aria-hidden="true" />
                 <span className="t-overline text-text-on-dark">Parents Tickets</span>
               </span>
-              <h2 id="parents-tickets-heading" className="t-h2 mt-5 text-text-on-dark">
+              <h2 id="parents-tickets-heading" className="t-h2 mt-6 text-text-on-dark">
                 Travelling with elderly parents,
                 <span className="text-accent-400"> made easier</span>
               </h2>
@@ -49,7 +49,7 @@ export default function ParentsBanner() {
                 parent with trusted travellers already going the same way — and
                 our team personally arranges every introduction.
               </p>
-              <p className="mt-5 flex items-center justify-center gap-2 t-label-2 text-primary-300 lg:justify-start">
+              <p className="mt-6 flex items-center justify-center gap-2 t-label-2 text-primary-300 lg:justify-start">
                 <Sparkles className="h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
                 A warm, human service — no accounts, no fees to enquire.
               </p>
@@ -60,7 +60,7 @@ export default function ParentsBanner() {
                 href={`tel:${PHONE_TEL}`}
                 whileHover={reduce ? undefined : { scale: 1.03 }}
                 whileTap={reduce ? undefined : { scale: 0.98 }}
-                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-7 py-4 t-label-1 text-text-on-dark shadow-lg shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
+                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-8 py-4 t-label-1 text-text-on-dark shadow-e2 shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
                 aria-label={`Call us about Parents Tickets on ${PHONE_DISPLAY}`}
               >
                 <PhoneCall className="h-5 w-5" aria-hidden="true" />

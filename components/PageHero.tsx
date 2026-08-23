@@ -23,7 +23,7 @@ export default function PageHero({
   breadcrumbs: Crumb[];
 }) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-900 to-primary-900 py-14 sm:py-20">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-900 to-primary-900 py-12 sm:py-16">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-accent-500/15 blur-3xl"
@@ -36,9 +36,9 @@ export default function PageHero({
       <div className="container-page relative">
         <Reveal>
           <nav aria-label="Breadcrumb">
-            <ol className="flex flex-wrap items-center gap-1.5 t-label-3 text-primary-300">
+            <ol className="flex flex-wrap items-center gap-2 t-label-3 text-primary-300">
               {breadcrumbs.map((c, i) => (
-                <li key={c.label} className="flex items-center gap-1.5">
+                <li key={c.label} className="flex items-center gap-2">
                   {i > 0 && (
                     <ChevronRight
                       className="h-3.5 w-3.5 text-primary-500"
@@ -69,7 +69,7 @@ export default function PageHero({
             />
             {eyebrow}
           </span>
-          <h1 className="t-h2 mt-3 max-w-3xl text-text-on-dark">{title}</h1>
+          <h1 className="t-h1 mt-3 max-w-3xl text-text-on-dark">{title}</h1>
           {lead && (
             <p className="t-body-lg mt-4 max-w-2xl text-primary-100">{lead}</p>
           )}

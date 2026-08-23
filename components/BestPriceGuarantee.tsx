@@ -62,7 +62,7 @@ export default function BestPriceGuarantee() {
                 money and your data.
               </p>
 
-              <div className="mt-8 inline-flex items-center gap-4 rounded-lg bg-neutral-000/10 p-5 ring-1 ring-neutral-000/15 backdrop-blur-sm">
+              <div className="mt-8 inline-flex items-center gap-4 rounded-lg bg-neutral-000/10 p-6 ring-1 ring-neutral-000/15 backdrop-blur-sm">
                 <span className="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-accent-500 text-text-on-dark">
                   <ShieldCheck className="h-7 w-7" aria-hidden="true" />
                 </span>
@@ -80,13 +80,13 @@ export default function BestPriceGuarantee() {
               {FEATURES.map(({ icon: Icon, title, copy }) => (
                 <StaggerItem
                   key={title}
-                  className="rounded-lg bg-neutral-000/5 p-5 ring-1 ring-neutral-000/10 transition-colors duration-300 hover:bg-neutral-000/10"
+                  className="rounded-lg bg-neutral-000/5 p-6 ring-1 ring-neutral-000/10 transition-colors duration-300 hover:bg-neutral-000/10"
                 >
                   <span className="grid h-11 w-11 place-items-center rounded-md bg-primary-050/10 text-accent-200">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <h3 className="t-h3 mt-4 text-text-on-dark">{title}</h3>
-                  <p className="t-body-sm mt-1.5 text-primary-200">{copy}</p>
+                  <p className="t-body-sm mt-2 text-primary-200">{copy}</p>
                 </StaggerItem>
               ))}
             </Stagger>

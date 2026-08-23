@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Plane } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
-import { useI18n } from "@/lib/i18n";
+import { useState } from"react";
+import Image from"next/image";
+import { motion, useReducedMotion } from"framer-motion";
+import { ArrowRight, Plane } from"lucide-react";
+import { Reveal, Stagger, StaggerItem } from"@/components/motion-primitives";
+import { useI18n } from"@/lib/i18n";
 
 /**
  * Featured airlines grid. Each card pairs an aspirational aviation photo with
@@ -23,60 +23,60 @@ type Airline = {
 
 const AIRLINES: Airline[] = [
   {
-    code: "EK",
-    name: "Emirates",
-    title: "Fly with Emirates",
-    routes: ["Dubai — best available fares", "Bangkok — starting from low fares"],
-    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
+    code:"EK",
+    name:"Emirates",
+    title:"Fly with Emirates",
+    routes: ["Dubai — best available fares","Bangkok — starting from low fares"],
+    img:"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
   },
   {
-    code: "QR",
-    name: "Qatar Airways",
-    title: "Discover with Qatar Airways",
-    routes: ["Doha — best available fares", "Maldives — starting from low fares"],
-    img: "https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=900&q=80",
+    code:"QR",
+    name:"Qatar Airways",
+    title:"Discover with Qatar Airways",
+    routes: ["Doha — best available fares","Maldives — starting from low fares"],
+    img:"https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=900&q=80",
   },
   {
-    code: "BA",
-    name: "British Airways",
-    title: "Travel with British Airways",
-    routes: ["New York — best available fares", "Cape Town — starting from low fares"],
-    img: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=900&q=80",
+    code:"BA",
+    name:"British Airways",
+    title:"Travel with British Airways",
+    routes: ["New York — best available fares","Cape Town — starting from low fares"],
+    img:"https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=900&q=80",
   },
   {
-    code: "AI",
-    name: "Air India",
-    title: "Journey with Air India",
-    routes: ["Delhi — best available fares", "Mumbai — starting from low fares"],
-    img: "https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=900&q=80",
+    code:"AI",
+    name:"Air India",
+    title:"Journey with Air India",
+    routes: ["Delhi — best available fares","Mumbai — starting from low fares"],
+    img:"https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=900&q=80",
   },
   {
-    code: "VS",
-    name: "Virgin Atlantic",
-    title: "Soar with Virgin Atlantic",
-    routes: ["Orlando — best available fares", "Las Vegas — starting from low fares"],
-    img: "https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=900&q=80",
+    code:"VS",
+    name:"Virgin Atlantic",
+    title:"Soar with Virgin Atlantic",
+    routes: ["Orlando — best available fares","Las Vegas — starting from low fares"],
+    img:"https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=900&q=80",
   },
   {
-    code: "EY",
-    name: "Etihad Airways",
-    title: "Explore with Etihad",
-    routes: ["Abu Dhabi — best available fares", "Sydney — starting from low fares"],
-    img: "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=900&q=80",
+    code:"EY",
+    name:"Etihad Airways",
+    title:"Explore with Etihad",
+    routes: ["Abu Dhabi — best available fares","Sydney — starting from low fares"],
+    img:"https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=900&q=80",
   },
   {
-    code: "GF",
-    name: "Gulf Air",
-    title: "Connect with Gulf Air",
-    routes: ["Bahrain — best available fares", "Manila — starting from low fares"],
-    img: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=900&q=80",
+    code:"GF",
+    name:"Gulf Air",
+    title:"Connect with Gulf Air",
+    routes: ["Bahrain — best available fares","Manila — starting from low fares"],
+    img:"https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=900&q=80",
   },
   {
-    code: "LH",
-    name: "Lufthansa",
-    title: "Fly with Lufthansa",
-    routes: ["Frankfurt — best available fares", "Munich — starting from low fares"],
-    img: "https://images.unsplash.com/photo-1577185816322-21f2a92b1342?auto=format&fit=crop&w=900&q=80",
+    code:"LH",
+    name:"Lufthansa",
+    title:"Fly with Lufthansa",
+    routes: ["Frankfurt — best available fares","Munich — starting from low fares"],
+    img:"https://images.unsplash.com/photo-1577185816322-21f2a92b1342?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
@@ -84,11 +84,11 @@ function AirlineLogo({ code, name }: { code: string; name: string }) {
   const [failed, setFailed] = useState(false);
   return (
     <span
-      className="inline-grid h-12 min-w-[3.5rem] place-items-center rounded-md bg-neutral-000 px-3 shadow-md ring-1 ring-black/5"
+      className="inline-grid h-12 min-w-[3.5rem] place-items-center rounded-md bg-neutral-000 px-3 shadow-e2 ring-1 ring-primary-900/5"
       title={name}
     >
       {failed ? (
-        <span className="t-label-3 leading-tight text-primary-800">{name}</span>
+        <span className="t-label-3  text-primary-800">{name}</span>
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -112,7 +112,7 @@ function FareCard({ a }: { a: Airline }) {
     <motion.a
       href="#top"
       whileHover={reduce ? undefined : { y: -6 }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+      transition={{ type:"spring", stiffness: 300, damping: 22 }}
       className="card card-hover group flex h-full flex-col overflow-hidden"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
@@ -129,7 +129,7 @@ function FareCard({ a }: { a: Airline }) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-6">
         <h3 className="t-h3 t-body-lg text-primary-800">{a.title}</h3>
         <ul className="mt-3 space-y-2">
           {a.routes.map((r) => (
@@ -139,7 +139,7 @@ function FareCard({ a }: { a: Airline }) {
             </li>
           ))}
         </ul>
-        <span className="mt-5 inline-flex items-center gap-1.5 t-label-2 text-accent-600 transition-colors group-hover:text-accent-500">
+        <span className="mt-6 inline-flex items-center gap-2 t-label-2 text-accent-600 transition-colors group-hover:text-accent-500">
           {t("fares.cta")}
           <ArrowRight
             className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"

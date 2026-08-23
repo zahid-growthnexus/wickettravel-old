@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import { ArrowRight, ArrowUpRight, BadgeCheck, Headphones, ShieldCheck, Sparkles } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
-import { HOLIDAYS_URL } from "@/lib/links";
+import Image from"next/image";
+import { ArrowRight, ArrowUpRight, BadgeCheck, Headphones, ShieldCheck, Sparkles } from"lucide-react";
+import { Reveal, Stagger, StaggerItem } from"@/components/motion-primitives";
+import { HOLIDAYS_URL } from"@/lib/links";
 
 /**
- * "Meet Wicket Travel Holidays" — introduces the sister brand so every
+ *"Meet Wicket Travel Holidays" — introduces the sister brand so every
  * hotels/cars/packages redirect on this page has context. The section bridges
  * both identities: our navy design system carries the layout, while the
  * Holidays brand supplies the accents — its logo (served locally from
@@ -15,12 +15,12 @@ import { HOLIDAYS_URL } from "@/lib/links";
  * shows the properties themselves; this section is about the brand.
  */
 
-const SUNSET_GRADIENT = "linear-gradient(100deg, #febb38 0%, #f78839 55%, #f1573b 100%)";
+const SUNSET_GRADIENT ="linear-gradient(100deg, #febb38 0%, #f78839 55%, #f1573b 100%)";
 
 const TRUST_CUES = [
-  { icon: Sparkles, label: "Handpicked stays" },
-  { icon: ShieldCheck, label: "Best-price promise" },
-  { icon: Headphones, label: "24/7 support" },
+  { icon: Sparkles, label:"Handpicked stays" },
+  { icon: ShieldCheck, label:"Best-price promise" },
+  { icon: Headphones, label:"24/7 support" },
 ] as const;
 
 export default function SisterBrand() {
@@ -45,7 +45,7 @@ export default function SisterBrand() {
       />
 
       <div className="container-page relative">
-        <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-10">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
           {/* Brand story */}
           <Stagger amount={0.2} className="lg:col-span-6">
             <StaggerItem>
@@ -61,7 +61,7 @@ export default function SisterBrand() {
 
             <StaggerItem>
               <h2 id="sister-brand-heading" className="t-h2 mt-4 text-text-on-dark">
-                Meet{" "}
+                Meet{""}
                 <span
                   className="bg-clip-text text-transparent"
                   style={{ backgroundImage: SUNSET_GRADIENT }}
@@ -72,7 +72,7 @@ export default function SisterBrand() {
             </StaggerItem>
 
             <StaggerItem>
-              <p className="t-body-lg mt-5 max-w-xl text-primary-100">
+              <p className="t-body-lg mt-6 max-w-xl text-primary-100">
                 Flights are our craft — everything around them belongs to our
                 dedicated holidays brand. Handpicked hotels and resorts, tailored
                 packages and car rentals, with the same best-price promise you
@@ -81,7 +81,7 @@ export default function SisterBrand() {
             </StaggerItem>
 
             <StaggerItem>
-              <ul className="mt-7 flex flex-wrap gap-2.5">
+              <ul className="mt-8 flex flex-wrap gap-3">
                 {TRUST_CUES.map(({ icon: Icon, label }) => (
                   <li
                     key={label}
@@ -100,7 +100,7 @@ export default function SisterBrand() {
                   href={HOLIDAYS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 t-label-2 text-primary-900 shadow-lg shadow-[#f1573b]/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#f1573b]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#febb38] focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 t-label-2 text-primary-900 shadow-e2 shadow-[#f1573b]/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-e3 hover:shadow-[#f1573b]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#febb38] focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
                   style={{ background: SUNSET_GRADIENT }}
                 >
                   Explore Wicket Travel Holidays
@@ -109,7 +109,7 @@ export default function SisterBrand() {
                 </a>
                 <a
                   href="#hotels"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-000/15 bg-neutral-000/5 px-7 py-3 t-label-2 text-text-on-dark transition-colors duration-200 hover:bg-neutral-000/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-000/15 bg-neutral-000/5 px-8 py-3 t-label-2 text-text-on-dark transition-colors duration-200 hover:bg-neutral-000/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
                 >
                   Browse hotels & resorts
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -131,7 +131,7 @@ export default function SisterBrand() {
               <div className="relative aspect-[7/6]">
                 <StaggerItem
                   distance={28}
-                  className="absolute right-0 top-0 h-[74%] w-[76%] overflow-hidden rounded-lg shadow-2xl ring-1 ring-neutral-000/15"
+                  className="absolute right-0 top-0 h-[74%] w-[76%] overflow-hidden rounded-lg shadow-e3 ring-1 ring-neutral-000/15"
                 >
                   <Image
                     src="/hotels/maldives-overwater.jpg"
@@ -148,7 +148,7 @@ export default function SisterBrand() {
                   className="absolute bottom-[14%] left-0 h-[54%] w-[46%]"
                 >
                   {/* Rotation lives on this wrapper so framer's transform animation can't reset it */}
-                  <div className="relative h-full w-full -rotate-2 overflow-hidden rounded-lg shadow-2xl ring-[6px] ring-primary-900">
+                  <div className="relative h-full w-full -rotate-2 overflow-hidden rounded-lg shadow-e3 ring-[6px] ring-primary-900">
                     <Image
                       src="/hotels/santorini-suites.jpg"
                       alt="Cliffside suites in Santorini from the Wicket Travel Holidays collection"
@@ -164,8 +164,8 @@ export default function SisterBrand() {
                   distance={28}
                   className="absolute bottom-0 right-0 max-w-[min(100%,20rem)]"
                 >
-                  <div className="flex items-center gap-3.5 rounded-lg border border-neutral-000/15 bg-neutral-000/10 p-3.5 shadow-2xl backdrop-blur-md">
-                    <span className="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-neutral-000 p-1.5 shadow-sm">
+                  <div className="flex items-center gap-4 rounded-lg border border-neutral-000/15 bg-neutral-000/10 p-4 shadow-e3 backdrop-blur-md">
+                    <span className="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-neutral-000 p-2 shadow-e1">
                       <Image
                         src="/holidays/wicket-travel-holidays-logo.png"
                         alt="Wicket Travel Holidays logo"
@@ -175,10 +175,10 @@ export default function SisterBrand() {
                       />
                     </span>
                     <span>
-                      <span className="block t-label-2 leading-tight text-text-on-dark">
+                      <span className="block t-label-2 text-text-on-dark">
                         Wicket Travel Holidays
                       </span>
-                      <span className="mt-0.5 block t-label-3 text-primary-100">
+                      <span className="mt-1 block t-label-3 text-primary-100">
                         Hotels · Resorts · Packages · Car rentals
                       </span>
                     </span>
@@ -188,7 +188,7 @@ export default function SisterBrand() {
             </div>
 
             <Reveal delay={0.25} className="mt-6 text-center lg:text-left">
-              <p className="t-label-3 uppercase tracking-[0.14em] text-primary-300">
+              <p className="t-label-3 uppercase  text-primary-300">
                 One family · two specialists — flights here, holidays there
               </p>
             </Reveal>

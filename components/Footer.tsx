@@ -1,56 +1,56 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
-import { FacebookIcon, InstagramIcon, XIcon } from "@/components/SocialIcons";
-import { HOLIDAYS_URL } from "@/lib/links";
+import Image from"next/image";
+import Link from"next/link";
+import { Mail, MapPin, Phone } from"lucide-react";
+import { FacebookIcon, InstagramIcon, XIcon } from"@/components/SocialIcons";
+import { HOLIDAYS_URL } from"@/lib/links";
 
 /** Internal routes wired up for the footer's link columns — everything else
- *  in COLUMNS stays a "#" placeholder until that page exists. */
+ *  in COLUMNS stays a"#" placeholder until that page exists. */
 const ROUTES: Record<string, string> = {
-  "About us": "/about",
-  "Contact us": "/contact",
-  Refunds: "/refunds",
+  "About us":"/about",
+  "Contact us":"/contact",
+  Refunds:"/refunds",
 };
 
 const COLUMNS = [
   {
-    title: "Explore",
-    links: ["Flights", "Hotels", "Car Rental", "Deals", "Travel guides"],
+    title:"Explore",
+    links: ["Flights","Hotels","Car Rental","Deals","Travel guides"],
   },
   {
-    title: "Company",
-    links: ["About us", "How it works", "Partners", "Careers", "Press"],
+    title:"Company",
+    links: ["About us","How it works","Partners","Careers","Press"],
   },
   {
-    title: "Support",
-    links: ["Help center", "Contact us", "Manage booking", "Refunds", "FAQs"],
+    title:"Support",
+    links: ["Help center","Contact us","Manage booking","Refunds","FAQs"],
   },
 ];
 
 const SOCIALS = [
-  { icon: XIcon, label: "X (Twitter)", href: "https://x.com/WicketTravel" },
+  { icon: XIcon, label:"X (Twitter)", href:"https://x.com/WicketTravel" },
   {
     icon: InstagramIcon,
-    label: "Instagram",
-    href: "https://www.instagram.com/wickettravel/",
+    label:"Instagram",
+    href:"https://www.instagram.com/wickettravel/",
   },
   {
     icon: FacebookIcon,
-    label: "Facebook",
-    href: "https://www.facebook.com/profile.php?id=61581927811628&sk=followers",
+    label:"Facebook",
+    href:"https://www.facebook.com/profile.php?id=61581927811628&sk=followers",
   },
 ];
 
 export default function Footer() {
   return (
     <footer className="bg-primary-900 text-primary-100">
-      <div className="container-page py-12 lg:py-14">
+      <div className="container-page py-12 lg:py-12">
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-5">
           {/* Brand + contact + socials */}
           <div className="col-span-2">
             {/* White-recolored logo variant: the navy artwork would vanish on
-                the primary-900 footer, so mark + "Wicket" are flipped to white
-                while the orange "Travel" is kept as-is. */}
+                the primary-900 footer, so mark +"Wicket" are flipped to white
+                while the orange"Travel" is kept as-is. */}
             <Image
               src="/logo-white.png"
               alt="Wicket Travel"
@@ -58,12 +58,12 @@ export default function Footer() {
               height={48}
               className="h-11 w-auto"
             />
-            <p className="mt-4 max-w-sm t-body-sm leading-relaxed text-primary-200">
+            <p className="mt-4 max-w-sm t-body-sm  text-primary-200">
               We book trusted airline tickets at the best available fares —
               connecting you to the world&apos;s leading carriers, with no hidden
               booking fees.
             </p>
-            <ul className="mt-5 space-y-2.5 t-body-sm">
+            <ul className="mt-6 space-y-3 t-body-sm">
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
                 <a href="mailto:info@wickettravel.com" className="hover:text-text-on-dark">
@@ -106,10 +106,10 @@ export default function Footer() {
               <h3 className="t-label-2 uppercase text-text-on-dark">
                 {col.title}
               </h3>
-              <ul className="mt-4 space-y-2.5 t-body-sm">
+              <ul className="mt-4 space-y-3 t-body-sm">
                 {col.links.map((link) => {
                   // Hotels & car rentals live on the holidays site — open externally.
-                  const isHolidays = link === "Hotels" || link === "Car Rental";
+                  const isHolidays = link ==="Hotels" || link ==="Car Rental";
                   const route = ROUTES[link];
                   const className =
                     "text-primary-200 transition-colors hover:text-text-on-dark focus-visible:outline-none focus-visible:text-text-on-dark";

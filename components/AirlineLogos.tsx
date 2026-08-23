@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { useReducedMotion } from "framer-motion";
-import { ShieldCheck } from "lucide-react";
-import { Reveal } from "@/components/motion-primitives";
-import { useI18n } from "@/lib/i18n";
+import { useState } from"react";
+import { useReducedMotion } from"framer-motion";
+import { ShieldCheck } from"lucide-react";
+import { Reveal } from"@/components/motion-primitives";
+import { useI18n } from"@/lib/i18n";
 
 /**
  * Trust strip of real airline logos so travelers know these are the carriers
@@ -15,26 +15,26 @@ import { useI18n } from "@/lib/i18n";
  * track); hover pauses it, and reduced motion swaps in a static scrollable row.
  */
 const AIRLINES = [
-  { code: "BA", name: "British Airways" },
-  { code: "VS", name: "Virgin Atlantic" },
-  { code: "AI", name: "Air India" },
-  { code: "6E", name: "IndiGo" },
-  { code: "EK", name: "Emirates" },
-  { code: "QR", name: "Qatar Airways" },
-  { code: "GF", name: "Gulf Air" },
-  { code: "EY", name: "Etihad Airways" },
-  { code: "LH", name: "Lufthansa" },
+  { code:"BA", name:"British Airways" },
+  { code:"VS", name:"Virgin Atlantic" },
+  { code:"AI", name:"Air India" },
+  { code:"6E", name:"IndiGo" },
+  { code:"EK", name:"Emirates" },
+  { code:"QR", name:"Qatar Airways" },
+  { code:"GF", name:"Gulf Air" },
+  { code:"EY", name:"Etihad Airways" },
+  { code:"LH", name:"Lufthansa" },
 ];
 
 function LogoSlot({ code, name }: { code: string; name: string }) {
   const [failed, setFailed] = useState(false);
   return (
     <div
-      className="flex h-20 w-44 shrink-0 items-center justify-center rounded-lg border border-neutral-300 bg-neutral-000 px-4 shadow-sm transition-shadow duration-300 hover:shadow-md sm:w-48"
+      className="flex h-20 w-44 shrink-0 items-center justify-center rounded-lg border border-neutral-300 bg-neutral-000 px-4 shadow-e1 transition-shadow duration-300 hover:shadow-e2 sm:w-48"
       title={name}
     >
       {failed ? (
-        <span className="text-center t-label-2 leading-tight text-primary-800">
+        <span className="text-center t-label-2  text-primary-800">
           {name}
         </span>
       ) : (
@@ -63,13 +63,13 @@ export default function AirlineLogos() {
       className="flex shrink-0 items-center gap-4 pr-4"
     >
       {AIRLINES.map((a) => (
-        <LogoSlot key={`${ariaHidden ? "dup-" : ""}${a.code}`} {...a} />
+        <LogoSlot key={`${ariaHidden ?"dup-" :""}${a.code}`} {...a} />
       ))}
     </div>
   );
 
   return (
-    <section className="overflow-hidden bg-neutral-000 py-14 sm:py-16">
+    <section className="overflow-hidden bg-neutral-000 py-12 sm:py-16">
       <div className="container-page">
         <Reveal className="text-center">
           <span className="t-overline text-accent-600">{t("trust.eyebrow")}</span>
@@ -79,7 +79,7 @@ export default function AirlineLogos() {
 
       <Reveal delay={0.05} className="mt-10">
         {reduce ? (
-          <div className="flex gap-4 overflow-x-auto px-5 pb-2 sm:px-8">
+          <div className="flex gap-4 overflow-x-auto px-6 pb-2 sm:px-8">
             {AIRLINES.map((a) => (
               <LogoSlot key={a.code} {...a} />
             ))}

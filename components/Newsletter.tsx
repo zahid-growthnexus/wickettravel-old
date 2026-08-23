@@ -13,7 +13,7 @@ export default function Newsletter() {
     <section id="newsletter" className="section scroll-mt-16 bg-sand-500">
       <div className="container-page">
         <Reveal>
-          <div className="relative overflow-hidden rounded-lg bg-primary-800 px-6 py-12 shadow-xl sm:px-12 sm:py-16">
+          <div className="relative overflow-hidden rounded-lg bg-primary-800 px-6 py-12 shadow-e3 sm:px-12 sm:py-16">
             {/* Decorative accents */}
             <div
               aria-hidden="true"
@@ -37,11 +37,11 @@ export default function Newsletter() {
             )}
 
             <div className="relative mx-auto max-w-2xl text-center">
-              <span className="inline-flex items-center gap-2 rounded-full bg-accent-500 px-4 py-1.5 t-label-3 text-text-on-dark">
+              <span className="inline-flex items-center gap-2 rounded-full bg-accent-500 px-4 py-2 t-label-3 text-text-on-dark">
                 <BellRing className="h-4 w-4" aria-hidden="true" />
                 Deal alerts
               </span>
-              <h2 className="t-h2 mt-5 text-text-on-dark">{t("news.title")}</h2>
+              <h2 className="t-h2 mt-6 text-text-on-dark">{t("news.title")}</h2>
               <p className="t-body-lg mx-auto mt-4 max-w-xl text-primary-100">{t("news.lead")}</p>
 
               <form
@@ -56,7 +56,7 @@ export default function Newsletter() {
                   type="email"
                   required
                   placeholder={t("news.placeholder")}
-                  className="h-12 w-full rounded-full border border-neutral-000/20 bg-neutral-000 px-5 t-label-2 text-primary-800 placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-accent-400"
+                  className="h-12 w-full rounded-full border border-neutral-000/20 bg-neutral-000 px-6 t-label-2 text-primary-800 placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-accent-400"
                 />
                 <button
                   type="submit"

@@ -31,10 +31,10 @@ export default function StickySearchBar() {
              but forced a full-width backdrop-filter repaint on every scroll
              frame (a top cause of Android Chrome jank). Dropped — looks the
              same, composites far cheaper. */
-          className="fixed inset-x-0 top-16 z-40 border-b border-primary-100 bg-neutral-000/95 shadow-sm"
+          className="fixed inset-x-0 top-16 z-40 border-b border-primary-100 bg-neutral-000/95 shadow-e1"
         >
           <div className="container-page flex h-14 items-center justify-between gap-4">
-            <div className="flex min-w-0 items-center gap-2.5">
+            <div className="flex min-w-0 items-center gap-3">
               <span className="grid h-8 w-8 shrink-0 place-items-center rounded-sm bg-primary-050 text-primary-700">
                 <Plane className="h-4 w-4 -rotate-45" aria-hidden="true" />
               </span>
@@ -42,7 +42,7 @@ export default function StickySearchBar() {
                 {t("sticky.text")}
               </span>
             </div>
-            <Link href="/" className="btn btn-primary shrink-0 px-4 py-2 sm:px-5 sm:py-2.5">
+            <Link href="/" className="btn btn-primary shrink-0 px-4 py-2 sm:px-6 sm:py-3">
               <Search className="h-4 w-4" aria-hidden="true" />
               <span className="hidden sm:inline">{t("sticky.cta")}</span>
             </Link>

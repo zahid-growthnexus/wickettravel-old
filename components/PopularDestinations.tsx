@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Star } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
-import { useI18n } from "@/lib/i18n";
-import { HOLIDAYS_URL } from "@/lib/links";
+import Image from"next/image";
+import { motion, useReducedMotion } from"framer-motion";
+import { ArrowUpRight, Star } from"lucide-react";
+import { Reveal, Stagger, StaggerItem } from"@/components/motion-primitives";
+import { useI18n } from"@/lib/i18n";
+import { HOLIDAYS_URL } from"@/lib/links";
 
 /**
  * Handpicked hotels & resorts from our sister site, Wicket Travel Holidays.
@@ -21,40 +21,40 @@ type Resort = {
 
 const RESORTS: Resort[] = [
   {
-    name: "Ocean Pearl Overwater Villas",
-    location: "Maldives",
-    tag: "Overwater villas · house reef",
-    img: "/hotels/maldives-overwater.jpg",
+    name:"Ocean Pearl Overwater Villas",
+    location:"Maldives",
+    tag:"Overwater villas · house reef",
+    img:"/hotels/maldives-overwater.jpg",
   },
   {
-    name: "Caldera Cliff Suites",
-    location: "Santorini, Greece",
-    tag: "Sunset caldera views",
-    img: "/hotels/santorini-suites.jpg",
+    name:"Caldera Cliff Suites",
+    location:"Santorini, Greece",
+    tag:"Sunset caldera views",
+    img:"/hotels/santorini-suites.jpg",
   },
   {
-    name: "Azure Horizon Resort & Spa",
-    location: "Bali, Indonesia",
-    tag: "Clifftop infinity pool",
-    img: "/hotels/clifftop-pool.jpg",
+    name:"Azure Horizon Resort & Spa",
+    location:"Bali, Indonesia",
+    tag:"Clifftop infinity pool",
+    img:"/hotels/clifftop-pool.jpg",
   },
   {
-    name: "Emerald Bay Pool Villas",
-    location: "Krabi, Thailand",
-    tag: "Private villas · lagoon pool",
-    img: "/hotels/tropical-villas.jpg",
+    name:"Emerald Bay Pool Villas",
+    location:"Krabi, Thailand",
+    tag:"Private villas · lagoon pool",
+    img:"/hotels/tropical-villas.jpg",
   },
   {
-    name: "Lagoon Cabana Retreat",
-    location: "Koh Samui, Thailand",
-    tag: "Beachfront cabanas",
-    img: "/hotels/lagoon-cabanas.jpg",
+    name:"Lagoon Cabana Retreat",
+    location:"Koh Samui, Thailand",
+    tag:"Beachfront cabanas",
+    img:"/hotels/lagoon-cabanas.jpg",
   },
   {
-    name: "Teakwood Garden Suites",
-    location: "Chiang Mai, Thailand",
-    tag: "Boutique garden suites",
-    img: "/hotels/boutique-suite.jpg",
+    name:"Teakwood Garden Suites",
+    location:"Chiang Mai, Thailand",
+    tag:"Boutique garden suites",
+    img:"/hotels/boutique-suite.jpg",
   },
 ];
 
@@ -66,8 +66,8 @@ function ResortCard({ r }: { r: Resort }) {
       target="_blank"
       rel="noopener noreferrer"
       whileHover={reduce ? undefined : { y: -6 }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="group relative block aspect-[4/5] overflow-hidden rounded-lg shadow-sm ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+      transition={{ type:"spring", stiffness: 300, damping: 22 }}
+      className="group relative block aspect-[4/5] overflow-hidden rounded-lg shadow-e1 ring-1 ring-primary-900/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
     >
       <Image
         src={r.img}
@@ -78,12 +78,12 @@ function ResortCard({ r }: { r: Resort }) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-primary-900/85 via-primary-900/15 to-transparent" />
 
-      <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-neutral-000/95 px-3 py-1 t-label-3 text-primary-800 shadow-sm">
+      <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-neutral-000/95 px-3 py-1 t-label-3 text-primary-800 shadow-e1">
         <Star className="h-3 w-3 fill-accent-400 text-accent-400" aria-hidden="true" />
         Exclusive collection
       </span>
 
-      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
         <div>
           <h3 className="t-h3 t-body-lg text-text-on-dark">{r.name}</h3>
           <p className="t-body-sm text-primary-100">{r.location}</p>
@@ -110,7 +110,7 @@ export default function PopularDestinations() {
             href={HOLIDAYS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 inline-flex items-center gap-1.5 t-label-2 text-primary-700 transition-colors hover:text-primary-700"
+            className="mt-3 inline-flex items-center gap-2 t-label-2 text-primary-700 transition-colors hover:text-primary-700"
           >
             In partnership with Wicket Travel Holidays
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -134,7 +134,7 @@ export default function PopularDestinations() {
             href={HOLIDAYS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-primary px-7 py-3"
+            className="btn btn-primary px-8 py-3"
           >
             {t("hotels.cta")}
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

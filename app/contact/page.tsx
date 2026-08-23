@@ -148,7 +148,7 @@ export default function ContactPage() {
 
               {/* Map */}
               <Reveal delay={0.15} className="mt-8">
-                <div className="overflow-hidden rounded-lg border border-neutral-300/80 shadow-sm">
+                <div className="overflow-hidden rounded-lg border border-neutral-300/80 shadow-e1">
                   <iframe
                     title="Map showing the Wicket Travel Limited office area in Hounslow, London"
                     src={`https://maps.google.com/maps?q=${encodeURIComponent(

@@ -39,7 +39,7 @@ export default function HowItWorks() {
           </p>
         </Reveal>
 
-        <Stagger className="relative mt-14 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
+        <Stagger className="relative mt-12 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
           {/* Connecting line on desktop */}
           <div
             aria-hidden="true"
@@ -47,10 +47,10 @@ export default function HowItWorks() {
           />
           {STEPS.map(({ icon: Icon, step, title, body }) => (
             <StaggerItem key={step} className="relative text-center">
-              <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg bg-accent-500 text-text-on-dark shadow-lg shadow-accent-500/30 ring-8 ring-primary-800">
+              <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg bg-accent-500 text-text-on-dark shadow-e2 shadow-accent-500/30 ring-8 ring-primary-800">
                 <Icon className="h-7 w-7" aria-hidden="true" />
               </div>
-              <div className="mt-5 t-label-2 text-accent-400">
+              <div className="mt-6 t-label-2 text-accent-400">
                 STEP {step}
               </div>
               <h3 className="t-h3 mt-2 t-body-lg text-text-on-dark">{title}</h3>

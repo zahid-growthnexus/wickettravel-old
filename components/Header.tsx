@@ -58,7 +58,7 @@ export default function Header() {
           // Solid-ish white instead of bg-neutral-000/90 + backdrop-blur: a sticky,
           // full-width backdrop-filter repaints every scroll frame on Android.
           // /95 is visually indistinguishable from the frosted version.
-          ? "border-b border-primary-100 bg-neutral-000/95 shadow-sm"
+          ? "border-b border-primary-100 bg-neutral-000/95 shadow-e1"
           : "border-b border-transparent bg-neutral-000/0"
       )}
     >
@@ -104,7 +104,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <a
             href={PORTAL_LOGIN_URL}
-            className="hidden rounded-full bg-accent-500 px-5 py-2.5 t-label-2 text-text-on-dark shadow-sm transition-all duration-200 hover:bg-accent-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 sm:inline-flex"
+            className="hidden rounded-full bg-accent-500 px-6 py-3 t-label-2 text-text-on-dark shadow-e1 transition-all duration-200 hover:bg-accent-600 hover:shadow-e2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 sm:inline-flex"
           >
             {t("cta.getQuote")}
           </a>
@@ -154,10 +154,10 @@ export default function Header() {
                   ? { duration: 0.15 }
                   : { type: "spring", stiffness: 320, damping: 34 }
               }
-              className="fixed inset-y-0 right-0 z-50 flex w-[min(20rem,82vw)] flex-col overflow-y-auto overscroll-contain bg-neutral-000 shadow-2xl shadow-primary-900/20 lg:hidden"
+              className="fixed inset-y-0 right-0 z-50 flex w-[min(20rem,82vw)] flex-col overflow-y-auto overscroll-contain bg-neutral-000 shadow-e3 shadow-primary-900/20 lg:hidden"
             >
               {/* Drawer header */}
-              <div className="flex h-16 shrink-0 items-center justify-between border-b border-primary-100 px-5">
+              <div className="flex h-16 shrink-0 items-center justify-between border-b border-primary-100 px-6">
                 <Image
                   src="/logo-trans.png"
                   alt="Wicket Travel"
@@ -202,11 +202,11 @@ export default function Header() {
               </nav>
 
               {/* Footer block — primary CTA, pinned to bottom */}
-              <div className="mt-auto shrink-0 border-t border-primary-100 p-5">
+              <div className="mt-auto shrink-0 border-t border-primary-100 p-6">
                 <a
                   href={PORTAL_LOGIN_URL}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-[48px] items-center justify-center rounded-full bg-accent-500 px-5 t-label-1 text-text-on-dark shadow-sm transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+                  className="flex min-h-[48px] items-center justify-center rounded-full bg-accent-500 px-6 t-label-1 text-text-on-dark shadow-e1 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
                 >
                   {t("cta.getQuote")}
                 </a>

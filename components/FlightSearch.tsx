@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useId, useRef, useState } from"react";
+import { AnimatePresence, motion, useReducedMotion } from"framer-motion";
 import {
   ArrowRightLeft,
   CalendarDays,
@@ -17,15 +17,15 @@ import {
   Search,
   SlidersHorizontal,
   Users,
-} from "lucide-react";
-import { cn } from "@/lib/cn";
-import { useI18n } from "@/lib/i18n";
-import { type Airport, formatAirport, searchAirports } from "@/lib/airports";
-import { HOLIDAYS_URL, PORTAL_BOOKING_URL } from "@/lib/links";
+} from"lucide-react";
+import { cn } from"@/lib/cn";
+import { useI18n } from"@/lib/i18n";
+import { type Airport, formatAirport, searchAirports } from"@/lib/airports";
+import { HOLIDAYS_URL, PORTAL_BOOKING_URL } from"@/lib/links";
 
-type Tab = "flights" | "hotels" | "cars";
+type Tab ="flights" |"hotels" |"cars";
 
-const CABINS = ["Economy", "Premium Economy", "Business", "First"] as const;
+const CABINS = ["Economy","Premium Economy","Business","First"] as const;
 const AIRLINES = [
   "British Airways",
   "Virgin Atlantic",
@@ -111,16 +111,16 @@ function AirportField({
           onFocus={() => setOpen(true)}
           onKeyDown={(e) => {
             if (!showPanel) return;
-            if (e.key === "ArrowDown") {
+            if (e.key ==="ArrowDown") {
               e.preventDefault();
               setActive((i) => Math.min(i + 1, results.length - 1));
-            } else if (e.key === "ArrowUp") {
+            } else if (e.key ==="ArrowUp") {
               e.preventDefault();
               setActive((i) => Math.max(i - 1, 0));
-            } else if (e.key === "Enter" && results[active]) {
+            } else if (e.key ==="Enter" && results[active]) {
               e.preventDefault();
               select(results[active]);
-            } else if (e.key === "Escape") {
+            } else if (e.key ==="Escape") {
               setOpen(false);
             }
           }}
@@ -137,7 +137,7 @@ function AirportField({
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
             transition={{ duration: 0.15 }}
-            className="absolute left-0 right-0 top-full z-30 mt-2 max-h-72 overflow-auto rounded-md border border-neutral-300 bg-neutral-000 py-1.5 shadow-xl shadow-primary-900/15"
+            className="absolute left-0 right-0 top-full z-30 mt-2 max-h-72 overflow-auto rounded-md border border-neutral-300 bg-neutral-000 py-2 shadow-e3 shadow-primary-900/15"
           >
             {results.length === 0 ? (
               <li className="px-4 py-3 t-body-sm text-text-secondary">{t("fs.noResults")}</li>
@@ -150,16 +150,16 @@ function AirportField({
                     onClick={() => select(a)}
                     onMouseEnter={() => setActive(i)}
                     className={cn(
-                      "flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors",
-                      i === active ? "bg-primary-050" : "hover:bg-neutral-050"
+                      "flex w-full items-center gap-3 px-4 py-3 text-left transition-colors",
+                      i === active ?"bg-primary-050" :"hover:bg-neutral-050"
                     )}
                   >
                     <span
                       className={cn(
                         "grid h-8 w-8 shrink-0 place-items-center rounded-sm t-label-3",
                         a.metro
-                          ? "bg-accent-100 text-accent-700"
-                          : "bg-primary-050 text-primary-700"
+                          ?"bg-accent-100 text-accent-700"
+                          :"bg-primary-050 text-primary-700"
                       )}
                     >
                       {a.code}
@@ -221,7 +221,7 @@ function Stepper({
   onChange: (v: number) => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 py-1.5">
+    <div className="flex items-center justify-between gap-4 py-2">
       <span className="t-label-2 text-primary-800">{label}</span>
       <div className="flex items-center gap-3">
         <button
@@ -267,7 +267,7 @@ function TravelersField({
   const [childAges, setChildAges] = useState<string[]>([]);
   const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
   const total = adults + childrenCount;
-  const summary = `${total} ${total === 1 ? "traveler" : "travelers"}`;
+  const summary = `${total} ${total === 1 ?"traveler" :"travelers"}`;
 
   // Keep one age box per child: grow with blanks, shrink from the end.
   const updateChildren = (n: number) => {
@@ -295,7 +295,7 @@ function TravelersField({
         <ChevronDown
           className={cn(
             "h-4 w-4 shrink-0 text-text-tertiary transition-transform",
-            open && "rotate-180"
+            open &&"rotate-180"
           )}
           aria-hidden="true"
         />
@@ -308,7 +308,7 @@ function TravelersField({
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
             transition={{ duration: 0.15 }}
-            className="absolute left-0 top-full z-30 mt-2 w-[min(18rem,80vw)] rounded-md border border-neutral-300 bg-neutral-000 p-4 shadow-xl shadow-primary-900/15"
+            className="absolute left-0 top-full z-30 mt-2 w-[min(18rem,80vw)] rounded-md border border-neutral-300 bg-neutral-000 p-4 shadow-e3 shadow-primary-900/15"
           >
             <Stepper label="Adults" value={adults} min={1} onChange={onAdultsChange} />
             <div className="border-t border-neutral-200" />
@@ -316,11 +316,11 @@ function TravelersField({
 
             {/* One mini age box per child — required, compact wrapping grid */}
             {childrenCount > 0 && (
-              <div className="mt-1.5 border-t border-neutral-200 pt-3">
+              <div className="mt-2 border-t border-neutral-200 pt-3">
                 <span className="block t-overline text-text-secondary">
                   {t("fs.childAges")}
                 </span>
-                <div className="mt-2 grid grid-cols-4 gap-1.5">
+                <div className="mt-2 grid grid-cols-4 gap-2">
                   <AnimatePresence initial={false}>
                     {childAges.map((age, i) => (
                       <motion.label
@@ -410,14 +410,14 @@ function SelectField({
 
 /** Portal query values for each cabin label shown in the widget. */
 const CABIN_PARAM: Record<string, string> = {
-  Economy: "economy",
-  "Premium Economy": "premium",
-  Business: "business",
-  First: "first",
+  Economy:"economy",
+  "Premium Economy":"premium",
+  Business:"business",
+  First:"first",
 };
 
 /** Pull the IATA code out of an autocomplete pick ("London Heathrow (LHR),
- *  UK" → "LHR"); free-typed text is passed through as-is. */
+ *  UK" →"LHR"); free-typed text is passed through as-is. */
 function toRouteParam(value: string): string {
   const m = value.match(/\(([A-Z]{3})\)/);
   return m ? m[1] : value.trim();
@@ -426,7 +426,7 @@ function toRouteParam(value: string): string {
 function FlightsPanel() {
   const { t } = useI18n();
   const reduce = useReducedMotion();
-  const [trip, setTrip] = useState<"return" | "oneway">("return");
+  const [trip, setTrip] = useState<"return" |"oneway">("return");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [depart, setDepart] = useState("");
@@ -441,7 +441,7 @@ function FlightsPanel() {
   const [travelersTouched, setTravelersTouched] = useState(false);
   const [routeNudge, setRouteNudge] = useState(false);
   // Controlled so the same fields can render in the desktop row and inside
-  // the mobile "More options" disclosure without drifting apart.
+  // the mobile"More options" disclosure without drifting apart.
   const [direct, setDirect] = useState(false);
   const [airline, setAirline] = useState("");
   const [moreOpen, setMoreOpen] = useState(false);
@@ -464,9 +464,9 @@ function FlightsPanel() {
     const params = new URLSearchParams();
     if (from.trim()) params.set("from", toRouteParam(from));
     if (to.trim()) params.set("to", toRouteParam(to));
-    if (direct) params.set("tripType", "direct");
+    if (direct) params.set("tripType","direct");
     if (depart) params.set("depart", depart);
-    if (trip === "return" && returnDate) params.set("return", returnDate);
+    if (trip ==="return" && returnDate) params.set("return", returnDate);
     if (cabinTouched) params.set("cabin", CABIN_PARAM[cabin]);
     if (travelersTouched || adults > 1 || children > 0)
       params.set("adults", String(adults));
@@ -497,10 +497,10 @@ function FlightsPanel() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div
           role="radiogroup"
-          aria-label={t("fs.return") + " / " + t("fs.oneway")}
+          aria-label={t("fs.return") +" /" + t("fs.oneway")}
           className="inline-flex rounded-full bg-neutral-100 p-1"
         >
-          {(["return", "oneway"] as const).map((v) => (
+          {(["return","oneway"] as const).map((v) => (
             <button
               key={v}
               type="button"
@@ -508,13 +508,13 @@ function FlightsPanel() {
               aria-checked={trip === v}
               onClick={() => setTrip(v)}
               className={cn(
-                "rounded-full px-4 py-2 t-label-2 transition-colors sm:py-1.5",
+                "rounded-full px-4 py-2 t-label-2 transition-colors sm:py-2",
                 trip === v
-                  ? "bg-neutral-000 text-primary-800 shadow-sm"
-                  : "text-text-secondary hover:text-primary-800"
+                  ?"bg-neutral-000 text-primary-800 shadow-e1"
+                  :"text-text-secondary hover:text-primary-800"
               )}
             >
-              {t(v === "return" ? "fs.return" : "fs.oneway")}
+              {t(v ==="return" ?"fs.return" :"fs.oneway")}
             </button>
           ))}
         </div>
@@ -526,7 +526,7 @@ function FlightsPanel() {
           two separate boxes with a centered swap on desktop. */}
       <div className="relative">
         <div className="grid grid-cols-1 rounded-md border border-neutral-300 sm:grid-cols-2 sm:gap-3 sm:rounded-none sm:border-0">
-          <div className="border-b border-neutral-300 px-4 py-3.5 pr-16 transition-colors sm:rounded-md sm:border sm:py-3 sm:pr-4 sm:focus-within:border-primary-500 sm:focus-within:ring-2 sm:focus-within:ring-primary-500/20">
+          <div className="border-b border-neutral-300 px-4 py-4 pr-16 transition-colors sm:rounded-md sm:border sm:py-3 sm:pr-4 sm:focus-within:border-primary-500 sm:focus-within:ring-2 sm:focus-within:ring-primary-500/20">
             <AirportField
               label={t("fs.from")}
               icon={PlaneTakeoff}
@@ -538,7 +538,7 @@ function FlightsPanel() {
               placeholder={t("fs.searchPh")}
             />
           </div>
-          <div className="px-4 py-3.5 pr-16 transition-colors sm:rounded-md sm:border sm:border-neutral-300 sm:py-3 sm:pr-4 sm:focus-within:border-primary-500 sm:focus-within:ring-2 sm:focus-within:ring-primary-500/20">
+          <div className="px-4 py-4 pr-16 transition-colors sm:rounded-md sm:border sm:border-neutral-300 sm:py-3 sm:pr-4 sm:focus-within:border-primary-500 sm:focus-within:ring-2 sm:focus-within:ring-primary-500/20">
             <AirportField
               label={t("fs.to")}
               icon={PlaneLanding}
@@ -557,15 +557,15 @@ function FlightsPanel() {
           type="button"
           onClick={swap}
           aria-label={t("fs.swap")}
-          className="absolute right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-neutral-300 bg-neutral-000 text-primary-700 shadow-sm transition-all hover:border-primary-500 hover:text-accent-600 sm:left-1/2 sm:right-auto sm:h-9 sm:w-9 sm:-translate-x-1/2"
+          className="absolute right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-neutral-300 bg-neutral-000 text-primary-700 shadow-e1 transition-all hover:border-primary-500 hover:text-accent-600 sm:left-1/2 sm:right-auto sm:h-9 sm:w-9 sm:-translate-x-1/2"
         >
           <ArrowRightLeft className="h-4 w-4 rotate-90 sm:rotate-0" aria-hidden="true" />
         </button>
       </div>
 
       {/* Dates — side by side on every width */}
-      <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-        <div className="rounded-md border border-neutral-300 px-3 py-3.5 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3">
+      <div className="grid grid-cols-2 gap-3 sm:gap-3">
+        <div className="rounded-md border border-neutral-300 px-3 py-4 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3">
           <FieldShell label={t("fs.depart")} icon={CalendarDays}>
             <input
               type="date"
@@ -577,14 +577,14 @@ function FlightsPanel() {
         </div>
         <div
           className={cn(
-            "rounded-md border border-neutral-300 px-3 py-3.5 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3",
-            trip === "oneway" && "opacity-50"
+            "rounded-md border border-neutral-300 px-3 py-4 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3",
+            trip ==="oneway" &&"opacity-50"
           )}
         >
           <FieldShell label={t("fs.returnDate")} icon={CalendarDays}>
             <input
               type="date"
-              disabled={trip === "oneway"}
+              disabled={trip ==="oneway"}
               value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
               className="w-full min-w-0 bg-transparent t-label-2 text-primary-800 focus:outline-none disabled:cursor-not-allowed [color-scheme:light]"
@@ -594,8 +594,8 @@ function FlightsPanel() {
       </div>
 
       {/* Travelers / cabin (+ airline inline on desktop only) */}
-      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3">
-        <div className="rounded-md border border-neutral-300 px-3 py-3.5 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-3">
+        <div className="rounded-md border border-neutral-300 px-3 py-4 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3">
           <TravelersField
             adults={adults}
             childrenCount={children}
@@ -609,7 +609,7 @@ function FlightsPanel() {
             }}
           />
         </div>
-        <div className="rounded-md border border-neutral-300 px-3 py-3.5 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3">
+        <div className="rounded-md border border-neutral-300 px-3 py-4 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3">
           <SelectField
             label={t("fs.cabin")}
             icon={Plane}
@@ -646,7 +646,7 @@ function FlightsPanel() {
           <ChevronDown
             className={cn(
               "h-4 w-4 text-text-tertiary transition-transform",
-              moreOpen && "rotate-180"
+              moreOpen &&"rotate-180"
             )}
             aria-hidden="true"
           />
@@ -657,13 +657,13 @@ function FlightsPanel() {
             <motion.div
               id="fs-more-options"
               initial={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
-              animate={reduce ? { opacity: 1 } : { height: "auto", opacity: 1 }}
+              animate={reduce ? { opacity: 1 } : { height:"auto", opacity: 1 }}
               exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="overflow-hidden"
             >
-              <div className="mt-2.5 space-y-2.5">
-                <div className="rounded-md border border-neutral-300 px-4 py-3.5">
+              <div className="mt-3 space-y-3">
+                <div className="rounded-md border border-neutral-300 px-4 py-4">
                   <SelectField
                     label={t("fs.airline")}
                     icon={Plane}
@@ -703,9 +703,9 @@ function FlightsPanel() {
 /* Hotels AND car rentals are handled on the holidays site — both tabs
    redirect there in a new tab; only Flights renders a panel here. */
 const TABS: { id: Tab; labelKey: string; icon: typeof Plane; redirect?: boolean }[] = [
-  { id: "flights", labelKey: "tab.flights", icon: Plane },
-  { id: "hotels", labelKey: "tab.hotels", icon: Hotel, redirect: true },
-  { id: "cars", labelKey: "tab.cars", icon: Car, redirect: true },
+  { id:"flights", labelKey:"tab.flights", icon: Plane },
+  { id:"hotels", labelKey:"tab.hotels", icon: Hotel, redirect: true },
+  { id:"cars", labelKey:"tab.cars", icon: Car, redirect: true },
 ];
 
 export default function FlightSearch() {
@@ -714,12 +714,12 @@ export default function FlightSearch() {
   const [tab, setTab] = useState<Tab>("flights");
 
   return (
-    <div className="mx-auto mt-7 max-w-4xl text-left sm:mt-9">
+    <div className="mx-auto mt-8 max-w-4xl text-left sm:mt-8">
       {/* Tab switcher */}
       <div
         role="tablist"
         aria-label="Search type"
-        className="flex w-full gap-1 rounded-t-lg bg-neutral-000/10 p-1.5 backdrop-blur-sm sm:w-auto sm:max-w-md"
+        className="flex w-full gap-1 rounded-t-lg bg-neutral-000/10 p-2 backdrop-blur-sm sm:w-auto sm:max-w-md"
       >
         {TABS.map(({ id, labelKey, icon: Icon, redirect }) => {
           const active = tab === id && !redirect;
@@ -730,21 +730,21 @@ export default function FlightSearch() {
               aria-selected={active}
               onClick={() => {
                 if (redirect) {
-                  window.open(HOLIDAYS_URL, "_blank", "noopener,noreferrer");
+                  window.open(HOLIDAYS_URL,"_blank","noopener,noreferrer");
                 } else {
                   setTab(id);
                 }
               }}
               className={cn(
-                "relative flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-3 t-label-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:flex-initial sm:gap-2 sm:px-5",
-                active ? "text-primary-800" : "text-text-on-dark/90 hover:text-text-on-dark"
+                "relative flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md px-2 py-3 t-label-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:flex-initial sm:gap-2 sm:px-6",
+                active ?"text-primary-800" :"text-text-on-dark/90 hover:text-text-on-dark"
               )}
             >
               {active && (
                 <motion.span
                   layoutId="flight-tab"
-                  className="absolute inset-0 rounded-md bg-neutral-000 shadow-sm"
-                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  className="absolute inset-0 rounded-md bg-neutral-000 shadow-e1"
+                  transition={{ type:"spring", stiffness: 400, damping: 32 }}
                 />
               )}
               <Icon className="relative h-4 w-4 shrink-0" aria-hidden="true" />
@@ -758,7 +758,7 @@ export default function FlightSearch() {
       </div>
 
       {/* Panel */}
-      <div className="rounded-b-lg rounded-tr-lg bg-neutral-000 p-4 shadow-2xl shadow-primary-900/40 ring-1 ring-black/5 sm:p-5">
+      <div className="rounded-b-lg rounded-tr-lg bg-neutral-000 p-4 shadow-e3 shadow-primary-900/40 ring-1 ring-primary-900/5 sm:p-6">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={tab}

@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Car, Hotel, Luggage, Plane } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
-import { useI18n } from "@/lib/i18n";
-import { HOLIDAYS_URL } from "@/lib/links";
+import Image from"next/image";
+import { motion, useReducedMotion } from"framer-motion";
+import { ArrowRight, Car, Hotel, Luggage, Plane } from"lucide-react";
+import { Reveal, Stagger, StaggerItem } from"@/components/motion-primitives";
+import { useI18n } from"@/lib/i18n";
+import { HOLIDAYS_URL } from"@/lib/links";
 
 type Category = {
   icon: typeof Plane;
@@ -21,42 +21,42 @@ type Category = {
 const CATEGORIES: Category[] = [
   {
     icon: Plane,
-    titleKey: "nav.flights",
-    title: "Flights",
-    copy: "Book trusted-airline tickets at the best available fares — direct, with no hidden fees.",
-    cta: "Search flights",
-    href: "#top",
-    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
+    titleKey:"nav.flights",
+    title:"Flights",
+    copy:"Book trusted-airline tickets at the best available fares — direct, with no hidden fees.",
+    cta:"Search flights",
+    href:"#top",
+    img:"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
   },
   {
     icon: Hotel,
-    titleKey: "nav.hotels",
-    title: "Hotels",
-    copy: "From boutique stays to 5-star resorts — explore stays on our holidays site.",
-    cta: "Find hotels",
+    titleKey:"nav.hotels",
+    title:"Hotels",
+    copy:"From boutique stays to 5-star resorts — explore stays on our holidays site.",
+    cta:"Find hotels",
     href: HOLIDAYS_URL,
     external: true,
-    img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80",
+    img:"https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80",
   },
   {
     icon: Car,
-    titleKey: "nav.cars",
-    title: "Car Rentals",
-    copy: "Pick up at 30,000+ locations with free cancellation — book on our holidays site.",
-    cta: "Rent a car",
+    titleKey:"nav.cars",
+    title:"Car Rentals",
+    copy:"Pick up at 30,000+ locations with free cancellation — book on our holidays site.",
+    cta:"Rent a car",
     href: HOLIDAYS_URL,
     external: true,
-    img: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=900&q=80",
+    img:"https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=900&q=80",
   },
   {
     icon: Luggage,
-    titleKey: "cat.packages",
-    title: "Packages",
-    copy: "Pair your trusted-airline flight with a stay and a car for a seamless trip.",
-    cta: "Build a package",
+    titleKey:"cat.packages",
+    title:"Packages",
+    copy:"Pair your trusted-airline flight with a stay and a car for a seamless trip.",
+    cta:"Build a package",
     href: HOLIDAYS_URL,
     external: true,
-    img: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80",
+    img:"https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
@@ -67,10 +67,10 @@ function CategoryCard({ c }: { c: Category }) {
   return (
     <motion.a
       href={c.href}
-      {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      {...(c.external ? { target:"_blank", rel:"noopener noreferrer" } : {})}
       whileHover={reduce ? undefined : { y: -6 }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-lg shadow-sm ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+      transition={{ type:"spring", stiffness: 300, damping: 22 }}
+      className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-lg shadow-e1 ring-1 ring-primary-900/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
     >
       <Image
         src={c.img}
@@ -86,8 +86,8 @@ function CategoryCard({ c }: { c: Category }) {
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
         <h3 className="t-h3 mt-4 t-body-lg text-text-on-dark">{t(c.titleKey)}</h3>
-        <p className="t-body-sm mt-1.5 text-primary-100">{c.copy}</p>
-        <span className="mt-4 inline-flex items-center gap-1.5 t-label-2 text-accent-200 transition-colors group-hover:text-accent-200">
+        <p className="t-body-sm mt-2 text-primary-100">{c.copy}</p>
+        <span className="mt-4 inline-flex items-center gap-2 t-label-2 text-accent-200 transition-colors group-hover:text-accent-200">
           {c.cta}
           <ArrowRight
             className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
@@ -107,7 +107,7 @@ export default function TravelByCategory() {
         <Reveal className="section-lead text-center">
           <span className="t-overline text-accent-600">{t("cat.eyebrow")}</span>
           <h2 className="t-h2 mt-3 text-primary-800">{t("cat.title")}</h2>
-          <p className="t-body mt-4 text-text-secondary">{t("cat.lead")}</p>
+          <p className="t-body mt-4 text-text-on-sand">{t("cat.lead")}</p>
         </Reveal>
 
         <Stagger

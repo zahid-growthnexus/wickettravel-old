@@ -1,5 +1,5 @@
-import { AlertTriangle, ChevronDown } from "lucide-react";
-import type { ReactNode } from "react";
+import { AlertTriangle, ChevronDown } from"lucide-react";
+import type { ReactNode } from"react";
 
 export type LegalSection = {
   id: string;
@@ -20,10 +20,10 @@ function LegalNotice() {
   return (
     <div
       role="note"
-      className="mb-10 flex items-start gap-3 rounded-lg border border-warning bg-warning-surface p-5 sm:p-6"
+      className="mb-10 flex items-start gap-3 rounded-lg border border-warning bg-warning-surface p-6 sm:p-6"
     >
       <span
-        className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-md bg-warning-surface text-warning"
+        className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-md bg-warning-surface text-warning"
         aria-hidden="true"
       >
         <AlertTriangle className="h-5 w-5" />
@@ -49,7 +49,7 @@ export function P({ children }: { children: ReactNode }) {
 /** Bulleted list with the shared legal-copy tone. */
 export function Ul({ children }: { children: ReactNode }) {
   return (
-    <ul className="t-body-sm list-disc space-y-2 pl-5 text-text-secondary marker:text-accent-500">
+    <ul className="t-body-sm list-disc space-y-2 pl-6 text-text-secondary marker:text-accent-500">
       {children}
     </ul>
   );
@@ -58,7 +58,7 @@ export function Ul({ children }: { children: ReactNode }) {
 /** Inline emphasis for a placeholder the client must confirm before launch. */
 export function Placeholder({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded-xs bg-warning-surface px-1.5 py-0.5 font-bold text-warning">
+    <span className="rounded-xs bg-warning-surface px-2 py-1 font-bold text-warning">
       {children}
     </span>
   );
@@ -77,7 +77,7 @@ export function LegalLink({
   return (
     <a
       href={href}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      {...(external ? { target:"_blank", rel:"noopener noreferrer" } : {})}
       className="font-bold text-primary-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
     >
       {children}
@@ -86,7 +86,7 @@ export function LegalLink({
 }
 
 /**
- * Shared shell for the three legal pages: disclaimer banner, "last updated"
+ * Shared shell for the three legal pages: disclaimer banner,"last updated"
  * date, a jump-to-section table of contents (sticky sidebar on desktop,
  * native <details> dropdown on mobile — both zero-JS), and the sections
  * themselves.
@@ -106,17 +106,17 @@ export default function LegalLayout({
           Last updated: {lastUpdated}
         </p>
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[240px_1fr] lg:gap-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[240px_1fr] lg:gap-12">
           {/* Desktop table of contents — sticky sidebar */}
           <nav aria-label="On this page" className="hidden lg:block">
-            <div className="sticky top-24 rounded-lg border border-neutral-300/80 bg-neutral-050 p-5">
+            <div className="sticky top-24 rounded-lg border border-neutral-300/80 bg-neutral-050 p-6">
               <p className="t-overline text-primary-700">On this page</p>
               <ul className="mt-4 space-y-1 t-body-sm">
                 {sections.map((s) => (
                   <li key={s.id}>
                     <a
                       href={`#${s.id}`}
-                      className="block rounded-sm px-3 py-2 leading-snug text-text-secondary transition-colors hover:bg-neutral-000 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                      className="block rounded-sm px-3 py-2  text-text-secondary transition-colors hover:bg-neutral-000 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     >
                       {s.heading}
                     </a>
@@ -127,7 +127,7 @@ export default function LegalLayout({
           </nav>
 
           {/* Mobile table of contents — native accordion, zero JS */}
-          <details className="card group p-5 lg:hidden">
+          <details className="card group p-6 lg:hidden">
             <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-primary-800 [&::-webkit-details-marker]:hidden">
               On this page
               <ChevronDown
@@ -140,7 +140,7 @@ export default function LegalLayout({
                 <li key={s.id}>
                   <a
                     href={`#${s.id}`}
-                    className="block rounded-sm px-3 py-2 leading-snug text-text-secondary transition-colors hover:bg-primary-050 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                    className="block rounded-sm px-3 py-2  text-text-secondary transition-colors hover:bg-primary-050 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                   >
                     {s.heading}
                   </a>
@@ -151,7 +151,7 @@ export default function LegalLayout({
 
           <article className="min-w-0 space-y-12">
             {sections.map((s) => (
-              <section key={s.id} id={s.id} className="scroll-mt-28">
+              <section key={s.id} id={s.id} className="scroll-mt-24">
                 <h2 className="t-h3 t-body-lg text-primary-800">{s.heading}</h2>
                 <div className="mt-4 space-y-4">{s.content}</div>
               </section>

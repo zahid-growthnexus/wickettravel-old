@@ -101,6 +101,26 @@
        space/lg   24px → 6        space/5xl   96px → 24
                                   space/6xl  128px → 32              */
 
+  /* ── Elevation — DERIVED, not in Brand Foundations v1.0 ───────────
+     The spec defines no elevation tokens. Overlays still need to read
+     as above the page — a dropdown or modal with neither shadow nor
+     border is unreadable over content — so rather than leave Tailwind's
+     ungoverned defaults in place, the three levels below are derived
+     from the system: every shadow is a tint of Primary 900, the same
+     colour the footer and pressed states use.
+
+       e1  resting surfaces sitting on a section (logo tiles, chips)
+       e2  raised, interactive (floating CTAs, active tabs)
+       e3  overlays (dropdowns, modals, the hero search widget)
+
+     Cards deliberately use none of these: they read through border and
+     surface, per the spec's flat treatment.                          */
+  --shadow-e1: 0 1px 2px 0 rgb(4 16 46 / 0.06);
+  --shadow-e2: 0 4px 12px -2px rgb(4 16 46 / 0.10),
+    0 2px 4px -2px rgb(4 16 46 / 0.06);
+  --shadow-e3: 0 16px 40px -8px rgb(4 16 46 / 0.20),
+    0 4px 12px -4px rgb(4 16 46 / 0.10);
+
   /* ── Radius ───────────────────────────────────────────────────────
      Buttons and inputs sm 8 · cards md 12 · pills and avatars full.
      These remap Tailwind's defaults onto the spec's four steps.     */

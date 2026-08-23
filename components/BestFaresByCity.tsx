@@ -239,7 +239,7 @@ export default function BestFaresByCity() {
         <Reveal className="section-lead text-center">
           <span className="t-overline text-accent-600">{t("city.eyebrow")}</span>
           <h2 className="t-h2 mt-3 text-primary-800">{t("city.title")}</h2>
-          <p className="t-body mt-4 text-text-secondary">{t("city.lead")}</p>
+          <p className="t-body mt-4 text-text-on-sand">{t("city.lead")}</p>
         </Reveal>
 
         {/* Region tabs — active tab is a filled navy pill (white text), hover a
@@ -263,14 +263,14 @@ export default function BestFaresByCity() {
                   "relative rounded-full px-4 py-2 t-label-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2",
                   selected
                     ? "text-text-on-dark"
-                    : "bg-neutral-000 text-primary-800 shadow-sm ring-1 ring-primary-100 hover:bg-primary-100 hover:text-primary-800"
+                    : "bg-neutral-000 text-primary-800 shadow-e1 ring-1 ring-primary-100 hover:bg-primary-100 hover:text-primary-800"
                 )}
               >
                 {selected && (
                   <motion.span
                     layoutId="region-tab"
                     aria-hidden="true"
-                    className="absolute inset-0 rounded-full bg-primary-800 shadow-md"
+                    className="absolute inset-0 rounded-full bg-primary-800 shadow-e2"
                     transition={
                       reduce
                         ? { duration: 0 }

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from"react";
+import { AnimatePresence, motion, useReducedMotion } from"framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
@@ -10,8 +10,8 @@ import {
   Send,
   ShieldCheck,
   X,
-} from "lucide-react";
-import { Reveal } from "@/components/motion-primitives";
+} from"lucide-react";
+import { Reveal } from"@/components/motion-primitives";
 
 /**
  * Dubai Visa — marketing banner only. The full application wizard is retired;
@@ -33,15 +33,15 @@ const PERKS = [
   "A real person calls you back within 2 hours",
 ];
 
-type Field = "first_name" | "last_name" | "email" | "phone";
+type Field ="first_name" |"last_name" |"email" |"phone";
 
 const EMPTY = {
   visa_type: VISA_TYPES[0],
-  first_name: "",
-  last_name: "",
-  email: "",
-  phone: "",
-  additional_notes: "",
+  first_name:"",
+  last_name:"",
+  email:"",
+  phone:"",
+  additional_notes:"",
 };
 
 const EMAIL_RE = /^\S+@\S+\.\S+$/;
@@ -60,12 +60,12 @@ export default function VisaBanner() {
   // Lock body scroll, close on Escape, and move focus into the dialog.
   useEffect(() => {
     if (!open) return;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.body.style.overflow ="hidden";
+    const onKey = (e: KeyboardEvent) => e.key ==="Escape" && setOpen(false);
     document.addEventListener("keydown", onKey);
     closeRef.current?.focus();
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow ="";
       document.removeEventListener("keydown", onKey);
     };
   }, [open]);
@@ -82,11 +82,11 @@ export default function VisaBanner() {
 
   const validate = () => {
     const next: Partial<Record<Field, string>> = {};
-    if (!data.first_name.trim()) next.first_name = "Enter your first name.";
-    if (!data.last_name.trim()) next.last_name = "Enter your last name.";
+    if (!data.first_name.trim()) next.first_name ="Enter your first name.";
+    if (!data.last_name.trim()) next.last_name ="Enter your last name.";
     if (!EMAIL_RE.test(data.email.trim()))
-      next.email = "Enter a valid email address.";
-    if (!data.phone.trim()) next.phone = "Enter your phone number.";
+      next.email ="Enter a valid email address.";
+    if (!data.phone.trim()) next.phone ="Enter your phone number.";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -102,14 +102,14 @@ export default function VisaBanner() {
       // collected later, on the call-back).
       const body = new FormData();
       body.append("payload", JSON.stringify(data));
-      const res = await fetch("/api/visa-enquiry", { method: "POST", body });
+      const res = await fetch("/api/visa-enquiry", { method:"POST", body });
       const result: { ok?: boolean; reference?: string; error?: string } =
         await res.json();
       if (res.ok && result.ok) {
         setReference(result.reference ?? null);
         setSubmitted(true);
       } else {
-        setSubmitError(result.error ?? "The enquiry could not be submitted.");
+        setSubmitError(result.error ??"The enquiry could not be submitted.");
       }
     } catch {
       // Network failure or an unparseable response — entered data stays put so
@@ -129,8 +129,8 @@ export default function VisaBanner() {
   };
 
   const field =
-    "mt-1.5 w-full rounded-md border border-neutral-300 bg-neutral-000 px-4 py-3 t-body-sm text-primary-800 outline-none transition-colors placeholder:text-text-tertiary focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20";
-  const label = "t-label-2 text-primary-800";
+    "mt-2 w-full rounded-md border border-neutral-300 bg-neutral-000 px-4 py-3 t-body-sm text-primary-800 outline-none transition-colors placeholder:text-text-tertiary focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20";
+  const label ="t-label-2 text-primary-800";
 
   return (
     <section
@@ -139,7 +139,7 @@ export default function VisaBanner() {
       aria-labelledby="dubai-visa-heading"
     >
       <div className="container-page">
-        <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-2xl shadow-primary-900/30 ring-1 ring-neutral-000/10">
+        <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10">
           {/* Soft accent glows */}
           <div
             aria-hidden="true"
@@ -156,7 +156,7 @@ export default function VisaBanner() {
                 <ShieldCheck className="h-4 w-4 text-accent-400" aria-hidden="true" />
                 <span className="t-overline text-text-on-dark">Dubai Visa Specialists</span>
               </span>
-              <h2 id="dubai-visa-heading" className="t-h2 mt-5 text-text-on-dark">
+              <h2 id="dubai-visa-heading" className="t-h2 mt-6 text-text-on-dark">
                 Dubai visa help,
                 <span className="text-accent-400"> handled end to end</span>
               </h2>
@@ -165,9 +165,9 @@ export default function VisaBanner() {
                 eligibility check right through to submission. Quick, reliable,
                 stress-free.
               </p>
-              <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 t-label-2 text-primary-100 lg:justify-start">
+              <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 t-label-2 text-primary-100 lg:justify-start">
                 {PERKS.map((perk) => (
-                  <li key={perk} className="inline-flex items-center gap-1.5">
+                  <li key={perk} className="inline-flex items-center gap-2">
                     <CheckCircle2
                       className="h-4 w-4 shrink-0 text-accent-400"
                       aria-hidden="true"
@@ -184,12 +184,12 @@ export default function VisaBanner() {
                 onClick={() => setOpen(true)}
                 whileHover={reduce ? undefined : { scale: 1.03 }}
                 whileTap={reduce ? undefined : { scale: 0.98 }}
-                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-7 py-4 t-label-1 text-text-on-dark shadow-lg shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
+                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-8 py-4 t-label-1 text-text-on-dark shadow-e2 shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
               >
                 Start your visa enquiry
                 <ArrowRight className="h-5 w-5" aria-hidden="true" />
               </motion.button>
-              <p className="flex items-center gap-1.5 t-body-sm text-primary-300">
+              <p className="flex items-center gap-2 t-body-sm text-primary-300">
                 <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 Takes a minute — no account needed
               </p>
@@ -207,7 +207,7 @@ export default function VisaBanner() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={{ duration: 0.2, ease:"easeOut" }}
               onClick={() => setOpen(false)}
               aria-hidden="true"
               className="absolute inset-0 bg-primary-900/60 backdrop-blur-sm"
@@ -221,9 +221,9 @@ export default function VisaBanner() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-lg bg-neutral-000 shadow-2xl sm:rounded-lg"
+              className="relative flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-lg bg-neutral-000 shadow-e3 sm:rounded-lg"
             >
-              <div className="flex shrink-0 items-start justify-between gap-4 bg-gradient-to-r from-primary-800 to-primary-800 px-5 py-5 sm:px-7">
+              <div className="flex shrink-0 items-start justify-between gap-4 bg-gradient-to-r from-primary-800 to-primary-800 px-6 py-6 sm:px-8">
                 <div>
                   <h3
                     id="visa-modal-title"
@@ -231,7 +231,7 @@ export default function VisaBanner() {
                   >
                     Dubai visa enquiry
                   </h3>
-                  <p className="mt-1.5 flex items-center gap-1.5 t-body-sm text-primary-100/85">
+                  <p className="mt-2 flex items-center gap-2 t-body-sm text-primary-100/85">
                     <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                     Our expert contacts you within 2 hours.
                   </p>
@@ -247,7 +247,7 @@ export default function VisaBanner() {
                 </button>
               </div>
 
-              <div className="overflow-y-auto overscroll-contain px-5 py-6 sm:px-7">
+              <div className="overflow-y-auto overscroll-contain px-6 py-6 sm:px-8">
                 {submitted ? (
                   <div className="py-6 text-center" role="status">
                     <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-success-surface">
@@ -256,13 +256,13 @@ export default function VisaBanner() {
                         aria-hidden="true"
                       />
                     </span>
-                    <h4 className="t-h3 mt-5 t-body-lg text-primary-800">
+                    <h4 className="t-h3 mt-6 t-body-lg text-primary-800">
                       Enquiry received!
                     </h4>
                     {reference && (
-                      <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-primary-050 px-4 py-1.5 t-body-sm text-primary-800">
-                        Your reference:{" "}
-                        <span className="font-extrabold tracking-wide text-primary-800">
+                      <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-primary-050 px-4 py-2 t-body-sm text-primary-800">
+                        Your reference:{""}
+                        <span className="font-extrabold  text-primary-800">
                           {reference}
                         </span>
                       </p>
@@ -271,7 +271,7 @@ export default function VisaBanner() {
                       A Wicket Travel visa expert will call you back within 2
                       hours to confirm your details and next steps.
                     </p>
-                    <div className="mt-7 flex flex-wrap justify-center gap-3">
+                    <div className="mt-8 flex flex-wrap justify-center gap-3">
                       <button
                         type="button"
                         onClick={() => setOpen(false)}
@@ -320,13 +320,13 @@ export default function VisaBanner() {
                           autoComplete="given-name"
                           aria-invalid={!!errors.first_name}
                           aria-describedby={
-                            errors.first_name ? "vb-first-error" : undefined
+                            errors.first_name ?"vb-first-error" : undefined
                           }
                           className={field}
                           placeholder="Aisha"
                         />
                         {errors.first_name && (
-                          <p id="vb-first-error" className="mt-1.5 t-label-3 text-error">
+                          <p id="vb-first-error" className="mt-2 t-label-3 text-error">
                             {errors.first_name}
                           </p>
                         )}
@@ -342,13 +342,13 @@ export default function VisaBanner() {
                           autoComplete="family-name"
                           aria-invalid={!!errors.last_name}
                           aria-describedby={
-                            errors.last_name ? "vb-last-error" : undefined
+                            errors.last_name ?"vb-last-error" : undefined
                           }
                           className={field}
                           placeholder="Khan"
                         />
                         {errors.last_name && (
-                          <p id="vb-last-error" className="mt-1.5 t-label-3 text-error">
+                          <p id="vb-last-error" className="mt-2 t-label-3 text-error">
                             {errors.last_name}
                           </p>
                         )}
@@ -369,13 +369,13 @@ export default function VisaBanner() {
                           autoComplete="email"
                           aria-invalid={!!errors.email}
                           aria-describedby={
-                            errors.email ? "vb-email-error" : undefined
+                            errors.email ?"vb-email-error" : undefined
                           }
                           className={field}
                           placeholder="you@example.com"
                         />
                         {errors.email && (
-                          <p id="vb-email-error" className="mt-1.5 t-label-3 text-error">
+                          <p id="vb-email-error" className="mt-2 t-label-3 text-error">
                             {errors.email}
                           </p>
                         )}
@@ -393,13 +393,13 @@ export default function VisaBanner() {
                           autoComplete="tel"
                           aria-invalid={!!errors.phone}
                           aria-describedby={
-                            errors.phone ? "vb-phone-error" : undefined
+                            errors.phone ?"vb-phone-error" : undefined
                           }
                           className={field}
                           placeholder="+44 7000 000000"
                         />
                         {errors.phone && (
-                          <p id="vb-phone-error" className="mt-1.5 t-label-3 text-error">
+                          <p id="vb-phone-error" className="mt-2 t-label-3 text-error">
                             {errors.phone}
                           </p>
                         )}
@@ -408,7 +408,7 @@ export default function VisaBanner() {
 
                     <div>
                       <label htmlFor="vb-notes" className={label}>
-                        Anything we should know?{" "}
+                        Anything we should know?{""}
                         <span className="font-normal text-text-secondary">(optional)</span>
                       </label>
                       <textarea
@@ -433,7 +433,7 @@ export default function VisaBanner() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="btn btn-primary w-full px-6 py-3.5 t-body disabled:cursor-not-allowed disabled:opacity-70"
+                      className="btn btn-primary w-full px-6 py-4 t-body disabled:cursor-not-allowed disabled:opacity-70"
                     >
                       {submitting ? (
                         <>

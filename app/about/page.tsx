@@ -115,7 +115,7 @@ export default function AboutPage() {
               <h2 className="t-h2 mt-3 text-primary-800">
                 A UK flight-booking service built around one job: the best fare, done right
               </h2>
-              <div className="t-body mt-5 space-y-4 text-text-secondary">
+              <div className="t-body mt-6 space-y-4 text-text-secondary">
                 <p>
                   <strong className="font-bold text-primary-800">
                     {BUSINESS.legalName}
@@ -139,7 +139,7 @@ export default function AboutPage() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-lg shadow-2xl shadow-primary-800/10 ring-1 ring-neutral-300/60">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg shadow-e3 shadow-primary-800/10 ring-1 ring-neutral-300/60">
                 <Image
                   src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80"
                   alt="View from an airplane window above the clouds"
@@ -160,7 +160,7 @@ export default function AboutPage() {
               <h2 className="t-h2 mt-3 text-primary-800">
                 What guides every fare we find
               </h2>
-              <p className="t-body mt-4 text-text-secondary">
+              <p className="t-body mt-4 text-text-on-sand">
                 Our mission is simple: make booking a trusted airline ticket
                 from the UK fast, fair and stress-free — every single time.
               </p>
@@ -169,11 +169,11 @@ export default function AboutPage() {
             <Stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {VALUES.map((v) => (
                 <StaggerItem key={v.title} className="h-full">
-                  <div className="card card-hover group h-full p-7">
+                  <div className="card card-hover group h-full p-8">
                     <span className="grid h-12 w-12 place-items-center rounded-md bg-primary-050 text-primary-700 transition-colors duration-300 group-hover:bg-accent-500 group-hover:text-text-on-dark">
                       <v.icon className="h-6 w-6" aria-hidden="true" />
                     </span>
-                    <h3 className="t-h3 mt-5 text-primary-800">{v.title}</h3>
+                    <h3 className="t-h3 mt-6 text-primary-800">{v.title}</h3>
                     <p className="t-body-sm mt-2 text-text-secondary">{v.body}</p>
                   </div>
                 </StaggerItem>
@@ -195,11 +195,11 @@ export default function AboutPage() {
             <Stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {WHY_CHOOSE.map((v) => (
                 <StaggerItem key={v.title} className="h-full">
-                  <div className="card card-hover group h-full p-7">
+                  <div className="card card-hover group h-full p-8">
                     <span className="grid h-12 w-12 place-items-center rounded-md bg-primary-050 text-primary-700 transition-colors duration-300 group-hover:bg-accent-500 group-hover:text-text-on-dark">
                       <v.icon className="h-6 w-6" aria-hidden="true" />
                     </span>
-                    <h3 className="t-h3 mt-5 text-primary-800">{v.title}</h3>
+                    <h3 className="t-h3 mt-6 text-primary-800">{v.title}</h3>
                     <p className="t-body-sm mt-2 text-text-secondary">{v.body}</p>
                   </div>
                 </StaggerItem>
@@ -223,8 +223,8 @@ export default function AboutPage() {
 
             <Stagger className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
               <StaggerItem>
-                <div className="card h-full p-7 text-center">
-                  <span className="mx-auto flex w-fit gap-0.5" aria-hidden="true">
+                <div className="card h-full p-8 text-center">
+                  <span className="mx-auto flex w-fit gap-1" aria-hidden="true">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span key={i} className="grid h-7 w-7 place-items-center rounded-xs bg-[#00b67a]">
                         <Star className="h-4 w-4 fill-neutral-000 text-text-on-dark" />
@@ -248,11 +248,11 @@ export default function AboutPage() {
                 </div>
               </StaggerItem>
               <StaggerItem>
-                <div className="card h-full p-7">
+                <div className="card h-full p-8">
                   <span className="grid h-12 w-12 place-items-center rounded-md bg-primary-050 text-primary-700">
                     <ShieldCheck className="h-6 w-6" aria-hidden="true" />
                   </span>
-                  <h3 className="t-h3 mt-5 text-primary-800">Booking protection, made clear</h3>
+                  <h3 className="t-h3 mt-6 text-primary-800">Booking protection, made clear</h3>
                   <p className="t-body-sm mt-2 text-text-secondary">
                     Many flight bookings include industry-standard financial
                     protections, such as ATOL-style cover, depending on the
@@ -269,7 +269,7 @@ export default function AboutPage() {
         {/* CTA */}
         <section className="section bg-neutral-000">
           <div className="container-page">
-            <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 px-6 py-12 text-center shadow-2xl shadow-primary-900/30 ring-1 ring-neutral-000/10 sm:px-10 sm:py-16">
+            <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 px-6 py-12 text-center shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10 sm:px-10 sm:py-16">
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-accent-500/20 blur-3xl"
@@ -282,12 +282,12 @@ export default function AboutPage() {
                   you.
                 </p>
                 <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                  <Link href="/" className="btn btn-primary h-12 w-full px-7 sm:w-auto">
+                  <Link href="/" className="btn btn-primary h-12 w-full px-8 sm:w-auto">
                     Search flights
                   </Link>
                   <a
                     href={PORTAL_LOGIN_URL}
-                    className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-neutral-000/20 bg-neutral-000/5 px-7 t-label-2 text-text-on-dark transition-colors duration-200 hover:bg-neutral-000/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 sm:w-auto"
+                    className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-neutral-000/20 bg-neutral-000/5 px-8 t-label-2 text-text-on-dark transition-colors duration-200 hover:bg-neutral-000/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 sm:w-auto"
                   >
                     Get a quote
                   </a>

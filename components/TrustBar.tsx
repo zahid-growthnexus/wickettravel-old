@@ -12,7 +12,7 @@ const STATS = [
 
 export default function TrustBar() {
   return (
-    <section className="bg-neutral-000 py-14 sm:py-16">
+    <section className="bg-neutral-000 py-12 sm:py-16">
       <div className="container-page">
         <Reveal className="card overflow-hidden">
           <h2 className="sr-only">
@@ -24,7 +24,7 @@ export default function TrustBar() {
               <StaggerItem
                 key={s.label}
                 className={[
-                  "px-6 py-7 text-center sm:py-9",
+                  "px-6 py-8 text-center sm:py-8",
                   i === 1 || i === 3 ? "border-l border-neutral-300" : "",
                   i === 2 || i === 3 ? "border-t border-neutral-300" : "",
                   "sm:border-t-0",
@@ -43,7 +43,7 @@ export default function TrustBar() {
 
           {/* Promise band */}
           <div className="flex flex-col items-center gap-4 border-t border-neutral-300 bg-sand-500/60 px-6 py-6 text-center sm:flex-row sm:justify-center sm:gap-3">
-            <div className="inline-flex items-center gap-2 rounded-full bg-neutral-000 px-4 py-2 t-label-2 text-primary-800 shadow-sm ring-1 ring-neutral-300">
+            <div className="inline-flex items-center gap-2 rounded-full bg-neutral-000 px-4 py-2 t-label-2 text-primary-800 shadow-e1 ring-1 ring-neutral-300">
               <ShieldCheck
                 className="h-4 w-4 text-accent-500"
                 aria-hidden="true"

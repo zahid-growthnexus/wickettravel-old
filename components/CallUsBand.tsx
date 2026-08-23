@@ -22,7 +22,7 @@ export default function CallUsBand() {
   return (
     <section aria-labelledby="call-us-heading" className="section bg-sand-500">
       <div className="container-page">
-        <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-2xl shadow-primary-900/30 ring-1 ring-neutral-000/10">
+        <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10">
           {/* Soft accent glows */}
           <div
             aria-hidden="true"
@@ -47,7 +47,7 @@ export default function CallUsBand() {
                   />
                 </div>
                 {/* Online-now badge */}
-                <span className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-neutral-000 px-3 py-1.5 t-label-3 text-primary-800 shadow-lg">
+                <span className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-neutral-000 px-3 py-2 t-label-3 text-primary-800 shadow-e2">
                   <span className="relative flex h-2.5 w-2.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
                     <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
@@ -69,12 +69,12 @@ export default function CallUsBand() {
               <p className="t-body mx-auto mt-3 max-w-xl text-primary-200 lg:mx-0">
                 {t("call.lead")}
               </p>
-              <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 t-label-2 text-primary-100 lg:justify-start">
-                <li className="inline-flex items-center gap-1.5">
+              <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 t-label-2 text-primary-100 lg:justify-start">
+                <li className="inline-flex items-center gap-2">
                   <Clock className="h-4 w-4 text-accent-400" aria-hidden="true" />
                   Available 24/7 — day or night
                 </li>
-                <li className="inline-flex items-center gap-1.5">
+                <li className="inline-flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 text-accent-400" aria-hidden="true" />
                   Trusted airlines · no hidden fees
                 </li>
@@ -87,7 +87,7 @@ export default function CallUsBand() {
                 href={`tel:${PHONE_TEL}`}
                 whileHover={reduce ? undefined : { scale: 1.03 }}
                 whileTap={reduce ? undefined : { scale: 0.98 }}
-                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-7 py-4 t-h4 text-text-on-dark shadow-lg shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
+                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-8 py-4 t-h4 text-text-on-dark shadow-e2 shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
                 aria-label={`${t("call.cta")} ${PHONE_DISPLAY}`}
               >
                 <PhoneCall className="h-6 w-6" aria-hidden="true" />

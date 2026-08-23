@@ -158,7 +158,7 @@ export default function ContactForm() {
         <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-success-surface">
           <CheckCircle2 className="h-9 w-9 text-success" aria-hidden="true" />
         </span>
-        <h3 className="t-h3 mt-5 t-body-lg text-primary-800">Almost there, {data.name.split(" ")[0] || "traveler"}!</h3>
+        <h3 className="t-h3 mt-6 t-body-lg text-primary-800">Almost there, {data.name.split(" ")[0] || "traveler"}!</h3>
         <p className="t-body-sm mx-auto mt-3 max-w-sm text-text-secondary">
           Your email app should have opened with your message pre-filled — just
           hit send. Prefer not to wait? Call or WhatsApp us on{" "}
@@ -170,7 +170,7 @@ export default function ContactForm() {
           </a>
           .
         </p>
-        <button type="button" onClick={startOver} className="btn btn-outline mt-7 h-12 px-6">
+        <button type="button" onClick={startOver} className="btn btn-outline mt-8 h-12 px-6">
           Send another message
         </button>
       </motion.div>
@@ -178,8 +178,8 @@ export default function ContactForm() {
   }
 
   return (
-    <form noValidate onSubmit={onSubmit} className="space-y-5">
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <form noValidate onSubmit={onSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <Label htmlFor="contact-name" required>
             Full name
@@ -276,7 +276,7 @@ export default function ContactForm() {
         {errors.message && <ErrorText id="contact-message-error">{errors.message}</ErrorText>}
       </div>
 
-      <button type="submit" className="btn btn-primary h-12 w-full px-7 sm:w-auto">
+      <button type="submit" className="btn btn-primary h-12 w-full px-8 sm:w-auto">
         Send message
         <Send className="h-4 w-4" aria-hidden="true" />
       </button>
