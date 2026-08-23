@@ -1,11 +1,11 @@
 "use client";
 
-import Image from"next/image";
-import { motion, useReducedMotion } from"framer-motion";
-import { ArrowUpRight, Star } from"lucide-react";
-import { Reveal, Stagger, StaggerItem } from"@/components/motion-primitives";
-import { useI18n } from"@/lib/i18n";
-import { HOLIDAYS_URL } from"@/lib/links";
+import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Star } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
+import { useI18n } from "@/lib/i18n";
+import { HOLIDAYS_URL } from "@/lib/links";
 
 /**
  * Handpicked hotels & resorts from our sister site, Wicket Travel Holidays.

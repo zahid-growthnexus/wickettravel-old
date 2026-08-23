@@ -17,7 +17,7 @@ export default function ScrollProgress() {
       // This bar transforms (scaleX) on every scroll frame, so it's a genuine
       // (and sole) will-change candidate — keeps it on its own composited layer.
       style={{ scaleX, willChange: "transform" }}
-      className="fixed inset-x-0 top-0 z-[60] h-1 origin-left bg-gradient-to-r from-accent-500 to-accent-400"
+      className="fixed inset-x-0 top-0 h-1 z-progress origin-left bg-gradient-to-r from-accent-500 to-accent-400"
     />
   );
 }

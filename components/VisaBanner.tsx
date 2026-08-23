@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from"react";
-import { AnimatePresence, motion, useReducedMotion } from"framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
@@ -9,8 +9,8 @@ import {
   Loader2,
   Send,
   X,
-} from"lucide-react";
-import { Reveal } from"@/components/motion-primitives";
+} from "lucide-react";
+import { Reveal } from "@/components/motion-primitives";
 
 /**
  * Dubai Visa — marketing banner only. The full application wizard is retired;
@@ -187,7 +187,7 @@ export default function VisaBanner() {
       {/* Enquiry modal */}
       <AnimatePresence>
         {open && (
-          <div className="fixed inset-0 z-[80] flex items-end justify-center p-0 sm:items-center sm:p-6">
+          <div className="fixed inset-0 flex z-modal items-end justify-center p-0 sm:items-center sm:p-6">
             <motion.div
               key="visa-backdrop"
               initial={{ opacity: 0 }}

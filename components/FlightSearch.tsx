@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from"react";
-import { AnimatePresence, motion, useReducedMotion } from"framer-motion";
+import { useEffect, useId, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRightLeft,
   CalendarDays,
@@ -17,11 +17,11 @@ import {
   Search,
   SlidersHorizontal,
   Users,
-} from"lucide-react";
-import { cn } from"@/lib/cn";
-import { useI18n } from"@/lib/i18n";
-import { type Airport, formatAirport, searchAirports } from"@/lib/airports";
-import { HOLIDAYS_URL, PORTAL_BOOKING_URL } from"@/lib/links";
+} from "lucide-react";
+import { cn } from "@/lib/cn";
+import { useI18n } from "@/lib/i18n";
+import { type Airport, formatAirport, searchAirports } from "@/lib/airports";
+import { HOLIDAYS_URL, PORTAL_BOOKING_URL } from "@/lib/links";
 
 type Tab ="flights" |"hotels" |"cars";
 
@@ -137,7 +137,7 @@ function AirportField({
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
             transition={{ duration: 0.15 }}
-            className="absolute left-0 right-0 top-full z-30 mt-2 max-h-72 overflow-auto rounded-md border border-neutral-300 bg-neutral-000 py-2 shadow-e3 shadow-primary-900/15"
+            className="absolute left-0 right-0 top-full mt-2 max-h-72 z-popover overflow-auto rounded-md border border-neutral-300 bg-neutral-000 py-2 shadow-e3 shadow-primary-900/15"
           >
             {results.length === 0 ? (
               <li className="px-4 py-3 t-body-sm text-text-secondary">{t("fs.noResults")}</li>
@@ -308,7 +308,7 @@ function TravelersField({
             animate={{ opacity: 1, y: 0 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
             transition={{ duration: 0.15 }}
-            className="absolute left-0 top-full z-30 mt-2 w-[min(18rem,80vw)] rounded-md border border-neutral-300 bg-neutral-000 p-4 shadow-e3 shadow-primary-900/15"
+            className="absolute left-0 top-full mt-2 w-[min(18rem,80vw)] z-popover rounded-md border border-neutral-300 bg-neutral-000 p-4 shadow-e3 shadow-primary-900/15"
           >
             <Stepper label="Adults" value={adults} min={1} onChange={onAdultsChange} />
             <div className="border-t border-neutral-200" />
@@ -714,12 +714,12 @@ export default function FlightSearch() {
   const [tab, setTab] = useState<Tab>("flights");
 
   return (
-    <div className="mx-auto mt-8 max-w-4xl text-left sm:mt-8">
+    <div className="text-left">
       {/* Tab switcher */}
       <div
         role="tablist"
         aria-label="Search type"
-        className="flex w-full gap-1 rounded-t-lg bg-neutral-000/10 p-2 backdrop-blur-sm sm:w-auto sm:max-w-md"
+        className="flex w-full gap-1 rounded-t-md bg-primary-900/55 p-2 sm:w-auto sm:max-w-md"
       >
         {TABS.map(({ id, labelKey, icon: Icon, redirect }) => {
           const active = tab === id && !redirect;
@@ -743,14 +743,14 @@ export default function FlightSearch() {
               {active && (
                 <motion.span
                   layoutId="flight-tab"
-                  className="absolute inset-0 rounded-md bg-neutral-000 shadow-e1"
+                  className="absolute inset-0 rounded-sm bg-neutral-000 shadow-e1"
                   transition={{ type:"spring", stiffness: 400, damping: 32 }}
                 />
               )}
               <Icon className="relative h-4 w-4 shrink-0" aria-hidden="true" />
               <span className="relative truncate">{t(labelKey)}</span>
               {redirect && (
-                <ExternalLink className="relative h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden="true" />
+                <ExternalLink className="relative hidden h-3.5 w-3.5 shrink-0 opacity-70 sm:block" aria-hidden="true" />
               )}
             </button>
           );
@@ -758,7 +758,7 @@ export default function FlightSearch() {
       </div>
 
       {/* Panel */}
-      <div className="rounded-b-lg rounded-tr-lg bg-neutral-000 p-4 shadow-e3 shadow-primary-900/40 ring-1 ring-primary-900/5 sm:p-6">
+      <div className="rounded-b-md rounded-tr-md bg-neutral-000 p-4 shadow-e3 sm:p-6">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={tab}

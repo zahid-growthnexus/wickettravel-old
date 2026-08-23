@@ -43,6 +43,13 @@
   --color-accent-100: #fde7d2; /* badge fill                */
   --color-accent-050: #fff4e9; /* accent surface            */
 
+  /* ── Brand mark ───────────────────────────────────────────────────
+     The logo's ember, sampled from the vector artwork in the brand
+     guidelines. It sits a shade off Accent 500 and is deliberately kept
+     exact: a mark is the one place fidelity beats tokenisation, and this
+     value must not drift with the UI accent ramp.                    */
+  --color-brand-ember: #d35909;
+
   /* ── Colour / Secondary — Sand ────────────────────────────────────
      The ONLY permitted alternate section background.                */
   --color-sand-500: #f6f8ec; /* alternate section bg        */
@@ -312,6 +319,19 @@ body {
     @apply w-full rounded-sm border border-neutral-300 bg-neutral-000 px-4 py-3 font-sans text-[16px] font-normal leading-[24px] text-text-primary placeholder:text-text-tertiary focus-visible:border-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700;
   }
 
+  /* ═══════════════════════════════════════════════════════════════
+     Z-INDEX — one semantic scale. Never write an arbitrary z value;
+     add a step here instead, so the stacking order stays readable.
+     ═══════════════════════════════════════════════════════════════ */
+  .z-popover   { z-index: 30; }  /* combobox + traveller menus        */
+  .z-sticky    { z-index: 40; }  /* sticky search bar                 */
+  .z-header    { z-index: 50; }  /* site header                       */
+  .z-float     { z-index: 55; }  /* WhatsApp launcher                 */
+  .z-backdrop  { z-index: 60; }  /* drawer / modal scrim              */
+  .z-drawer    { z-index: 65; }  /* mobile nav drawer                 */
+  .z-progress  { z-index: 70; }  /* scroll progress rail              */
+  .z-modal     { z-index: 80; }  /* visa enquiry dialog               */
+
   /* Pills and avatars use full. */
   .pill {
     @apply inline-flex items-center gap-1 rounded-full px-3 py-1 font-sans text-[12px] font-bold leading-[16px];
@@ -355,3 +375,28 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ───────────────────────────────────────────────────────────
+   Hero entrance. Deliberately CSS, not a JS reveal: the element's
+   resting state is visible, and the animation plays *from* a hidden
+   state via `backwards` fill. If JS never runs, if the tab is hidden,
+   or if a headless renderer skips the frame, the content is still
+   there — the failure mode of a class-gated reveal is a blank hero.
+   The global reduced-motion rule collapses the duration to ~0.
+   ─────────────────────────────────────────────────────────── */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.hero-rise {
+  animation: hero-rise 800ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.hero-rise-2 { animation-delay: 90ms; }
+.hero-rise-3 { animation-delay: 180ms; }
+.hero-rise-4 { animation-delay: 280ms; }

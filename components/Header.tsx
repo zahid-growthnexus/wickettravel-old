@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { cn } from "@/lib/cn";
+import Logo from "@/components/Logo";
 import { useI18n } from "@/lib/i18n";
+import { BUSINESS } from "@/lib/seo";
 import { HOLIDAYS_URL, PORTAL_LOGIN_URL } from "@/lib/links";
 
 /* Hrefs are "/"-rooted (rather than bare "#anchor") so they still resolve
@@ -46,65 +47,91 @@ export default function Header() {
     };
   }, [open]);
 
+  /* The header rides over the hero photograph until the first scroll, so at
+     rest it is chrome-less and the image runs edge to edge behind it. Past the
+     fold it lands on a solid surface. Every colour below switches on that one
+     piece of state. */
+  const onImage = !scrolled;
+
   return (
     <header
       className={cn(
-        "sticky top-0 w-full transition-all duration-300",
-        // The header owns a stacking context. While the drawer is open, lift the
-        // whole header above the floating WhatsApp launcher (z-50) so the
-        // backdrop covers it instead of it poking through the drawer.
-        open ? "z-[70]" : "z-50",
+        "sticky top-0 w-full transition-colors duration-300 z-header",
         scrolled
-          // Solid-ish white instead of bg-neutral-000/90 + backdrop-blur: a sticky,
-          // full-width backdrop-filter repaints every scroll frame on Android.
-          // /95 is visually indistinguishable from the frosted version.
-          ? "border-b border-primary-100 bg-neutral-000/95 shadow-e1"
-          : "border-b border-transparent bg-neutral-000/0"
+          // Fully opaque, not translucent + backdrop-blur: a sticky full-width
+          // backdrop-filter repaints every scroll frame on Android, and any
+          // transparency lets the dark hero tint the bar's shoulders grey
+          // either side of the container.
+          ? "border-b border-primary-100 bg-neutral-000 shadow-e1"
+          : "border-b border-transparent bg-transparent"
       )}
     >
-      <div className="container-page flex h-16 items-center justify-between">
-        {/* Logo — 2172×724 source (3:1); explicit width/height so there's no
-            layout shift, height utilities keep it tidy inside the h-16 bar. */}
-        <Link href="/" className="group flex items-center" aria-label="Wicket Travel home">
-          <Image
-            src="/logo-trans.png"
-            alt="Wicket Travel"
-            width={144}
-            height={48}
-            priority
-            className="h-10 w-auto transition-transform duration-200 group-hover:-translate-y-0.5 sm:h-11"
-          />
+      <div className="container-page flex h-16 items-center justify-between gap-6">
+        {/* Logo — the lockup is live vector + text, so it recolours with a
+            class instead of needing a second bitmap for the dark hero. */}
+        <Link
+          href="/"
+          className={cn(
+            "shrink-0 rounded-sm text-[20px] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-[22px]",
+            onImage
+              ? "text-text-on-dark focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
+              : "text-primary-800 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
+          )}
+          aria-label="Wicket Travel home"
+        >
+          <Logo />
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-          {NAV_LINKS.map((link) =>
-            link.external ? (
+          {NAV_LINKS.map((link) => {
+            const className = cn(
+              "rounded-sm px-3 py-2 t-label-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+              onImage
+                ? "text-text-on-dark/85 hover:bg-neutral-000/10 hover:text-text-on-dark focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
+                : "text-neutral-600 hover:bg-primary-050 hover:text-primary-800 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
+            );
+            return link.external ? (
               <a
                 key={link.key}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-sm px-3 py-2 t-label-2 text-neutral-600 transition-colors duration-200 hover:bg-primary-050 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+                className={className}
               >
                 {t(link.key)}
               </a>
             ) : (
-              <Link
-                key={link.key}
-                href={link.href}
-                className="rounded-sm px-3 py-2 t-label-2 text-neutral-600 transition-colors duration-200 hover:bg-primary-050 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
-              >
+              <Link key={link.key} href={link.href} className={className}>
                 {t(link.key)}
               </Link>
-            )
-          )}
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2">
+          {/* A reachable human is this agency's actual differentiator over the
+              faceless OTAs, so the number is a first-class header item, not
+              something buried in the footer. */}
+          <a
+            href={`tel:${BUSINESS.phone}`}
+            className={cn(
+              "hidden items-center gap-2 rounded-sm px-3 py-2 t-label-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 xl:inline-flex",
+              onImage
+                ? "text-text-on-dark hover:bg-neutral-000/10 focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
+                : "text-primary-800 hover:bg-primary-050 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
+            )}
+          >
+            <Phone
+              className={cn("h-4 w-4", onImage ? "text-accent-400" : "text-accent-500")}
+              aria-hidden="true"
+            />
+            {BUSINESS.phoneDisplay}
+          </a>
+
           <a
             href={PORTAL_LOGIN_URL}
-            className="hidden rounded-full bg-accent-500 px-6 py-3 t-label-2 text-text-on-dark shadow-e1 transition-all duration-200 hover:bg-accent-600 hover:shadow-e2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 sm:inline-flex"
+            className="hidden rounded-sm bg-accent-500 px-6 py-3 t-label-2 text-text-on-dark transition-colors duration-200 hover:bg-accent-600 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 sm:inline-flex"
           >
             {t("cta.getQuote")}
           </a>
@@ -113,7 +140,12 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-sm text-primary-800 transition-colors hover:bg-primary-050 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 lg:hidden"
+            className={cn(
+              "inline-flex h-11 w-11 items-center justify-center rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 lg:hidden",
+              onImage
+                ? "text-text-on-dark hover:bg-neutral-000/10 focus-visible:ring-neutral-000"
+                : "text-primary-800 hover:bg-primary-050 focus-visible:ring-primary-500"
+            )}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -136,7 +168,7 @@ export default function Header() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               onClick={() => setOpen(false)}
               aria-hidden="true"
-              className="fixed inset-0 z-40 bg-primary-900/40 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 bg-primary-900/60 lg:hidden z-backdrop"
             />
 
             {/* Slide-in panel */}
@@ -154,17 +186,11 @@ export default function Header() {
                   ? { duration: 0.15 }
                   : { type: "spring", stiffness: 320, damping: 34 }
               }
-              className="fixed inset-y-0 right-0 z-50 flex w-[min(20rem,82vw)] flex-col overflow-y-auto overscroll-contain bg-neutral-000 shadow-e3 shadow-primary-900/20 lg:hidden"
+              className="fixed inset-y-0 right-0 flex w-[min(20rem,82vw)] flex-col overflow-y-auto overscroll-contain bg-neutral-000 shadow-e3 lg:hidden z-drawer"
             >
               {/* Drawer header */}
               <div className="flex h-16 shrink-0 items-center justify-between border-b border-primary-100 px-6">
-                <Image
-                  src="/logo-trans.png"
-                  alt="Wicket Travel"
-                  width={120}
-                  height={40}
-                  className="h-9 w-auto"
-                />
+                <Logo className="text-[20px] text-primary-800" />
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
@@ -201,12 +227,20 @@ export default function Header() {
                 )}
               </nav>
 
-              {/* Footer block — primary CTA, pinned to bottom */}
-              <div className="mt-auto shrink-0 border-t border-primary-100 p-6">
+              {/* Footer block — call first, then the quote CTA. */}
+              <div className="mt-auto shrink-0 space-y-3 border-t border-primary-100 p-6">
+                <a
+                  href={`tel:${BUSINESS.phone}`}
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-[48px] items-center justify-center gap-2 rounded-sm border border-primary-800 px-6 t-label-1 text-primary-800 transition-colors hover:bg-primary-050 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+                >
+                  <Phone className="h-4 w-4 text-accent-500" aria-hidden="true" />
+                  {BUSINESS.phoneDisplay}
+                </a>
                 <a
                   href={PORTAL_LOGIN_URL}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-[48px] items-center justify-center rounded-full bg-accent-500 px-6 t-label-1 text-text-on-dark shadow-e1 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+                  className="flex min-h-[48px] items-center justify-center rounded-sm bg-accent-500 px-6 t-label-1 text-text-on-dark transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2"
                 >
                   {t("cta.getQuote")}
                 </a>

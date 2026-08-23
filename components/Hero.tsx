@@ -1,63 +1,89 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { Headset, ShieldCheck, Star } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { BUSINESS } from "@/lib/seo";
 import FlightSearch from "@/components/FlightSearch";
+
+/* Proof points, not decoration: each one is a claim already made elsewhere on
+   the site (the rating feeds the JSON-LD, the fee promise and 24/7 line are the
+   agency's standing commitments). Rendered as a plain inline row rather than
+   chips or stat tiles — the hero's weight belongs to the search widget. */
+const PROOF = [
+  {
+    icon: Star,
+    text: `${BUSINESS.ratingValue}/5 from ${BUSINESS.reviewCount.toLocaleString("en-GB")} reviews`,
+  },
+  { icon: ShieldCheck, text: "No hidden booking fees" },
+  { icon: Headset, text: "Real UK agents, 24/7" },
+];
 
 export default function Hero() {
   const { t } = useI18n();
-  const reduce = useReducedMotion();
 
   return (
+    /* -mt-16 pulls the section up under the transparent header (h-16), so the
+       photograph runs to the very top of the page instead of starting below a
+       white bar. The header re-solidifies on scroll. */
     <section
       id="top"
-      className="relative isolate overflow-hidden pt-24 pb-16 sm:pt-24 sm:pb-24"
+      className="relative isolate -mt-16 overflow-hidden pb-12 pt-24 lg:pb-16 lg:pt-32"
     >
-      {/* Full-bleed flight background — fills the hero on every screen size,
-          plane + sky kept in view with a lighter, readable overlay. */}
+      {/* An airliner on final approach, silhouetted against a low sun with the
+          cabin windows lit. Chosen over the usual wing-above-the-clouds frame
+          for three reasons: the subject sits high and right, which is the part
+          of the canvas this layout leaves open; the sky carries the accent in
+          camera, so the palette is photographed rather than filtered on; and it
+          is an arrival, which is the picture this audience is flying for. */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=2400&q=80"
-          alt=""
-          aria-hidden="true"
+          src="https://images.unsplash.com/photo-1581012771300-224937651c42?auto=format&fit=crop&w=2400&q=80"
+          alt="An airliner on final approach at sunset, cabin windows lit against a gold sky"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover object-[58%_42%]"
         />
-        {/* Lighter scrim than before: sky/plane stays clearly visible while the
-            centered text keeps strong contrast. */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary-900/65 via-primary-800/45 to-primary-900/70" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary-900/40 via-transparent to-accent-500/5" />
+        {/* Scrim in three passes: darken from the left so the left-aligned copy
+            clears 4.5:1 while the runway lights stay legible on the right;
+            deepen the top so the overlaid nav reads; deepen the base so the
+            search panel sits on ground rather than floating. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-900/94 from-18% via-primary-900/60 via-58% to-primary-900/15" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-900/50 via-transparent via-30% to-primary-900/55" />
       </div>
 
       <div className="container-page">
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto max-w-3xl text-center"
-        >
-          {/* Short two-line heading: white line + orange accent line, so the
-              search widget stays above the fold on common desktop heights. */}
-          <h1 className="t-display-2 text-text-on-dark [text-shadow:0_2px_24px_rgb(4_16_46_/_0.45)]">
+        <div className="max-w-2xl">
+          <h1 className="hero-rise t-display-2 text-balance text-text-on-dark">
             {t("hero.title")}
-            <span className="block text-accent-400">{t("hero.accent")}</span>
+            <span className="block">{t("hero.accent")}</span>
           </h1>
-          <p className="t-body-lg mx-auto mt-4 max-w-2xl text-primary-050 [text-shadow:0_1px_12px_rgb(4_16_46_/_0.5)]">
+          <p className="hero-rise hero-rise-2 t-body-lg mt-4 max-w-xl text-pretty text-primary-100">
             {t("hero.subline")}
           </p>
-        </motion.div>
 
-        {/* Flight search widget */}
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-        >
+          <ul className="hero-rise hero-rise-3 mt-4 flex lg:mt-6 flex-wrap items-center gap-x-6 gap-y-3">
+            {PROOF.map(({ icon: Icon, text }) => (
+              <li
+                key={text}
+                className="flex items-center gap-2 t-label-2 text-text-on-dark"
+              >
+                <Icon
+                  className="h-4 w-4 shrink-0 text-accent-400"
+                  aria-hidden="true"
+                />
+                {text}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* The search widget is the hero's call to action — a marketplace's
+            primary control, not an afterthought below the copy. */}
+        <div className="hero-rise hero-rise-4 mt-8">
           <FlightSearch />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

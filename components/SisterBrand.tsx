@@ -1,9 +1,9 @@
 "use client";
 
-import Image from"next/image";
-import { ArrowRight, ArrowUpRight, BadgeCheck, Headphones, ShieldCheck, Sparkles } from"lucide-react";
-import { Reveal, Stagger, StaggerItem } from"@/components/motion-primitives";
-import { HOLIDAYS_URL } from"@/lib/links";
+import Image from "next/image";
+import { ArrowRight, ArrowUpRight, BadgeCheck, Headphones, ShieldCheck, Sparkles } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
+import { HOLIDAYS_URL } from "@/lib/links";
 
 /**
  *"Meet Wicket Travel Holidays" — introduces the sister brand so every

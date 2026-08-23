@@ -1,5 +1,5 @@
-import { AlertTriangle, ChevronDown } from"lucide-react";
-import type { ReactNode } from"react";
+import { AlertTriangle, ChevronDown } from "lucide-react";
+import type { ReactNode } from "react";
 
 export type LegalSection = {
   id: string;

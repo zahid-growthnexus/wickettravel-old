@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from"react";
-import Image from"next/image";
-import { motion, useReducedMotion } from"framer-motion";
-import { ArrowRight, Plane } from"lucide-react";
-import { Reveal, Stagger, StaggerItem } from"@/components/motion-primitives";
-import { useI18n } from"@/lib/i18n";
+import { useState } from "react";
+import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Plane } from "lucide-react";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Featured airlines grid. Each card pairs an aspirational aviation photo with

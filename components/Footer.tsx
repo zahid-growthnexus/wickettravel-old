@@ -1,8 +1,8 @@
-import Image from"next/image";
-import Link from"next/link";
-import { Mail, MapPin, Phone } from"lucide-react";
-import { FacebookIcon, InstagramIcon, XIcon } from"@/components/SocialIcons";
-import { HOLIDAYS_URL } from"@/lib/links";
+import Link from "next/link";
+import Logo from "@/components/Logo";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { FacebookIcon, InstagramIcon, XIcon } from "@/components/SocialIcons";
+import { HOLIDAYS_URL } from "@/lib/links";
 
 /** Internal routes wired up for the footer's link columns — everything else
  *  in COLUMNS stays a"#" placeholder until that page exists. */
@@ -48,16 +48,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-5">
           {/* Brand + contact + socials */}
           <div className="col-span-2">
-            {/* White-recolored logo variant: the navy artwork would vanish on
-                the primary-900 footer, so mark +"Wicket" are flipped to white
-                while the orange"Travel" is kept as-is. */}
-            <Image
-              src="/logo-white.png"
-              alt="Wicket Travel"
-              width={144}
-              height={48}
-              className="h-11 w-auto"
-            />
+            <Logo className="text-[22px] text-text-on-dark" />
             <p className="mt-4 max-w-sm t-body-sm  text-primary-200">
               We book trusted airline tickets at the best available fares —
               connecting you to the world&apos;s leading carriers, with no hidden

@@ -31,7 +31,7 @@ export default function StickySearchBar() {
              but forced a full-width backdrop-filter repaint on every scroll
              frame (a top cause of Android Chrome jank). Dropped — looks the
              same, composites far cheaper. */
-          className="fixed inset-x-0 top-16 z-40 border-b border-primary-100 bg-neutral-000/95 shadow-e1"
+          className="fixed inset-x-0 top-16 border-b z-sticky border-primary-100 bg-neutral-000/95 shadow-e1"
         >
           <div className="container-page flex h-14 items-center justify-between gap-4">
             <div className="flex min-w-0 items-center gap-3">

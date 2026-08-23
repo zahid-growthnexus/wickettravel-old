@@ -27,7 +27,7 @@ export default function WhatsAppButton() {
   const side = dir === "rtl" ? "left-4 sm:left-5" : "right-4 sm:right-5";
 
   return (
-    <div className={cn("fixed bottom-4 z-50 sm:bottom-5", side)}>
+    <div className={cn("fixed bottom-4 sm:bottom-5 z-float", side)}>
       {/* Tooltip — shown on hover/focus, keyboard-friendly */}
       <AnimatePresence>
         {hinted && (

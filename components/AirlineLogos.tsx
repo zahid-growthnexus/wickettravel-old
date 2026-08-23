@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from"react";
-import { useReducedMotion } from"framer-motion";
-import { ShieldCheck } from"lucide-react";
-import { Reveal } from"@/components/motion-primitives";
-import { useI18n } from"@/lib/i18n";
+import { useState } from "react";
+import { useReducedMotion } from "framer-motion";
+import { ShieldCheck } from "lucide-react";
+import { Reveal } from "@/components/motion-primitives";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Trust strip of real airline logos so travelers know these are the carriers
