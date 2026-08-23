@@ -28,12 +28,12 @@ const STEPS = [
 export default function HowItWorks() {
   const { t } = useI18n();
   return (
-    <section id="how-it-works" className="section scroll-mt-16 bg-navy-900">
+    <section id="how-it-works" className="section scroll-mt-16 bg-primary-800">
       <div className="container-page">
         <Reveal className="section-lead text-center">
-          <span className="t-eyebrow text-accent-400">{t("how.eyebrow")}</span>
-          <h2 className="t-h2 mt-3 text-white">{t("how.title")}</h2>
-          <p className="t-body mt-4 text-navy-100">
+          <span className="t-overline text-accent-400">{t("how.eyebrow")}</span>
+          <h2 className="t-h2 mt-3 text-text-on-dark">{t("how.title")}</h2>
+          <p className="t-body mt-4 text-primary-100">
             No accounts, no clutter, no pressure. Just trusted airline tickets at
             the best available fares.
           </p>
@@ -43,18 +43,18 @@ export default function HowItWorks() {
           {/* Connecting line on desktop */}
           <div
             aria-hidden="true"
-            className="absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-white/15 to-transparent md:block"
+            className="absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-neutral-000/15 to-transparent md:block"
           />
           {STEPS.map(({ icon: Icon, step, title, body }) => (
             <StaggerItem key={step} className="relative text-center">
-              <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-accent-500 text-white shadow-lg shadow-accent-500/30 ring-8 ring-navy-900">
+              <div className="mx-auto grid h-16 w-16 place-items-center rounded-lg bg-accent-500 text-text-on-dark shadow-lg shadow-accent-500/30 ring-8 ring-primary-800">
                 <Icon className="h-7 w-7" aria-hidden="true" />
               </div>
-              <div className="mt-5 text-sm font-bold tracking-widest text-accent-400">
+              <div className="mt-5 t-label-2 text-accent-400">
                 STEP {step}
               </div>
-              <h3 className="t-h3 mt-2 text-xl text-white">{title}</h3>
-              <p className="t-small mx-auto mt-2 max-w-xs text-navy-100">{body}</p>
+              <h3 className="t-h3 mt-2 t-body-lg text-text-on-dark">{title}</h3>
+              <p className="t-body-sm mx-auto mt-2 max-w-xs text-primary-100">{body}</p>
             </StaggerItem>
           ))}
         </Stagger>

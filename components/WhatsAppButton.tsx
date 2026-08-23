@@ -39,7 +39,7 @@ export default function WhatsAppButton() {
             role="tooltip"
             id="whatsapp-tooltip"
             className={cn(
-              "pointer-events-none absolute bottom-full mb-2 whitespace-nowrap rounded-lg bg-navy-900 px-3 py-1.5 text-xs font-semibold text-white shadow-lg",
+              "pointer-events-none absolute bottom-full mb-2 whitespace-nowrap rounded-sm bg-primary-800 px-3 py-1.5 t-label-3 text-text-on-dark shadow-lg",
               dir === "rtl" ? "left-0" : "right-0"
             )}
           >
@@ -60,7 +60,7 @@ export default function WhatsAppButton() {
         onBlur={() => setHinted(false)}
         whileHover={reduce ? undefined : { scale: 1.05 }}
         whileTap={reduce ? undefined : { scale: 0.95 }}
-        className="grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-lg shadow-[#25D366]/30 transition-colors hover:bg-[#1EBE5D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
+        className="grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-text-on-dark shadow-lg shadow-[#25D366]/30 transition-colors hover:bg-[#1EBE5D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
       >
         <WhatsAppIcon className="h-7 w-7" />
       </motion.a>

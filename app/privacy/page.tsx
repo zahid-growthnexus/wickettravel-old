@@ -73,32 +73,32 @@ const sections: LegalSection[] = [
         <P>We collect personal data you give us directly, including:</P>
         <Ul>
           <li>
-            <strong className="text-navy-900">Flight enquiries &amp; bookings</strong> — name,
+            <strong className="text-primary-800">Flight enquiries &amp; bookings</strong> — name,
             contact details, travel dates and routes, passenger and passport
             details, and any information you give our team while arranging a
             booking.
           </li>
           <li>
-            <strong className="text-navy-900">Contact form submissions</strong> — your name,
+            <strong className="text-primary-800">Contact form submissions</strong> — your name,
             email address, phone number and the content of your message.
           </li>
           <li>
-            <strong className="text-navy-900">Visa enquiry forms</strong> — the details our Dubai
+            <strong className="text-primary-800">Visa enquiry forms</strong> — the details our Dubai
             visa enquiry form asks for, which can include passport, nationality,
             employment and travel history information, plus any documents you
             upload (e.g. passport scans).
           </li>
           <li>
-            <strong className="text-navy-900">Parents Tickets enquiries</strong> — details you
+            <strong className="text-primary-800">Parents Tickets enquiries</strong> — details you
             submit when asking us to help find a flight for a visiting parent
             or family member, and the contact details of the person raising
             the enquiry.
           </li>
           <li>
-            <strong className="text-navy-900">Technical data</strong> — IP address, browser and
+            <strong className="text-primary-800">Technical data</strong> — IP address, browser and
             device type, pages visited and how you use our site, collected
             automatically via cookies and similar technologies (see{" "}
-            <a href="#cookies" className="font-semibold text-navy-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600">
+            <a href="#cookies" className="font-bold text-primary-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600">
               Cookies
             </a>{" "}
             below).
@@ -132,10 +132,10 @@ const sections: LegalSection[] = [
         </Ul>
         <P>Our lawful bases for these uses, under UK GDPR, are typically:</P>
         <Ul>
-          <li><strong className="text-navy-900">Contract</strong> — to take the steps you ask for before, and to perform, a booking.</li>
-          <li><strong className="text-navy-900">Legitimate interests</strong> — to run, secure and improve our business and respond to enquiries.</li>
-          <li><strong className="text-navy-900">Consent</strong> — for optional marketing communications, which you can withdraw at any time.</li>
-          <li><strong className="text-navy-900">Legal obligation</strong> — where we must keep or share records, e.g. for tax purposes.</li>
+          <li><strong className="text-primary-800">Contract</strong> — to take the steps you ask for before, and to perform, a booking.</li>
+          <li><strong className="text-primary-800">Legitimate interests</strong> — to run, secure and improve our business and respond to enquiries.</li>
+          <li><strong className="text-primary-800">Consent</strong> — for optional marketing communications, which you can withdraw at any time.</li>
+          <li><strong className="text-primary-800">Legal obligation</strong> — where we must keep or share records, e.g. for tax purposes.</li>
         </Ul>
       </>
     ),
@@ -167,11 +167,11 @@ const sections: LegalSection[] = [
       <>
         <P>We share personal data only where it&apos;s needed to deliver our service:</P>
         <Ul>
-          <li><strong className="text-navy-900">Airlines &amp; travel partners</strong> — to issue and manage your ticket.</li>
-          <li><strong className="text-navy-900">Our booking portal</strong> — the secure system we and our team use to process bookings and enquiries.</li>
-          <li><strong className="text-navy-900">Payment processors</strong> — to take payment securely; we do not store full card details ourselves.</li>
-          <li><strong className="text-navy-900">IT, hosting and support providers</strong> — who process data on our behalf, under contract.</li>
-          <li><strong className="text-navy-900">Regulators or authorities</strong> — where we are legally required to.</li>
+          <li><strong className="text-primary-800">Airlines &amp; travel partners</strong> — to issue and manage your ticket.</li>
+          <li><strong className="text-primary-800">Our booking portal</strong> — the secure system we and our team use to process bookings and enquiries.</li>
+          <li><strong className="text-primary-800">Payment processors</strong> — to take payment securely; we do not store full card details ourselves.</li>
+          <li><strong className="text-primary-800">IT, hosting and support providers</strong> — who process data on our behalf, under contract.</li>
+          <li><strong className="text-primary-800">Regulators or authorities</strong> — where we are legally required to.</li>
         </Ul>
         <P>
           We do not sell your personal data. If you enquire about a hotel or

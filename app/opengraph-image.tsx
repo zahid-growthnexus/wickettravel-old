@@ -17,7 +17,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "linear-gradient(135deg, #0b1638 0%, #132a63 60%, #0b1638 100%)",
+          background: "linear-gradient(135deg, #04102E 0%, #0E2660 60%, #04102E 100%)",
           padding: "72px 80px",
           fontFamily: "sans-serif",
         }}
@@ -29,7 +29,7 @@ export default function OpengraphImage() {
               width: 76,
               height: 76,
               borderRadius: 20,
-              background: "#1b3a7a",
+              background: "#081A48",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -40,7 +40,7 @@ export default function OpengraphImage() {
           </div>
           <div style={{ display: "flex", fontSize: 40, fontWeight: 800, letterSpacing: -1 }}>
             <span style={{ color: "#ffffff" }}>Wicket</span>
-            <span style={{ color: "#f97316" }}>Travel</span>
+            <span style={{ color: "#E06A10" }}>Travel</span>
           </div>
         </div>
 
@@ -57,13 +57,13 @@ export default function OpengraphImage() {
           >
             Cheap flights from the UK
           </div>
-          <div style={{ fontSize: 68, fontWeight: 800, color: "#fb923c", lineHeight: 1.05, letterSpacing: -2 }}>
+          <div style={{ fontSize: 68, fontWeight: 800, color: "#FF9645", lineHeight: 1.05, letterSpacing: -2 }}>
             at the best airline fares
           </div>
         </div>
 
         {/* Footline */}
-        <div style={{ fontSize: 30, color: "#c7d2e8", fontWeight: 600 }}>
+        <div style={{ fontSize: 30, color: "#BCC5E6", fontWeight: 600 }}>
           Trusted airlines · India · Dubai · Worldwide · No hidden fees
         </div>
       </div>

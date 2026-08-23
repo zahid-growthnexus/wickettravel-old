@@ -20,15 +20,15 @@ function LegalNotice() {
   return (
     <div
       role="note"
-      className="mb-10 flex items-start gap-3 rounded-2xl border border-amber-300 bg-amber-50 p-5 sm:p-6"
+      className="mb-10 flex items-start gap-3 rounded-lg border border-warning bg-warning-surface p-5 sm:p-6"
     >
       <span
-        className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-amber-100 text-amber-700"
+        className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-md bg-warning-surface text-warning"
         aria-hidden="true"
       >
         <AlertTriangle className="h-5 w-5" />
       </span>
-      <div className="t-small text-amber-900">
+      <div className="t-body-sm text-warning">
         <p className="font-bold">Template — pending legal review</p>
         <p className="mt-1">
           This page is a professionally structured starting point, not legal
@@ -43,13 +43,13 @@ function LegalNotice() {
 
 /** Paragraph with the shared legal-copy tone. */
 export function P({ children }: { children: ReactNode }) {
-  return <p className="t-small text-slate-600">{children}</p>;
+  return <p className="t-body-sm text-text-secondary">{children}</p>;
 }
 
 /** Bulleted list with the shared legal-copy tone. */
 export function Ul({ children }: { children: ReactNode }) {
   return (
-    <ul className="t-small list-disc space-y-2 pl-5 text-slate-600 marker:text-accent-500">
+    <ul className="t-body-sm list-disc space-y-2 pl-5 text-text-secondary marker:text-accent-500">
       {children}
     </ul>
   );
@@ -58,7 +58,7 @@ export function Ul({ children }: { children: ReactNode }) {
 /** Inline emphasis for a placeholder the client must confirm before launch. */
 export function Placeholder({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded bg-amber-100 px-1.5 py-0.5 font-semibold text-amber-800">
+    <span className="rounded-xs bg-warning-surface px-1.5 py-0.5 font-bold text-warning">
       {children}
     </span>
   );
@@ -78,7 +78,7 @@ export function LegalLink({
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="font-semibold text-navy-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
+      className="font-bold text-primary-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
     >
       {children}
     </a>
@@ -99,24 +99,24 @@ export default function LegalLayout({
   lastUpdated: string;
 }) {
   return (
-    <div className="section bg-white">
+    <div className="section bg-neutral-000">
       <div className="container-page">
         <LegalNotice />
-        <p className="mb-8 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <p className="mb-8 t-label-3 uppercase text-text-secondary">
           Last updated: {lastUpdated}
         </p>
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[240px_1fr] lg:gap-14">
           {/* Desktop table of contents — sticky sidebar */}
           <nav aria-label="On this page" className="hidden lg:block">
-            <div className="sticky top-24 rounded-2xl border border-slate-200/80 bg-mist p-5">
-              <p className="t-eyebrow text-navy-700">On this page</p>
-              <ul className="mt-4 space-y-1 text-sm">
+            <div className="sticky top-24 rounded-lg border border-neutral-300/80 bg-neutral-050 p-5">
+              <p className="t-overline text-primary-700">On this page</p>
+              <ul className="mt-4 space-y-1 t-body-sm">
                 {sections.map((s) => (
                   <li key={s.id}>
                     <a
                       href={`#${s.id}`}
-                      className="block rounded-lg px-3 py-2 leading-snug text-slate-600 transition-colors hover:bg-white hover:text-navy-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+                      className="block rounded-sm px-3 py-2 leading-snug text-text-secondary transition-colors hover:bg-neutral-000 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     >
                       {s.heading}
                     </a>
@@ -128,19 +128,19 @@ export default function LegalLayout({
 
           {/* Mobile table of contents — native accordion, zero JS */}
           <details className="card group p-5 lg:hidden">
-            <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-navy-900 [&::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-center justify-between font-bold text-primary-800 [&::-webkit-details-marker]:hidden">
               On this page
               <ChevronDown
-                className="h-4 w-4 shrink-0 text-navy-500 transition-transform duration-200 group-open:rotate-180"
+                className="h-4 w-4 shrink-0 text-primary-500 transition-transform duration-200 group-open:rotate-180"
                 aria-hidden="true"
               />
             </summary>
-            <ul className="mt-4 space-y-1 text-sm">
+            <ul className="mt-4 space-y-1 t-body-sm">
               {sections.map((s) => (
                 <li key={s.id}>
                   <a
                     href={`#${s.id}`}
-                    className="block rounded-lg px-3 py-2 leading-snug text-slate-600 transition-colors hover:bg-navy-50 hover:text-navy-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+                    className="block rounded-sm px-3 py-2 leading-snug text-text-secondary transition-colors hover:bg-primary-050 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                   >
                     {s.heading}
                   </a>
@@ -152,7 +152,7 @@ export default function LegalLayout({
           <article className="min-w-0 space-y-12">
             {sections.map((s) => (
               <section key={s.id} id={s.id} className="scroll-mt-28">
-                <h2 className="t-h3 text-xl text-navy-900">{s.heading}</h2>
+                <h2 className="t-h3 t-body-lg text-primary-800">{s.heading}</h2>
                 <div className="mt-4 space-y-4">{s.content}</div>
               </section>
             ))}

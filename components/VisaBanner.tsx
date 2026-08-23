@@ -129,17 +129,17 @@ export default function VisaBanner() {
   };
 
   const field =
-    "mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-navy-900 outline-none transition-colors placeholder:text-slate-400 focus:border-navy-500 focus:ring-2 focus:ring-navy-500/20";
-  const label = "text-sm font-semibold text-navy-900";
+    "mt-1.5 w-full rounded-md border border-neutral-300 bg-neutral-000 px-4 py-3 t-body-sm text-primary-800 outline-none transition-colors placeholder:text-text-tertiary focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20";
+  const label = "t-label-2 text-primary-800";
 
   return (
     <section
       id="dubai-visa"
-      className="section scroll-mt-16 bg-mist"
+      className="section scroll-mt-16 bg-sand-500"
       aria-labelledby="dubai-visa-heading"
     >
       <div className="container-page">
-        <Reveal className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950 shadow-2xl shadow-navy-950/30 ring-1 ring-white/10">
+        <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-2xl shadow-primary-900/30 ring-1 ring-neutral-000/10">
           {/* Soft accent glows */}
           <div
             aria-hidden="true"
@@ -147,25 +147,25 @@ export default function VisaBanner() {
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-navy-500/20 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-primary-500/20 blur-3xl"
           />
 
           <div className="relative grid items-center gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-[1fr_auto] lg:gap-12">
             <div className="text-center lg:text-left">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2">
+              <span className="inline-flex items-center gap-2 rounded-full border border-neutral-000/20 bg-neutral-000/10 px-4 py-2">
                 <ShieldCheck className="h-4 w-4 text-accent-400" aria-hidden="true" />
-                <span className="t-eyebrow text-white">Dubai Visa Specialists</span>
+                <span className="t-overline text-text-on-dark">Dubai Visa Specialists</span>
               </span>
-              <h2 id="dubai-visa-heading" className="t-h2 mt-5 text-white">
+              <h2 id="dubai-visa-heading" className="t-h2 mt-5 text-text-on-dark">
                 Dubai visa help,
                 <span className="text-accent-400"> handled end to end</span>
               </h2>
-              <p className="t-body-lg mx-auto mt-4 max-w-xl text-navy-200 lg:mx-0">
+              <p className="t-body-lg mx-auto mt-4 max-w-xl text-primary-200 lg:mx-0">
                 Expert support for your UAE tourist or visit visa — from the
                 eligibility check right through to submission. Quick, reliable,
                 stress-free.
               </p>
-              <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold text-navy-100 lg:justify-start">
+              <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 t-label-2 text-primary-100 lg:justify-start">
                 {PERKS.map((perk) => (
                   <li key={perk} className="inline-flex items-center gap-1.5">
                     <CheckCircle2
@@ -184,12 +184,12 @@ export default function VisaBanner() {
                 onClick={() => setOpen(true)}
                 whileHover={reduce ? undefined : { scale: 1.03 }}
                 whileTap={reduce ? undefined : { scale: 0.98 }}
-                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-7 py-4 text-base font-extrabold text-white shadow-lg shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
+                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-7 py-4 t-label-1 text-text-on-dark shadow-lg shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
               >
                 Start your visa enquiry
                 <ArrowRight className="h-5 w-5" aria-hidden="true" />
               </motion.button>
-              <p className="flex items-center gap-1.5 text-sm text-navy-300">
+              <p className="flex items-center gap-1.5 t-body-sm text-primary-300">
                 <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 Takes a minute — no account needed
               </p>
@@ -210,7 +210,7 @@ export default function VisaBanner() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               onClick={() => setOpen(false)}
               aria-hidden="true"
-              className="absolute inset-0 bg-navy-950/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-primary-900/60 backdrop-blur-sm"
             />
             <motion.div
               key="visa-panel"
@@ -221,17 +221,17 @@ export default function VisaBanner() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl"
+              className="relative flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-lg bg-neutral-000 shadow-2xl sm:rounded-lg"
             >
-              <div className="flex shrink-0 items-start justify-between gap-4 bg-gradient-to-r from-navy-900 to-navy-800 px-5 py-5 sm:px-7">
+              <div className="flex shrink-0 items-start justify-between gap-4 bg-gradient-to-r from-primary-800 to-primary-800 px-5 py-5 sm:px-7">
                 <div>
                   <h3
                     id="visa-modal-title"
-                    className="text-lg font-extrabold tracking-tight text-white sm:text-xl"
+                    className="t-h4 text-text-on-dark"
                   >
                     Dubai visa enquiry
                   </h3>
-                  <p className="mt-1.5 flex items-center gap-1.5 text-sm text-navy-100/85">
+                  <p className="mt-1.5 flex items-center gap-1.5 t-body-sm text-primary-100/85">
                     <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                     Our expert contacts you within 2 hours.
                   </p>
@@ -241,7 +241,7 @@ export default function VisaBanner() {
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label="Close enquiry form"
-                  className="-mr-2 -mt-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                  className="-mr-2 -mt-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-sm text-text-on-dark/80 transition-colors hover:bg-neutral-000/10 hover:text-text-on-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000/50"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -250,24 +250,24 @@ export default function VisaBanner() {
               <div className="overflow-y-auto overscroll-contain px-5 py-6 sm:px-7">
                 {submitted ? (
                   <div className="py-6 text-center" role="status">
-                    <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-50">
+                    <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-success-surface">
                       <CheckCircle2
-                        className="h-9 w-9 text-emerald-500"
+                        className="h-9 w-9 text-success"
                         aria-hidden="true"
                       />
                     </span>
-                    <h4 className="t-h3 mt-5 text-xl text-navy-900">
+                    <h4 className="t-h3 mt-5 t-body-lg text-primary-800">
                       Enquiry received!
                     </h4>
                     {reference && (
-                      <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-navy-50 px-4 py-1.5 text-sm text-navy-800">
+                      <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-primary-050 px-4 py-1.5 t-body-sm text-primary-800">
                         Your reference:{" "}
-                        <span className="font-extrabold tracking-wide text-navy-900">
+                        <span className="font-extrabold tracking-wide text-primary-800">
                           {reference}
                         </span>
                       </p>
                     )}
-                    <p className="t-small mx-auto mt-4 max-w-sm text-slate-600">
+                    <p className="t-body-sm mx-auto mt-4 max-w-sm text-text-secondary">
                       A Wicket Travel visa expert will call you back within 2
                       hours to confirm your details and next steps.
                     </p>
@@ -275,14 +275,14 @@ export default function VisaBanner() {
                       <button
                         type="button"
                         onClick={() => setOpen(false)}
-                        className="btn-primary px-6 py-3"
+                        className="btn btn-primary px-6 py-3"
                       >
                         Done
                       </button>
                       <button
                         type="button"
                         onClick={reset}
-                        className="btn-outline px-6 py-3"
+                        className="btn btn-outline px-6 py-3"
                       >
                         Send another
                       </button>
@@ -326,7 +326,7 @@ export default function VisaBanner() {
                           placeholder="Aisha"
                         />
                         {errors.first_name && (
-                          <p id="vb-first-error" className="mt-1.5 text-xs font-medium text-red-600">
+                          <p id="vb-first-error" className="mt-1.5 t-label-3 text-error">
                             {errors.first_name}
                           </p>
                         )}
@@ -348,7 +348,7 @@ export default function VisaBanner() {
                           placeholder="Khan"
                         />
                         {errors.last_name && (
-                          <p id="vb-last-error" className="mt-1.5 text-xs font-medium text-red-600">
+                          <p id="vb-last-error" className="mt-1.5 t-label-3 text-error">
                             {errors.last_name}
                           </p>
                         )}
@@ -375,7 +375,7 @@ export default function VisaBanner() {
                           placeholder="you@example.com"
                         />
                         {errors.email && (
-                          <p id="vb-email-error" className="mt-1.5 text-xs font-medium text-red-600">
+                          <p id="vb-email-error" className="mt-1.5 t-label-3 text-error">
                             {errors.email}
                           </p>
                         )}
@@ -399,7 +399,7 @@ export default function VisaBanner() {
                           placeholder="+44 7000 000000"
                         />
                         {errors.phone && (
-                          <p id="vb-phone-error" className="mt-1.5 text-xs font-medium text-red-600">
+                          <p id="vb-phone-error" className="mt-1.5 t-label-3 text-error">
                             {errors.phone}
                           </p>
                         )}
@@ -409,7 +409,7 @@ export default function VisaBanner() {
                     <div>
                       <label htmlFor="vb-notes" className={label}>
                         Anything we should know?{" "}
-                        <span className="font-normal text-slate-500">(optional)</span>
+                        <span className="font-normal text-text-secondary">(optional)</span>
                       </label>
                       <textarea
                         id="vb-notes"
@@ -424,7 +424,7 @@ export default function VisaBanner() {
                     {submitError && (
                       <p
                         role="alert"
-                        className="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+                        className="rounded-md bg-error-surface px-4 py-3 t-label-2 text-error"
                       >
                         {submitError}
                       </p>
@@ -433,7 +433,7 @@ export default function VisaBanner() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="btn-primary w-full px-6 py-3.5 text-base disabled:cursor-not-allowed disabled:opacity-70"
+                      className="btn btn-primary w-full px-6 py-3.5 t-body disabled:cursor-not-allowed disabled:opacity-70"
                     >
                       {submitting ? (
                         <>
@@ -447,7 +447,7 @@ export default function VisaBanner() {
                         </>
                       )}
                     </button>
-                    <p className="text-center text-xs text-slate-500">
+                    <p className="text-center t-caption text-text-secondary">
                       We only use your details to answer this enquiry.
                     </p>
                   </form>

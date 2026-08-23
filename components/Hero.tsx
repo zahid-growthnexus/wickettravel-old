@@ -28,8 +28,8 @@ export default function Hero() {
         />
         {/* Lighter scrim than before: sky/plane stays clearly visible while the
             centered text keeps strong contrast. */}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-950/65 via-navy-900/45 to-navy-950/70" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-navy-950/40 via-transparent to-accent-500/5" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-900/65 via-primary-800/45 to-primary-900/70" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary-900/40 via-transparent to-accent-500/5" />
         {!reduce && (
           <motion.div
             aria-hidden="true"
@@ -47,17 +47,17 @@ export default function Hero() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto max-w-3xl text-center"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold text-navy-50 backdrop-blur-sm sm:text-sm">
+          <span className="inline-flex items-center gap-2 rounded-full border border-neutral-000/20 bg-neutral-000/10 px-4 py-1.5 t-label-3 text-primary-050 backdrop-blur-sm">
             <span className="h-2 w-2 rounded-full bg-accent-400" />
             {t("hero.badge")}
           </span>
           {/* Short two-line heading: white line + orange accent line, so the
               search widget stays above the fold on common desktop heights. */}
-          <h1 className="t-display mt-5 text-white [text-shadow:0_2px_24px_rgb(11_22_56_/_0.45)]">
+          <h1 className="t-display-2 mt-5 text-text-on-dark [text-shadow:0_2px_24px_rgb(4_16_46_/_0.45)]">
             {t("hero.title")}
             <span className="block text-accent-400">{t("hero.accent")}</span>
           </h1>
-          <p className="t-body-lg mx-auto mt-4 max-w-2xl text-navy-50 [text-shadow:0_1px_12px_rgb(11_22_56_/_0.5)]">
+          <p className="t-body-lg mx-auto mt-4 max-w-2xl text-primary-050 [text-shadow:0_1px_12px_rgb(4_16_46_/_0.5)]">
             {t("hero.subline")}
           </p>
         </motion.div>

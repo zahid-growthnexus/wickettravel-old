@@ -70,7 +70,7 @@ function CategoryCard({ c }: { c: Category }) {
       {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       whileHover={reduce ? undefined : { y: -6 }}
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-2xl shadow-sm ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+      className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-lg shadow-sm ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
     >
       <Image
         src={c.img}
@@ -79,15 +79,15 @@ function CategoryCard({ c }: { c: Category }) {
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/35 to-navy-950/5" />
+      <div className="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-primary-900/35 to-primary-900/5" />
 
       <div className="relative p-6">
-        <span className="inline-grid h-11 w-11 place-items-center rounded-xl bg-white/15 text-white backdrop-blur-sm transition-colors duration-300 group-hover:bg-accent-500">
+        <span className="inline-grid h-11 w-11 place-items-center rounded-md bg-neutral-000/15 text-text-on-dark backdrop-blur-sm transition-colors duration-300 group-hover:bg-accent-500">
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
-        <h3 className="t-h3 mt-4 text-xl text-white">{t(c.titleKey)}</h3>
-        <p className="t-small mt-1.5 text-navy-100">{c.copy}</p>
-        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-accent-300 transition-colors group-hover:text-accent-200">
+        <h3 className="t-h3 mt-4 t-body-lg text-text-on-dark">{t(c.titleKey)}</h3>
+        <p className="t-body-sm mt-1.5 text-primary-100">{c.copy}</p>
+        <span className="mt-4 inline-flex items-center gap-1.5 t-label-2 text-accent-200 transition-colors group-hover:text-accent-200">
           {c.cta}
           <ArrowRight
             className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
@@ -102,12 +102,12 @@ function CategoryCard({ c }: { c: Category }) {
 export default function TravelByCategory() {
   const { t } = useI18n();
   return (
-    <section className="section bg-mist">
+    <section className="section bg-sand-500">
       <div className="container-page">
         <Reveal className="section-lead text-center">
-          <span className="t-eyebrow text-accent-600">{t("cat.eyebrow")}</span>
-          <h2 className="t-h2 mt-3 text-navy-900">{t("cat.title")}</h2>
-          <p className="t-body mt-4 text-slate-600">{t("cat.lead")}</p>
+          <span className="t-overline text-accent-600">{t("cat.eyebrow")}</span>
+          <h2 className="t-h2 mt-3 text-primary-800">{t("cat.title")}</h2>
+          <p className="t-body mt-4 text-text-secondary">{t("cat.lead")}</p>
         </Reveal>
 
         <Stagger

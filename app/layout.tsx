@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { IBM_Plex_Mono, Manrope, Newsreader } from "next/font/google";
 import "./globals.css";
 import { SITE_URL, BUSINESS } from "@/lib/seo";
 import { I18nProvider } from "@/lib/i18n";
@@ -7,22 +7,50 @@ import ScrollProgress from "@/components/ScrollProgress";
 import StickySearchBar from "@/components/StickySearchBar";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta-sans",
+/* Brand Foundations v1.0 sets three typeface roles. All are self-hosted by
+   next/font (no render-blocking Google request); `swap` paints immediately in
+   the fallback and the matched fallback metrics keep the swap from shifting
+   layout (near-zero CLS).
+
+   Manrope and Newsreader are variable fonts, so no `weight` is needed — the
+   whole axis ships in one file. IBM Plex Mono is not variable, so its single
+   in-use weight is declared explicitly to keep the payload small. */
+
+// Primary — UI & headings. Weights in use: 400 Regular / 700 Bold / 800 ExtraBold.
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
-  // Self-hosted by next/font (no render-blocking Google request). `swap` paints
-  // text immediately in the fallback, and the matched fallback metrics below
-  // keep the swap from shifting layout (near-zero CLS).
   display: "swap",
   preload: true,
+  // next/font requires literal values here — it reads these at build time.
   fallback: [
     "-apple-system",
     "BlinkMacSystemFont",
     "Segoe UI",
-    "Arial",
-    "Helvetica",
+    "Helvetica Neue",
     "sans-serif",
   ],
+});
+
+// Secondary — editorial only: destination stories and long-form, never on
+// booking flows. Not preloaded; no above-the-fold surface uses it today, so
+// preloading would cost a request on every page for a font most never show.
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+  fallback: ["Georgia", "Times New Roman", "serif"],
+});
+
+// Utility — booking references, fare codes, PNRs. Static family, 400 only.
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  preload: false,
+  fallback: ["ui-monospace", "Menlo", "monospace"],
 });
 
 export const metadata: Metadata = {
@@ -95,7 +123,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${plusJakartaSans.variable} h-full antialiased`}
+      className={`${manrope.variable} ${newsreader.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
       <head>
         {/* Warm up the origins the browser fetches directly (next/image proxies

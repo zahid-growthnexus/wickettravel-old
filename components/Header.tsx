@@ -55,11 +55,11 @@ export default function Header() {
         // backdrop covers it instead of it poking through the drawer.
         open ? "z-[70]" : "z-50",
         scrolled
-          // Solid-ish white instead of bg-white/90 + backdrop-blur: a sticky,
+          // Solid-ish white instead of bg-neutral-000/90 + backdrop-blur: a sticky,
           // full-width backdrop-filter repaints every scroll frame on Android.
           // /95 is visually indistinguishable from the frosted version.
-          ? "border-b border-navy-100 bg-white/95 shadow-sm"
-          : "border-b border-transparent bg-white/0"
+          ? "border-b border-primary-100 bg-neutral-000/95 shadow-sm"
+          : "border-b border-transparent bg-neutral-000/0"
       )}
     >
       <div className="container-page flex h-16 items-center justify-between">
@@ -85,7 +85,7 @@ export default function Header() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+                className="rounded-sm px-3 py-2 t-label-2 text-neutral-600 transition-colors duration-200 hover:bg-primary-050 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
               >
                 {t(link.key)}
               </a>
@@ -93,7 +93,7 @@ export default function Header() {
               <Link
                 key={link.key}
                 href={link.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+                className="rounded-sm px-3 py-2 t-label-2 text-neutral-600 transition-colors duration-200 hover:bg-primary-050 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
               >
                 {t(link.key)}
               </Link>
@@ -104,7 +104,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <a
             href={PORTAL_LOGIN_URL}
-            className="hidden rounded-full bg-accent-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-accent-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 sm:inline-flex"
+            className="hidden rounded-full bg-accent-500 px-5 py-2.5 t-label-2 text-text-on-dark shadow-sm transition-all duration-200 hover:bg-accent-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 sm:inline-flex"
           >
             {t("cta.getQuote")}
           </a>
@@ -113,7 +113,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-navy-900 transition-colors hover:bg-navy-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-sm text-primary-800 transition-colors hover:bg-primary-050 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -136,7 +136,7 @@ export default function Header() {
               transition={{ duration: 0.2, ease: "easeOut" }}
               onClick={() => setOpen(false)}
               aria-hidden="true"
-              className="fixed inset-0 z-40 bg-navy-950/40 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-40 bg-primary-900/40 backdrop-blur-sm lg:hidden"
             />
 
             {/* Slide-in panel */}
@@ -154,10 +154,10 @@ export default function Header() {
                   ? { duration: 0.15 }
                   : { type: "spring", stiffness: 320, damping: 34 }
               }
-              className="fixed inset-y-0 right-0 z-50 flex w-[min(20rem,82vw)] flex-col overflow-y-auto overscroll-contain bg-white shadow-2xl shadow-navy-950/20 lg:hidden"
+              className="fixed inset-y-0 right-0 z-50 flex w-[min(20rem,82vw)] flex-col overflow-y-auto overscroll-contain bg-neutral-000 shadow-2xl shadow-primary-900/20 lg:hidden"
             >
               {/* Drawer header */}
-              <div className="flex h-16 shrink-0 items-center justify-between border-b border-navy-100 px-5">
+              <div className="flex h-16 shrink-0 items-center justify-between border-b border-primary-100 px-5">
                 <Image
                   src="/logo-trans.png"
                   alt="Wicket Travel"
@@ -168,7 +168,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-navy-900 transition-colors hover:bg-navy-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-sm text-primary-800 transition-colors hover:bg-primary-050 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                   aria-label="Close menu"
                 >
                   <X className="h-6 w-6" />
@@ -184,7 +184,7 @@ export default function Header() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => setOpen(false)}
-                      className="flex min-h-[44px] items-center rounded-lg px-3 text-base font-medium text-slate-700 transition-colors hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+                      className="flex min-h-[44px] items-center rounded-sm px-3 t-label-1 text-neutral-600 transition-colors hover:bg-primary-050 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     >
                       {t(link.key)}
                     </a>
@@ -193,7 +193,7 @@ export default function Header() {
                       key={link.key}
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      className="flex min-h-[44px] items-center rounded-lg px-3 text-base font-medium text-slate-700 transition-colors hover:bg-navy-50 hover:text-navy-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+                      className="flex min-h-[44px] items-center rounded-sm px-3 t-label-1 text-neutral-600 transition-colors hover:bg-primary-050 hover:text-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                     >
                       {t(link.key)}
                     </Link>
@@ -202,11 +202,11 @@ export default function Header() {
               </nav>
 
               {/* Footer block — primary CTA, pinned to bottom */}
-              <div className="mt-auto shrink-0 border-t border-navy-100 p-5">
+              <div className="mt-auto shrink-0 border-t border-primary-100 p-5">
                 <a
                   href={PORTAL_LOGIN_URL}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-[48px] items-center justify-center rounded-full bg-accent-500 px-5 text-base font-semibold text-white shadow-sm transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+                  className="flex min-h-[48px] items-center justify-center rounded-full bg-accent-500 px-5 t-label-1 text-text-on-dark shadow-sm transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
                 >
                   {t("cta.getQuote")}
                 </a>

@@ -204,7 +204,7 @@ function DestCard({ d }: { d: Dest }) {
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
       className="card card-hover group flex items-center gap-4 overflow-hidden p-3"
     >
-      <div className="relative h-20 w-24 shrink-0 overflow-hidden rounded-xl">
+      <div className="relative h-20 w-24 shrink-0 overflow-hidden rounded-md">
         <Image
           src={d.img}
           alt={`Flights to ${d.city}, ${d.country}`}
@@ -214,13 +214,13 @@ function DestCard({ d }: { d: Dest }) {
         />
       </div>
       <div className="min-w-0 flex-1">
-        <h3 className="t-h3 truncate text-navy-900">{d.city}</h3>
-        <p className="text-xs text-slate-500">{d.country}</p>
-        <p className="mt-1 text-sm font-extrabold text-navy-900">
+        <h3 className="t-h3 truncate text-primary-800">{d.city}</h3>
+        <p className="t-caption text-text-secondary">{d.country}</p>
+        <p className="mt-1 t-label-2 text-primary-800">
           {t("city.soft")}
         </p>
       </div>
-      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-50 text-accent-600 transition-colors group-hover:bg-accent-500 group-hover:text-white">
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-050 text-accent-600 transition-colors group-hover:bg-accent-500 group-hover:text-text-on-dark">
         <ArrowRight className="h-5 w-5" aria-hidden="true" />
       </span>
     </motion.a>
@@ -234,12 +234,12 @@ export default function BestFaresByCity() {
   const region = REGIONS.find((r) => r.name === active) ?? REGIONS[0];
 
   return (
-    <section className="section bg-mist">
+    <section className="section bg-sand-500">
       <div className="container-page">
         <Reveal className="section-lead text-center">
-          <span className="t-eyebrow text-accent-600">{t("city.eyebrow")}</span>
-          <h2 className="t-h2 mt-3 text-navy-900">{t("city.title")}</h2>
-          <p className="t-body mt-4 text-slate-600">{t("city.lead")}</p>
+          <span className="t-overline text-accent-600">{t("city.eyebrow")}</span>
+          <h2 className="t-h2 mt-3 text-primary-800">{t("city.title")}</h2>
+          <p className="t-body mt-4 text-text-secondary">{t("city.lead")}</p>
         </Reveal>
 
         {/* Region tabs — active tab is a filled navy pill (white text), hover a
@@ -260,17 +260,17 @@ export default function BestFaresByCity() {
                 aria-selected={selected}
                 onClick={() => setActive(name)}
                 className={cn(
-                  "relative rounded-full px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2",
+                  "relative rounded-full px-4 py-2 t-label-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2",
                   selected
-                    ? "text-white"
-                    : "bg-white text-navy-800 shadow-sm ring-1 ring-navy-100 hover:bg-navy-100 hover:text-navy-900"
+                    ? "text-text-on-dark"
+                    : "bg-neutral-000 text-primary-800 shadow-sm ring-1 ring-primary-100 hover:bg-primary-100 hover:text-primary-800"
                 )}
               >
                 {selected && (
                   <motion.span
                     layoutId="region-tab"
                     aria-hidden="true"
-                    className="absolute inset-0 rounded-full bg-navy-800 shadow-md"
+                    className="absolute inset-0 rounded-full bg-primary-800 shadow-md"
                     transition={
                       reduce
                         ? { duration: 0 }

@@ -52,9 +52,9 @@ const sections: LegalSection[] = [
       <>
         <P>Whether a ticket is refundable depends on the fare type you booked:</P>
         <Ul>
-          <li><strong className="text-navy-900">Fully refundable fares</strong> — can be cancelled for a refund, sometimes minus a service or admin fee.</li>
-          <li><strong className="text-navy-900">Partially refundable fares</strong> — the airline refunds taxes and part of the fare; the rest is retained per its fare rules.</li>
-          <li><strong className="text-navy-900">Non-refundable fares</strong> — typically only unused government taxes and airport charges can be recovered, if anything.</li>
+          <li><strong className="text-primary-800">Fully refundable fares</strong> — can be cancelled for a refund, sometimes minus a service or admin fee.</li>
+          <li><strong className="text-primary-800">Partially refundable fares</strong> — the airline refunds taxes and part of the fare; the rest is retained per its fare rules.</li>
+          <li><strong className="text-primary-800">Non-refundable fares</strong> — typically only unused government taxes and airport charges can be recovered, if anything.</li>
         </Ul>
         <P>
           Your fare type is confirmed at the time of booking. If you&apos;re

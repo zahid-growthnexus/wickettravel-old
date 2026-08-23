@@ -27,22 +27,22 @@ export default function StickySearchBar() {
           animate={{ opacity: 1, y: 0 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, y: -100 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          /* bg-white/95 is near-opaque, so the backdrop-blur was barely visible
+          /* bg-neutral-000/95 is near-opaque, so the backdrop-blur was barely visible
              but forced a full-width backdrop-filter repaint on every scroll
              frame (a top cause of Android Chrome jank). Dropped — looks the
              same, composites far cheaper. */
-          className="fixed inset-x-0 top-16 z-40 border-b border-navy-100 bg-white/95 shadow-sm"
+          className="fixed inset-x-0 top-16 z-40 border-b border-primary-100 bg-neutral-000/95 shadow-sm"
         >
           <div className="container-page flex h-14 items-center justify-between gap-4">
             <div className="flex min-w-0 items-center gap-2.5">
-              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-navy-50 text-navy-700">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-sm bg-primary-050 text-primary-700">
                 <Plane className="h-4 w-4 -rotate-45" aria-hidden="true" />
               </span>
-              <span className="truncate text-sm font-semibold text-navy-900">
+              <span className="truncate t-label-2 text-primary-800">
                 {t("sticky.text")}
               </span>
             </div>
-            <Link href="/" className="btn-primary shrink-0 px-4 py-2 sm:px-5 sm:py-2.5">
+            <Link href="/" className="btn btn-primary shrink-0 px-4 py-2 sm:px-5 sm:py-2.5">
               <Search className="h-4 w-4" aria-hidden="true" />
               <span className="hidden sm:inline">{t("sticky.cta")}</span>
             </Link>

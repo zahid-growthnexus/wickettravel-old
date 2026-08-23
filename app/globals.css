@@ -1,42 +1,113 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-}
+/* ═══════════════════════════════════════════════════════════════════════
+   WICKET TRAVEL — BRAND FOUNDATIONS v1.0
+   Colour, type, spacing and grid. Foundations only: no component styles
+   beyond the primitives the spec names sizes and radii for.
+
+   Every value here is traceable to "Wicket Travel Design System" v1.0.
+   Components must consume these tokens — no raw hex, no arbitrary sizes.
+   ═══════════════════════════════════════════════════════════════════════ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-plus-jakarta-sans);
+  /* ── Typeface roles ────────────────────────────────────────────────
+     Primary  Manrope       UI & headings (400 / 700 / 800)
+     Editorial Newsreader   destination stories, long-form ONLY —
+                            never on booking flows
+     Utility  IBM Plex Mono booking refs, fare codes, PNRs           */
+  --font-sans: var(--font-manrope), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-editorial: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, Menlo, monospace;
 
-  /* Brand — deep trustworthy blue */
-  --color-navy-50: #eff4ff;
-  --color-navy-100: #dbe5ff;
-  --color-navy-200: #bfd0ff;
-  --color-navy-300: #93b0ff;
-  --color-navy-400: #6086fc;
-  --color-navy-500: #3b82f6;
-  --color-navy-600: #2563eb;
-  --color-navy-700: #1d4ed8;
-  --color-navy-800: #1e3a8a;
-  --color-navy-900: #172554;
-  --color-navy-950: #0b1638;
+  /* ── Colour / Primary — Voyage Navy ───────────────────────────────
+     Structure and trust. 800 is the base brand navy.                */
+  --color-primary-900: #04102e; /* pressed states, footer   */
+  --color-primary-800: #081a48; /* BASE — core brand navy   */
+  --color-primary-700: #0e2660; /* hover, focus ring        */
+  --color-primary-500: #3a4a72; /* illustration, charts     */
+  --color-primary-300: #6b7896; /* dividers on navy         */
+  --color-primary-200: #a7b0c4; /* inactive indicators      */
+  --color-primary-100: #d3d8e2; /* skeletons, rules         */
+  --color-primary-050: #edeff4; /* tinted surface           */
 
-  /* Accent — vibrant orange CTA */
-  --color-accent-50: #fff7ed;
-  --color-accent-100: #ffedd5;
-  --color-accent-200: #fed7aa;
-  --color-accent-300: #fdba74;
-  --color-accent-400: #fb923c;
-  --color-accent-500: #f97316;
-  --color-accent-600: #ea580c;
-  --color-accent-700: #c2410c;
+  /* ── Colour / Accent — Sunset Orange ──────────────────────────────
+     Reserved for action. 500 is the ONLY orange permitted for fills;
+     the brighter #F87A1B is retired. Even at 500, use as a fill with
+     white text — never as body-text colour on light backgrounds.    */
+  --color-accent-700: #b85a0d; /* pressed / darkest         */
+  --color-accent-600: #d2620f; /* button hover              */
+  --color-accent-500: #e06a10; /* BASE — primary action, logo */
+  --color-accent-400: #ff9645; /* accent on navy            */
+  --color-accent-200: #fdc79a; /* inactive dots             */
+  --color-accent-100: #fde7d2; /* badge fill                */
+  --color-accent-050: #fff4e9; /* accent surface            */
 
-  /* Neutrals */
-  --color-ink: #0f172a;
-  --color-slate: #475569;
-  --color-mist: #f1f5f9;
+  /* ── Colour / Secondary — Sand ────────────────────────────────────
+     The ONLY permitted alternate section background.                */
+  --color-sand-500: #f6f8ec; /* alternate section bg        */
+  --color-sand-600: #e8ecd8; /* borders on sand             */
+  --color-sand-700: #7a7c71; /* muted text on sand          */
+
+  /* ── Colour / Neutral ─────────────────────────────────────────────── */
+  --color-neutral-000: #ffffff;
+  --color-neutral-050: #fafaf8;
+  --color-neutral-100: #f2f2ef;
+  --color-neutral-200: #efefef;
+  --color-neutral-300: #d8d8d4;
+  --color-neutral-400: #929292;
+  --color-neutral-500: #6c6c6c;
+  --color-neutral-600: #4f4f4f;
+  --color-neutral-700: #3d3e38;
+  --color-neutral-900: #1a1a1a;
+
+  /* ── Colour / Semantic ────────────────────────────────────────────
+     Each pairs a foreground with its own tinted surface.            */
+  --color-success: #157a57; /* booking confirmed, price drop */
+  --color-success-surface: #e7f2ee;
+  --color-error: #c3341f; /* failed payment, validation      */
+  --color-error-surface: #fbe9e5;
+  --color-warning: #e5a020; /* visa notes, self-transfer      */
+  --color-warning-surface: #fdf3e2;
+  --color-info: #2e5aac; /* baggage rules, tips              */
+  --color-info-surface: #e9eef9;
+
+  /* ── Colour / Text — aliases onto the ramps above ─────────────────
+     Named by the surface they sit on, so the right pairing is the
+     obvious one to reach for.                                       */
+  --color-text-primary: #081a48;
+  --color-text-secondary: #6c6c6c;
+  --color-text-tertiary: #929292;
+  --color-text-disabled: #929292;
+  --color-text-on-sand: #7a7c71;
+  --color-text-on-dark: #ffffff;
+  --color-text-on-dark-secondary: #bcc5e6;
+  --color-text-on-dark-tertiary: #7b8db0;
+
+  /* ── Spacing — 8px baseline ───────────────────────────────────────
+     One scale governs type and space, so text always lands on grid.
+     4px and 12px exist ONLY for inside-component nudges.
+
+     These are NOT declared as named --spacing-* tokens on purpose: the
+     `--spacing-*` namespace also backs the t-shirt widths (max-w-sm,
+     max-w-3xl, w-xl …), so a token named `--spacing-3xl: 48px` silently
+     redefines max-w-3xl from 48rem to 48px. The spec's scale already
+     lands exactly on Tailwind's native numeric steps, so use those:
+
+       space/2xs   4px → 1        space/xl    32px → 8
+       space/xs    8px → 2        space/2xl   40px → 10
+       space/sm   12px → 3        space/3xl   48px → 12
+       space/md   16px → 4        space/4xl   64px → 16
+       space/lg   24px → 6        space/5xl   96px → 24
+                                  space/6xl  128px → 32              */
+
+  /* ── Radius ───────────────────────────────────────────────────────
+     Buttons and inputs sm 8 · cards md 12 · pills and avatars full.
+     These remap Tailwind's defaults onto the spec's four steps.     */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
 }
 
 /* Global overflow guard — nothing may push the page sideways at any width.
@@ -46,74 +117,184 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: var(--color-neutral-000);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
   /* Belt-and-braces: clip is safe for position:sticky descendants. */
   overflow-x: clip;
 }
 
-/* ───────────────────────────────────────────────────────────
-   Shared design system — one source of truth, no per-section drift.
-   Tokens set size / weight / rhythm only; color stays a utility so
-   the same token works on light and dark sections.
-   ─────────────────────────────────────────────────────────── */
 @layer components {
-  /* Layout primitives — one container, fluid padding that grows with the
-     viewport, capped + centred at max-w-7xl (1280px) so wide screens never
-     look empty-stretched. */
+  /* ═══════════════════════════════════════════════════════════════
+     LAYOUT — grid & breakpoints
+     Desktop ≥1024  12 col · 24 gutter · 40 margin
+     Tablet  ≥768    8 col · 20 gutter · 24 margin
+     Mobile  <768    4 col · 16 gutter · 16 margin
+     Max content 1280px
+     ═══════════════════════════════════════════════════════════════ */
   .container-page {
-    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[1280px] px-4 md:px-6 lg:px-10;
   }
+
+  /* Column grid matching the spec's three breakpoints. Children opt in
+     with col-span-*; the count changes at each step, so spans should be
+     declared per breakpoint. */
+  .grid-page {
+    @apply grid grid-cols-4 gap-x-4 md:grid-cols-8 md:gap-x-5 lg:grid-cols-12 lg:gap-x-6;
+  }
+
+  /* Section rhythm — 4xl on mobile stepping to 5xl (96px) on desktop. */
   .section {
-    /* Vertical rhythm scales with the viewport: tighter on phones, roomy on
-       desktop. clamp keeps untested widths in between looking right too. */
-    @apply py-[clamp(3.5rem,8vw,7rem)];
+    @apply py-16 md:py-24;
   }
 
-  /* Typographic scale (Plus Jakarta Sans) — fluid clamp() so headings resize
-     smoothly between phones and desktop with no awkward jumps. */
-  .t-display {
-    @apply text-balance text-[clamp(2rem,1.1rem+4vw,3.75rem)] font-extrabold leading-[1.08] tracking-tight;
-  }
-  .t-h2 {
-    @apply text-balance text-[clamp(1.75rem,1.3rem+1.9vw,2.25rem)] font-extrabold leading-[1.15] tracking-tight;
-  }
-  .t-h3 {
-    @apply text-[clamp(1.0625rem,1rem+0.3vw,1.125rem)] font-bold leading-snug tracking-tight;
-  }
-  .t-eyebrow {
-    @apply text-xs font-bold uppercase tracking-[0.18em] sm:text-sm;
-  }
-  .t-body-lg {
-    @apply text-[clamp(1rem,0.95rem+0.25vw,1.125rem)] leading-relaxed;
-  }
-  .t-body {
-    @apply text-base leading-relaxed;
-  }
-  .t-small {
-    @apply text-sm leading-relaxed;
-  }
-
-  /* Section intro block (eyebrow + heading + lead) */
+  /* Section intro block (overline + heading + lead). Layout only — the spec
+     governs the type and colour, which stay on the child elements. */
   .section-lead {
     @apply mx-auto max-w-2xl text-pretty;
   }
 
-  /* Standard card — single shared style everywhere */
-  .card {
-    @apply rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-shadow duration-300;
+  /* ═══════════════════════════════════════════════════════════════
+     TYPE — 22 styles × 2 breakpoints
+     Major-third scale on an 8px baseline: 12·14·16·20·24·32·40·48·64·76.
+     Body, label, caption and button sizes are identical on desktop and
+     mobile — only display and heading levels step down one rung below
+     768px, so mobile is the base and `md:` restores the desktop rung.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* Display — Manrope 800, -0.04em */
+  .t-display-1 {
+    @apply font-sans text-[48px] font-extrabold leading-[48px] tracking-[-0.04em] md:text-[76px] md:leading-[76px];
   }
-  .card-hover {
-    @apply hover:shadow-xl hover:shadow-navy-900/5;
+  .t-display-2 {
+    @apply font-sans text-[40px] font-extrabold leading-[40px] tracking-[-0.04em] md:text-[64px] md:leading-[64px];
+  }
+  .t-display-3 {
+    @apply font-sans text-[32px] font-extrabold leading-[32px] tracking-[-0.04em] md:text-[48px] md:leading-[48px];
   }
 
-  /* Buttons */
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-accent-500 text-white shadow-sm hover:bg-accent-600 hover:shadow-md focus-visible:ring-accent-500;
+  /* Headings — Manrope 700 */
+  .t-h1 {
+    @apply font-sans text-[32px] font-bold leading-[40px] tracking-[-0.02em] md:text-[40px] md:leading-[48px];
   }
+  .t-h2 {
+    @apply font-sans text-[24px] font-bold leading-[28px] tracking-[-0.02em] md:text-[32px] md:leading-[40px];
+  }
+  .t-h3 {
+    @apply font-sans text-[20px] font-bold leading-[24px] md:text-[24px] md:leading-[28px];
+  }
+  .t-h4 {
+    @apply font-sans text-[20px] font-bold leading-[24px];
+  }
+  .t-h5 {
+    @apply font-sans text-[16px] font-bold leading-[20px];
+  }
+
+  /* Body — Manrope 400 */
+  .t-subheading {
+    @apply font-sans text-[20px] font-normal leading-[28px] md:text-[24px] md:leading-[32px];
+  }
+  .t-body-lg {
+    @apply font-sans text-[16px] font-normal leading-[24px] md:text-[20px] md:leading-[28px];
+  }
+  .t-body {
+    @apply font-sans text-[16px] font-normal leading-[24px];
+  }
+  .t-body-sm {
+    @apply font-sans text-[14px] font-normal leading-[20px];
+  }
+  .t-caption {
+    @apply font-sans text-[12px] font-normal leading-[16px];
+  }
+
+  /* Labels — Manrope 700 */
+  .t-label-1 {
+    @apply font-sans text-[16px] font-bold leading-[24px];
+  }
+  .t-label-2 {
+    @apply font-sans text-[14px] font-bold leading-[20px];
+  }
+  .t-label-3 {
+    @apply font-sans text-[12px] font-bold leading-[16px];
+  }
+  .t-overline {
+    @apply font-sans text-[12px] font-bold uppercase leading-[16px] tracking-[0.08em];
+  }
+
+  /* Buttons — Manrope 700 */
+  .t-button {
+    @apply font-sans text-[16px] font-bold leading-[24px];
+  }
+  .t-button-sm {
+    @apply font-sans text-[14px] font-bold leading-[20px];
+  }
+
+  /* Editorial — Newsreader. Destination stories and long-form only. */
+  .t-editorial-1 {
+    @apply font-editorial text-[32px] font-light leading-[40px] md:text-[48px] md:leading-[56px];
+  }
+  .t-editorial-2 {
+    @apply font-editorial text-[24px] font-light leading-[32px] md:text-[32px] md:leading-[40px];
+  }
+  .t-editorial-3 {
+    @apply font-editorial text-[16px] font-normal leading-[24px] md:text-[20px] md:leading-[28px];
+  }
+
+  /* Utility — IBM Plex Mono. Booking references, fare codes, PNRs. */
+  .t-code {
+    @apply font-mono text-[14px] font-normal leading-[20px];
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     PRIMITIVES — the pieces the spec assigns radii and action states.
+     Colour stays on the element where a token pairing is needed, so
+     the same primitive works on light, sand and navy sections.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* Cards use md 12. Brand Foundations v1.0 defines no elevation tokens, so
+     the card reads through border and surface rather than shadow. */
+  .card {
+    @apply rounded-md border border-neutral-300 bg-neutral-000;
+  }
+  /* Interactive cards keep an affordance without inventing a shadow ramp. */
+  .card-hover {
+    @apply transition-colors duration-200 hover:border-primary-200 hover:bg-primary-050;
+  }
+
+  /* Buttons and inputs use sm 8. Action-state colours are aliases onto
+     the ramps — see Colour/Action in the spec. */
+  .btn {
+    /* Button type style inlined: @apply resolves utilities only, so a
+       sibling component class such as .t-button cannot be applied here. */
+    @apply inline-flex items-center justify-center gap-2 rounded-sm px-6 py-3 font-sans text-[16px] font-bold leading-[24px] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2 disabled:cursor-not-allowed;
+  }
+  .btn-sm {
+    @apply px-4 py-2 text-[14px] leading-[20px];
+  }
+
+  /* Primary action — orange fill, white text. */
+  .btn-primary {
+    @apply bg-accent-500 text-neutral-000 hover:bg-accent-600 active:bg-accent-700 disabled:bg-neutral-200 disabled:text-neutral-400;
+  }
+
+  /* Secondary action — navy fill, white text. */
+  .btn-secondary {
+    @apply bg-primary-800 text-neutral-000 hover:bg-primary-700 active:bg-primary-900 disabled:bg-neutral-200 disabled:text-neutral-400;
+  }
+
+  /* Tertiary / outline. */
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border border-navy-200 bg-white text-navy-800 hover:bg-navy-50 focus-visible:ring-navy-500;
+    @apply border border-primary-800 bg-transparent text-primary-800 hover:bg-primary-050 disabled:border-neutral-300 disabled:text-neutral-400;
+  }
+
+  /* Inputs share the button radius. */
+  .input {
+    @apply w-full rounded-sm border border-neutral-300 bg-neutral-000 px-4 py-3 font-sans text-[16px] font-normal leading-[24px] text-text-primary placeholder:text-text-tertiary focus-visible:border-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700;
+  }
+
+  /* Pills and avatars use full. */
+  .pill {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 font-sans text-[12px] font-bold leading-[16px];
   }
 }
 

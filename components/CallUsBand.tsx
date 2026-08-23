@@ -20,9 +20,9 @@ export default function CallUsBand() {
   const reduce = useReducedMotion();
 
   return (
-    <section aria-labelledby="call-us-heading" className="section bg-mist">
+    <section aria-labelledby="call-us-heading" className="section bg-sand-500">
       <div className="container-page">
-        <Reveal className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950 shadow-2xl shadow-navy-950/30 ring-1 ring-white/10">
+        <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-2xl shadow-primary-900/30 ring-1 ring-neutral-000/10">
           {/* Soft accent glows */}
           <div
             aria-hidden="true"
@@ -30,14 +30,14 @@ export default function CallUsBand() {
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-navy-500/20 blur-3xl"
+            className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-primary-500/20 blur-3xl"
           />
 
           <div className="relative grid items-center gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-[auto_1fr_auto] lg:gap-12">
             {/* Friendly real support agent */}
             <div className="mx-auto lg:mx-0">
               <div className="relative">
-                <div className="relative h-44 w-44 overflow-hidden rounded-3xl ring-4 ring-white/15 sm:h-52 sm:w-52">
+                <div className="relative h-44 w-44 overflow-hidden rounded-lg ring-4 ring-neutral-000/15 sm:h-52 sm:w-52">
                   <Image
                     src="https://images.unsplash.com/photo-1598257006458-087169a1f08d?auto=format&fit=crop&w=480&q=80"
                     alt="A friendly Wicket Travel support agent taking a customer call"
@@ -47,10 +47,10 @@ export default function CallUsBand() {
                   />
                 </div>
                 {/* Online-now badge */}
-                <span className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white px-3 py-1.5 text-xs font-bold text-navy-900 shadow-lg">
+                <span className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-neutral-000 px-3 py-1.5 t-label-3 text-primary-800 shadow-lg">
                   <span className="relative flex h-2.5 w-2.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
                   </span>
                   Online now
                 </span>
@@ -59,17 +59,17 @@ export default function CallUsBand() {
 
             {/* Copy */}
             <div className="text-center lg:text-left">
-              <span className="t-eyebrow inline-flex items-center gap-2 text-accent-400">
+              <span className="t-overline inline-flex items-center gap-2 text-accent-400">
                 <Headset className="h-4 w-4" aria-hidden="true" />
                 {t("call.eyebrow")}
               </span>
-              <h2 id="call-us-heading" className="t-h2 mt-3 text-white">
+              <h2 id="call-us-heading" className="t-h2 mt-3 text-text-on-dark">
                 {t("call.title")}
               </h2>
-              <p className="t-body mx-auto mt-3 max-w-xl text-navy-200 lg:mx-0">
+              <p className="t-body mx-auto mt-3 max-w-xl text-primary-200 lg:mx-0">
                 {t("call.lead")}
               </p>
-              <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold text-navy-100 lg:justify-start">
+              <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 t-label-2 text-primary-100 lg:justify-start">
                 <li className="inline-flex items-center gap-1.5">
                   <Clock className="h-4 w-4 text-accent-400" aria-hidden="true" />
                   Available 24/7 — day or night
@@ -87,7 +87,7 @@ export default function CallUsBand() {
                 href={`tel:${PHONE_TEL}`}
                 whileHover={reduce ? undefined : { scale: 1.03 }}
                 whileTap={reduce ? undefined : { scale: 0.98 }}
-                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-7 py-4 text-lg font-extrabold text-white shadow-lg shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
+                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-7 py-4 t-h4 text-text-on-dark shadow-lg shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
                 aria-label={`${t("call.cta")} ${PHONE_DISPLAY}`}
               >
                 <PhoneCall className="h-6 w-6" aria-hidden="true" />
@@ -97,9 +97,9 @@ export default function CallUsBand() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-navy-100 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white"
+                className="inline-flex items-center gap-2 t-label-2 text-primary-100 transition-colors hover:text-text-on-dark focus-visible:outline-none focus-visible:text-text-on-dark"
               >
-                <MessageCircle className="h-4 w-4 text-emerald-400" aria-hidden="true" />
+                <MessageCircle className="h-4 w-4 text-success" aria-hidden="true" />
                 Or message us on WhatsApp
               </a>
             </div>

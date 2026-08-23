@@ -30,11 +30,11 @@ function LogoSlot({ code, name }: { code: string; name: string }) {
   const [failed, setFailed] = useState(false);
   return (
     <div
-      className="flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 shadow-sm transition-shadow duration-300 hover:shadow-md sm:w-48"
+      className="flex h-20 w-44 shrink-0 items-center justify-center rounded-lg border border-neutral-300 bg-neutral-000 px-4 shadow-sm transition-shadow duration-300 hover:shadow-md sm:w-48"
       title={name}
     >
       {failed ? (
-        <span className="text-center text-sm font-bold leading-tight text-navy-800">
+        <span className="text-center t-label-2 leading-tight text-primary-800">
           {name}
         </span>
       ) : (
@@ -69,11 +69,11 @@ export default function AirlineLogos() {
   );
 
   return (
-    <section className="overflow-hidden bg-white py-14 sm:py-16">
+    <section className="overflow-hidden bg-neutral-000 py-14 sm:py-16">
       <div className="container-page">
         <Reveal className="text-center">
-          <span className="t-eyebrow text-accent-600">{t("trust.eyebrow")}</span>
-          <h2 className="t-h2 mt-3 text-navy-900">{t("trust.line")}</h2>
+          <span className="t-overline text-accent-600">{t("trust.eyebrow")}</span>
+          <h2 className="t-h2 mt-3 text-primary-800">{t("trust.line")}</h2>
         </Reveal>
       </div>
 
@@ -97,7 +97,7 @@ export default function AirlineLogos() {
       <div className="container-page">
         <Reveal
           delay={0.1}
-          className="mt-8 flex items-center justify-center gap-2 text-sm font-semibold text-slate-600"
+          className="mt-8 flex items-center justify-center gap-2 t-label-2 text-text-secondary"
         >
           <ShieldCheck className="h-4 w-4 text-accent-500" aria-hidden="true" />
           Trusted airline tickets at the best available fares

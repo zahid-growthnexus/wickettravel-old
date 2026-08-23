@@ -108,16 +108,16 @@ export default function AboutPage() {
         />
 
         {/* Who we are & what we do */}
-        <section className="section bg-white">
+        <section className="section bg-neutral-000">
           <div className="container-page grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal>
-              <span className="t-eyebrow text-accent-600">Who we are</span>
-              <h2 className="t-h2 mt-3 text-navy-900">
+              <span className="t-overline text-accent-600">Who we are</span>
+              <h2 className="t-h2 mt-3 text-primary-800">
                 A UK flight-booking service built around one job: the best fare, done right
               </h2>
-              <div className="t-body mt-5 space-y-4 text-slate-600">
+              <div className="t-body mt-5 space-y-4 text-text-secondary">
                 <p>
-                  <strong className="font-bold text-navy-900">
+                  <strong className="font-bold text-primary-800">
                     {BUSINESS.legalName}
                   </strong>{" "}
                   (company registration {BUSINESS.registration}) is a UK-based
@@ -139,7 +139,7 @@ export default function AboutPage() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl shadow-navy-900/10 ring-1 ring-slate-200/60">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg shadow-2xl shadow-primary-800/10 ring-1 ring-neutral-300/60">
                 <Image
                   src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80"
                   alt="View from an airplane window above the clouds"
@@ -153,14 +153,14 @@ export default function AboutPage() {
         </section>
 
         {/* Mission & values */}
-        <section className="section bg-mist">
+        <section className="section bg-sand-500">
           <div className="container-page">
             <Reveal className="section-lead text-center">
-              <span className="t-eyebrow text-accent-600">Our mission &amp; values</span>
-              <h2 className="t-h2 mt-3 text-navy-900">
+              <span className="t-overline text-accent-600">Our mission &amp; values</span>
+              <h2 className="t-h2 mt-3 text-primary-800">
                 What guides every fare we find
               </h2>
-              <p className="t-body mt-4 text-slate-600">
+              <p className="t-body mt-4 text-text-secondary">
                 Our mission is simple: make booking a trusted airline ticket
                 from the UK fast, fair and stress-free — every single time.
               </p>
@@ -170,11 +170,11 @@ export default function AboutPage() {
               {VALUES.map((v) => (
                 <StaggerItem key={v.title} className="h-full">
                   <div className="card card-hover group h-full p-7">
-                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-navy-50 text-navy-700 transition-colors duration-300 group-hover:bg-accent-500 group-hover:text-white">
+                    <span className="grid h-12 w-12 place-items-center rounded-md bg-primary-050 text-primary-700 transition-colors duration-300 group-hover:bg-accent-500 group-hover:text-text-on-dark">
                       <v.icon className="h-6 w-6" aria-hidden="true" />
                     </span>
-                    <h3 className="t-h3 mt-5 text-navy-900">{v.title}</h3>
-                    <p className="t-small mt-2 text-slate-600">{v.body}</p>
+                    <h3 className="t-h3 mt-5 text-primary-800">{v.title}</h3>
+                    <p className="t-body-sm mt-2 text-text-secondary">{v.body}</p>
                   </div>
                 </StaggerItem>
               ))}
@@ -183,11 +183,11 @@ export default function AboutPage() {
         </section>
 
         {/* Why choose us */}
-        <section className="section bg-white">
+        <section className="section bg-neutral-000">
           <div className="container-page">
             <Reveal className="section-lead text-center">
-              <span className="t-eyebrow text-accent-600">Why choose us</span>
-              <h2 className="t-h2 mt-3 text-navy-900">
+              <span className="t-overline text-accent-600">Why choose us</span>
+              <h2 className="t-h2 mt-3 text-primary-800">
                 Four reasons travelers keep coming back
               </h2>
             </Reveal>
@@ -196,11 +196,11 @@ export default function AboutPage() {
               {WHY_CHOOSE.map((v) => (
                 <StaggerItem key={v.title} className="h-full">
                   <div className="card card-hover group h-full p-7">
-                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-navy-50 text-navy-700 transition-colors duration-300 group-hover:bg-accent-500 group-hover:text-white">
+                    <span className="grid h-12 w-12 place-items-center rounded-md bg-primary-050 text-primary-700 transition-colors duration-300 group-hover:bg-accent-500 group-hover:text-text-on-dark">
                       <v.icon className="h-6 w-6" aria-hidden="true" />
                     </span>
-                    <h3 className="t-h3 mt-5 text-navy-900">{v.title}</h3>
-                    <p className="t-small mt-2 text-slate-600">{v.body}</p>
+                    <h3 className="t-h3 mt-5 text-primary-800">{v.title}</h3>
+                    <p className="t-body-sm mt-2 text-text-secondary">{v.body}</p>
                   </div>
                 </StaggerItem>
               ))}
@@ -212,11 +212,11 @@ export default function AboutPage() {
         <SisterBrand />
 
         {/* Trust signals */}
-        <section className="section bg-mist">
+        <section className="section bg-sand-500">
           <div className="container-page">
             <div className="mx-auto max-w-3xl text-center">
-              <span className="t-eyebrow text-accent-600">Booking with confidence</span>
-              <h2 className="t-h2 mt-3 text-navy-900">
+              <span className="t-overline text-accent-600">Booking with confidence</span>
+              <h2 className="t-h2 mt-3 text-primary-800">
                 Real reviews, real protection
               </h2>
             </div>
@@ -226,22 +226,22 @@ export default function AboutPage() {
                 <div className="card h-full p-7 text-center">
                   <span className="mx-auto flex w-fit gap-0.5" aria-hidden="true">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <span key={i} className="grid h-7 w-7 place-items-center rounded-[4px] bg-[#00b67a]">
-                        <Star className="h-4 w-4 fill-white text-white" />
+                      <span key={i} className="grid h-7 w-7 place-items-center rounded-xs bg-[#00b67a]">
+                        <Star className="h-4 w-4 fill-neutral-000 text-text-on-dark" />
                       </span>
                     ))}
                   </span>
-                  <p className="mt-4 text-2xl font-extrabold text-navy-900">
+                  <p className="mt-4 t-h3 text-primary-800">
                     {BUSINESS.ratingValue} out of 5
                   </p>
-                  <p className="t-small mt-1 text-slate-600">
+                  <p className="t-body-sm mt-1 text-text-secondary">
                     Rated &ldquo;Excellent&rdquo; from {BUSINESS.reviewCount.toLocaleString()}+ reviews on Trustpilot
                   </p>
                   <a
                     href={BUSINESS.sameAs[3]}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-block text-sm font-bold text-navy-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
+                    className="mt-4 inline-block t-label-2 text-primary-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
                   >
                     Read our reviews on Trustpilot
                   </a>
@@ -249,11 +249,11 @@ export default function AboutPage() {
               </StaggerItem>
               <StaggerItem>
                 <div className="card h-full p-7">
-                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-navy-50 text-navy-700">
+                  <span className="grid h-12 w-12 place-items-center rounded-md bg-primary-050 text-primary-700">
                     <ShieldCheck className="h-6 w-6" aria-hidden="true" />
                   </span>
-                  <h3 className="t-h3 mt-5 text-navy-900">Booking protection, made clear</h3>
-                  <p className="t-small mt-2 text-slate-600">
+                  <h3 className="t-h3 mt-5 text-primary-800">Booking protection, made clear</h3>
+                  <p className="t-body-sm mt-2 text-text-secondary">
                     Many flight bookings include industry-standard financial
                     protections, such as ATOL-style cover, depending on the
                     airline and how you pay. We&apos;ll always tell you plainly
@@ -267,27 +267,27 @@ export default function AboutPage() {
         </section>
 
         {/* CTA */}
-        <section className="section bg-white">
+        <section className="section bg-neutral-000">
           <div className="container-page">
-            <Reveal className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950 px-6 py-12 text-center shadow-2xl shadow-navy-950/30 ring-1 ring-white/10 sm:px-10 sm:py-16">
+            <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 px-6 py-12 text-center shadow-2xl shadow-primary-900/30 ring-1 ring-neutral-000/10 sm:px-10 sm:py-16">
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-accent-500/20 blur-3xl"
               />
               <div className="relative mx-auto max-w-xl">
-                <h2 className="t-h2 text-white">Ready to find your fare?</h2>
-                <p className="t-body mt-4 text-navy-100">
+                <h2 className="t-h2 text-text-on-dark">Ready to find your fare?</h2>
+                <p className="t-body mt-4 text-primary-100">
                   Search live prices from the UK&apos;s most trusted airlines, or
                   tell us your dates and let our team find the best deal for
                   you.
                 </p>
                 <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                  <Link href="/" className="btn-primary h-12 w-full px-7 sm:w-auto">
+                  <Link href="/" className="btn btn-primary h-12 w-full px-7 sm:w-auto">
                     Search flights
                   </Link>
                   <a
                     href={PORTAL_LOGIN_URL}
-                    className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 text-sm font-bold text-white transition-colors duration-200 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900 sm:w-auto"
+                    className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-neutral-000/20 bg-neutral-000/5 px-7 t-label-2 text-text-on-dark transition-colors duration-200 hover:bg-neutral-000/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000/60 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 sm:w-auto"
                   >
                     Get a quote
                   </a>

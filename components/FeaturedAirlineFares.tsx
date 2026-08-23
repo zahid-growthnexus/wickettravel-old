@@ -84,11 +84,11 @@ function AirlineLogo({ code, name }: { code: string; name: string }) {
   const [failed, setFailed] = useState(false);
   return (
     <span
-      className="inline-grid h-12 min-w-[3.5rem] place-items-center rounded-xl bg-white px-3 shadow-md ring-1 ring-black/5"
+      className="inline-grid h-12 min-w-[3.5rem] place-items-center rounded-md bg-neutral-000 px-3 shadow-md ring-1 ring-black/5"
       title={name}
     >
       {failed ? (
-        <span className="text-xs font-bold leading-tight text-navy-900">{name}</span>
+        <span className="t-label-3 leading-tight text-primary-800">{name}</span>
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -123,23 +123,23 @@ function FareCard({ a }: { a: Airline }) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/55 via-navy-950/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary-900/55 via-primary-900/10 to-transparent" />
         <div className="absolute bottom-3 left-3">
           <AirlineLogo code={a.code} name={a.name} />
         </div>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="t-h3 text-lg text-navy-900">{a.title}</h3>
+        <h3 className="t-h3 t-body-lg text-primary-800">{a.title}</h3>
         <ul className="mt-3 space-y-2">
           {a.routes.map((r) => (
-            <li key={r} className="flex items-center gap-2 text-sm text-slate-600">
+            <li key={r} className="flex items-center gap-2 t-body-sm text-text-secondary">
               <Plane className="h-3.5 w-3.5 shrink-0 -rotate-45 text-accent-500" aria-hidden="true" />
               {r}
             </li>
           ))}
         </ul>
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-accent-600 transition-colors group-hover:text-accent-500">
+        <span className="mt-5 inline-flex items-center gap-1.5 t-label-2 text-accent-600 transition-colors group-hover:text-accent-500">
           {t("fares.cta")}
           <ArrowRight
             className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
@@ -154,12 +154,12 @@ function FareCard({ a }: { a: Airline }) {
 export default function FeaturedAirlineFares() {
   const { t } = useI18n();
   return (
-    <section id="deals" className="section scroll-mt-16 bg-white">
+    <section id="deals" className="section scroll-mt-16 bg-neutral-000">
       <div className="container-page">
         <Reveal className="section-lead text-center">
-          <span className="t-eyebrow text-accent-600">{t("fares.eyebrow")}</span>
-          <h2 className="t-h2 mt-3 text-navy-900">{t("fares.title")}</h2>
-          <p className="t-body mt-4 text-slate-600">{t("fares.lead")}</p>
+          <span className="t-overline text-accent-600">{t("fares.eyebrow")}</span>
+          <h2 className="t-h2 mt-3 text-primary-800">{t("fares.title")}</h2>
+          <p className="t-body mt-4 text-text-secondary">{t("fares.lead")}</p>
         </Reveal>
 
         <Stagger

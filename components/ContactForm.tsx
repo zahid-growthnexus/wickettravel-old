@@ -55,16 +55,16 @@ function fieldError(field: Field, data: FormData): string | undefined {
 }
 
 const inputBase =
-  "h-12 w-full rounded-lg border bg-white px-4 text-base text-navy-900 placeholder:text-slate-400 transition-colors focus:outline-none focus:ring-2";
-const inputTone = "border-slate-300 focus:border-navy-600 focus:ring-navy-500/25";
-const inputErrorTone = "border-red-400 focus:border-red-500 focus:ring-red-500/25";
+  "h-12 w-full rounded-sm border bg-neutral-000 px-4 t-body text-primary-800 placeholder:text-text-tertiary transition-colors focus:outline-none focus:ring-2";
+const inputTone = "border-neutral-300 focus:border-primary-700 focus:ring-primary-500/25";
+const inputErrorTone = "border-error focus:border-error focus:ring-error/25";
 
 function Label({ htmlFor, children, required }: { htmlFor: string; children: ReactNode; required?: boolean }) {
   return (
-    <label htmlFor={htmlFor} className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-navy-900">
+    <label htmlFor={htmlFor} className="mb-2 block t-overline text-primary-800">
       {children}
       {required && (
-        <span className="text-red-500" aria-hidden="true">
+        <span className="text-error" aria-hidden="true">
           {" "}
           *
         </span>
@@ -75,7 +75,7 @@ function Label({ htmlFor, children, required }: { htmlFor: string; children: Rea
 
 function ErrorText({ id, children }: { id: string; children: ReactNode }) {
   return (
-    <p id={id} role="alert" className="mt-2 flex items-start gap-1 text-xs font-medium text-red-600">
+    <p id={id} role="alert" className="mt-2 flex items-start gap-1 t-label-3 text-error">
       <AlertCircle className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden="true" />
       {children}
     </p>
@@ -155,22 +155,22 @@ export default function ContactForm() {
         className="py-8 text-center"
         role="status"
       >
-        <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-50">
-          <CheckCircle2 className="h-9 w-9 text-emerald-500" aria-hidden="true" />
+        <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-success-surface">
+          <CheckCircle2 className="h-9 w-9 text-success" aria-hidden="true" />
         </span>
-        <h3 className="t-h3 mt-5 text-xl text-navy-900">Almost there, {data.name.split(" ")[0] || "traveler"}!</h3>
-        <p className="t-small mx-auto mt-3 max-w-sm text-slate-600">
+        <h3 className="t-h3 mt-5 t-body-lg text-primary-800">Almost there, {data.name.split(" ")[0] || "traveler"}!</h3>
+        <p className="t-body-sm mx-auto mt-3 max-w-sm text-text-secondary">
           Your email app should have opened with your message pre-filled — just
           hit send. Prefer not to wait? Call or WhatsApp us on{" "}
           <a
             href={`tel:${BUSINESS.phone}`}
-            className="font-semibold text-navy-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
+            className="font-bold text-primary-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600"
           >
             {BUSINESS.phoneDisplay}
           </a>
           .
         </p>
-        <button type="button" onClick={startOver} className="btn-outline mt-7 h-12 px-6">
+        <button type="button" onClick={startOver} className="btn btn-outline mt-7 h-12 px-6">
           Send another message
         </button>
       </motion.div>
@@ -240,17 +240,17 @@ export default function ContactForm() {
               id="contact-subject"
               value={data.subject}
               onChange={(e) => set("subject")(e.target.value)}
-              className={cn(inputBase, inputTone, "appearance-none pr-10", data.subject ? "text-navy-900" : "text-slate-400")}
+              className={cn(inputBase, inputTone, "appearance-none pr-10", data.subject ? "text-primary-800" : "text-text-tertiary")}
             >
               <option value="">Select a subject…</option>
               {SUBJECTS.map((s) => (
-                <option key={s} value={s} className="text-navy-900">
+                <option key={s} value={s} className="text-primary-800">
                   {s}
                 </option>
               ))}
             </select>
             <ChevronDown
-              className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+              className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-tertiary"
               aria-hidden="true"
             />
           </div>
@@ -276,7 +276,7 @@ export default function ContactForm() {
         {errors.message && <ErrorText id="contact-message-error">{errors.message}</ErrorText>}
       </div>
 
-      <button type="submit" className="btn-primary h-12 w-full px-7 sm:w-auto">
+      <button type="submit" className="btn btn-primary h-12 w-full px-7 sm:w-auto">
         Send message
         <Send className="h-4 w-4" aria-hidden="true" />
       </button>
