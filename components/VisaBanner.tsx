@@ -1,0 +1,462 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Clock,
+  Loader2,
+  Send,
+  ShieldCheck,
+  X,
+} from "lucide-react";
+import { Reveal } from "@/components/motion-primitives";
+
+/**
+ * Dubai Visa — marketing banner only. The full application wizard is retired;
+ * the banner's CTA opens a short enquiry modal that posts to the same
+ * /api/visa-enquiry relay, so an expert can call the traveller back and take
+ * the detail over the phone.
+ */
+
+const VISA_TYPES = [
+  "Tourist Visa — 30 days",
+  "Tourist Visa — 60 days",
+  "Visit Visa",
+  "Not sure yet",
+];
+
+const PERKS = [
+  "Eligibility checked before you pay",
+  "Documents reviewed by a UAE visa expert",
+  "A real person calls you back within 2 hours",
+];
+
+type Field = "first_name" | "last_name" | "email" | "phone";
+
+const EMPTY = {
+  visa_type: VISA_TYPES[0],
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  additional_notes: "",
+};
+
+const EMAIL_RE = /^\S+@\S+\.\S+$/;
+
+export default function VisaBanner() {
+  const reduce = useReducedMotion();
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState(EMPTY);
+  const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [reference, setReference] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // Lock body scroll, close on Escape, and move focus into the dialog.
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("keydown", onKey);
+    closeRef.current?.focus();
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const set = (key: keyof typeof EMPTY, value: string) => {
+    setData((d) => ({ ...d, [key]: value }));
+    if (key in errors)
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[key as Field];
+        return next;
+      });
+  };
+
+  const validate = () => {
+    const next: Partial<Record<Field, string>> = {};
+    if (!data.first_name.trim()) next.first_name = "Enter your first name.";
+    if (!data.last_name.trim()) next.last_name = "Enter your last name.";
+    if (!EMAIL_RE.test(data.email.trim()))
+      next.email = "Enter a valid email address.";
+    if (!data.phone.trim()) next.phone = "Enter your phone number.";
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitError(null);
+    if (!validate()) return;
+
+    setSubmitting(true);
+    try {
+      // The relay expects multipart: a `payload` JSON string (documents are
+      // collected later, on the call-back).
+      const body = new FormData();
+      body.append("payload", JSON.stringify(data));
+      const res = await fetch("/api/visa-enquiry", { method: "POST", body });
+      const result: { ok?: boolean; reference?: string; error?: string } =
+        await res.json();
+      if (res.ok && result.ok) {
+        setReference(result.reference ?? null);
+        setSubmitted(true);
+      } else {
+        setSubmitError(result.error ?? "The enquiry could not be submitted.");
+      }
+    } catch {
+      // Network failure or an unparseable response — entered data stays put so
+      // the visitor can simply retry.
+      setSubmitError("We couldn't reach our server — please check your connection.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const reset = () => {
+    setData(EMPTY);
+    setErrors({});
+    setSubmitError(null);
+    setReference(null);
+    setSubmitted(false);
+  };
+
+  const field =
+    "mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-navy-900 outline-none transition-colors placeholder:text-slate-400 focus:border-navy-500 focus:ring-2 focus:ring-navy-500/20";
+  const label = "text-sm font-semibold text-navy-900";
+
+  return (
+    <section
+      id="dubai-visa"
+      className="section scroll-mt-16 bg-mist"
+      aria-labelledby="dubai-visa-heading"
+    >
+      <div className="container-page">
+        <Reveal className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950 shadow-2xl shadow-navy-950/30 ring-1 ring-white/10">
+          {/* Soft accent glows */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-accent-500/20 blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-navy-500/20 blur-3xl"
+          />
+
+          <div className="relative grid items-center gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-[1fr_auto] lg:gap-12">
+            <div className="text-center lg:text-left">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2">
+                <ShieldCheck className="h-4 w-4 text-accent-400" aria-hidden="true" />
+                <span className="t-eyebrow text-white">Dubai Visa Specialists</span>
+              </span>
+              <h2 id="dubai-visa-heading" className="t-h2 mt-5 text-white">
+                Dubai visa help,
+                <span className="text-accent-400"> handled end to end</span>
+              </h2>
+              <p className="t-body-lg mx-auto mt-4 max-w-xl text-navy-200 lg:mx-0">
+                Expert support for your UAE tourist or visit visa — from the
+                eligibility check right through to submission. Quick, reliable,
+                stress-free.
+              </p>
+              <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold text-navy-100 lg:justify-start">
+                {PERKS.map((perk) => (
+                  <li key={perk} className="inline-flex items-center gap-1.5">
+                    <CheckCircle2
+                      className="h-4 w-4 shrink-0 text-accent-400"
+                      aria-hidden="true"
+                    />
+                    {perk}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex shrink-0 flex-col items-center gap-3">
+              <motion.button
+                type="button"
+                onClick={() => setOpen(true)}
+                whileHover={reduce ? undefined : { scale: 1.03 }}
+                whileTap={reduce ? undefined : { scale: 0.98 }}
+                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-7 py-4 text-base font-extrabold text-white shadow-lg shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-900"
+              >
+                Start your visa enquiry
+                <ArrowRight className="h-5 w-5" aria-hidden="true" />
+              </motion.button>
+              <p className="flex items-center gap-1.5 text-sm text-navy-300">
+                <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                Takes a minute — no account needed
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
+      {/* Enquiry modal */}
+      <AnimatePresence>
+        {open && (
+          <div className="fixed inset-0 z-[80] flex items-end justify-center p-0 sm:items-center sm:p-6">
+            <motion.div
+              key="visa-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              onClick={() => setOpen(false)}
+              aria-hidden="true"
+              className="absolute inset-0 bg-navy-950/60 backdrop-blur-sm"
+            />
+            <motion.div
+              key="visa-panel"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="visa-modal-title"
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="relative flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl sm:rounded-3xl"
+            >
+              <div className="flex shrink-0 items-start justify-between gap-4 bg-gradient-to-r from-navy-900 to-navy-800 px-5 py-5 sm:px-7">
+                <div>
+                  <h3
+                    id="visa-modal-title"
+                    className="text-lg font-extrabold tracking-tight text-white sm:text-xl"
+                  >
+                    Dubai visa enquiry
+                  </h3>
+                  <p className="mt-1.5 flex items-center gap-1.5 text-sm text-navy-100/85">
+                    <Clock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                    Our expert contacts you within 2 hours.
+                  </p>
+                </div>
+                <button
+                  ref={closeRef}
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  aria-label="Close enquiry form"
+                  className="-mr-2 -mt-1 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="overflow-y-auto overscroll-contain px-5 py-6 sm:px-7">
+                {submitted ? (
+                  <div className="py-6 text-center" role="status">
+                    <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-50">
+                      <CheckCircle2
+                        className="h-9 w-9 text-emerald-500"
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <h4 className="t-h3 mt-5 text-xl text-navy-900">
+                      Enquiry received!
+                    </h4>
+                    {reference && (
+                      <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-navy-50 px-4 py-1.5 text-sm text-navy-800">
+                        Your reference:{" "}
+                        <span className="font-extrabold tracking-wide text-navy-900">
+                          {reference}
+                        </span>
+                      </p>
+                    )}
+                    <p className="t-small mx-auto mt-4 max-w-sm text-slate-600">
+                      A Wicket Travel visa expert will call you back within 2
+                      hours to confirm your details and next steps.
+                    </p>
+                    <div className="mt-7 flex flex-wrap justify-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setOpen(false)}
+                        className="btn-primary px-6 py-3"
+                      >
+                        Done
+                      </button>
+                      <button
+                        type="button"
+                        onClick={reset}
+                        className="btn-outline px-6 py-3"
+                      >
+                        Send another
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <form onSubmit={submit} noValidate className="space-y-4">
+                    <div>
+                      <label htmlFor="vb-type" className={label}>
+                        Visa type
+                      </label>
+                      <select
+                        id="vb-type"
+                        value={data.visa_type}
+                        onChange={(e) => set("visa_type", e.target.value)}
+                        className={field}
+                      >
+                        {VISA_TYPES.map((v) => (
+                          <option key={v} value={v}>
+                            {v}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <label htmlFor="vb-first" className={label}>
+                          First name
+                        </label>
+                        <input
+                          id="vb-first"
+                          value={data.first_name}
+                          onChange={(e) => set("first_name", e.target.value)}
+                          autoComplete="given-name"
+                          aria-invalid={!!errors.first_name}
+                          aria-describedby={
+                            errors.first_name ? "vb-first-error" : undefined
+                          }
+                          className={field}
+                          placeholder="Aisha"
+                        />
+                        {errors.first_name && (
+                          <p id="vb-first-error" className="mt-1.5 text-xs font-medium text-red-600">
+                            {errors.first_name}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <label htmlFor="vb-last" className={label}>
+                          Last name
+                        </label>
+                        <input
+                          id="vb-last"
+                          value={data.last_name}
+                          onChange={(e) => set("last_name", e.target.value)}
+                          autoComplete="family-name"
+                          aria-invalid={!!errors.last_name}
+                          aria-describedby={
+                            errors.last_name ? "vb-last-error" : undefined
+                          }
+                          className={field}
+                          placeholder="Khan"
+                        />
+                        {errors.last_name && (
+                          <p id="vb-last-error" className="mt-1.5 text-xs font-medium text-red-600">
+                            {errors.last_name}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <label htmlFor="vb-email" className={label}>
+                          Email
+                        </label>
+                        <input
+                          id="vb-email"
+                          type="email"
+                          inputMode="email"
+                          value={data.email}
+                          onChange={(e) => set("email", e.target.value)}
+                          autoComplete="email"
+                          aria-invalid={!!errors.email}
+                          aria-describedby={
+                            errors.email ? "vb-email-error" : undefined
+                          }
+                          className={field}
+                          placeholder="you@example.com"
+                        />
+                        {errors.email && (
+                          <p id="vb-email-error" className="mt-1.5 text-xs font-medium text-red-600">
+                            {errors.email}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <label htmlFor="vb-phone" className={label}>
+                          Phone
+                        </label>
+                        <input
+                          id="vb-phone"
+                          type="tel"
+                          inputMode="tel"
+                          value={data.phone}
+                          onChange={(e) => set("phone", e.target.value)}
+                          autoComplete="tel"
+                          aria-invalid={!!errors.phone}
+                          aria-describedby={
+                            errors.phone ? "vb-phone-error" : undefined
+                          }
+                          className={field}
+                          placeholder="+44 7000 000000"
+                        />
+                        {errors.phone && (
+                          <p id="vb-phone-error" className="mt-1.5 text-xs font-medium text-red-600">
+                            {errors.phone}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="vb-notes" className={label}>
+                        Anything we should know?{" "}
+                        <span className="font-normal text-slate-500">(optional)</span>
+                      </label>
+                      <textarea
+                        id="vb-notes"
+                        rows={3}
+                        value={data.additional_notes}
+                        onChange={(e) => set("additional_notes", e.target.value)}
+                        className={`${field} resize-y`}
+                        placeholder="Travel dates, number of applicants, previous UAE visas…"
+                      />
+                    </div>
+
+                    {submitError && (
+                      <p
+                        role="alert"
+                        className="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+                      >
+                        {submitError}
+                      </p>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="btn-primary w-full px-6 py-3.5 text-base disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      {submitting ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                          Sending…
+                        </>
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4" aria-hidden="true" />
+                          Send enquiry
+                        </>
+                      )}
+                    </button>
+                    <p className="text-center text-xs text-slate-500">
+                      We only use your details to answer this enquiry.
+                    </p>
+                  </form>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}

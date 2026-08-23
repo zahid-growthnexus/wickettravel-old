@@ -8,11 +8,10 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/lib/i18n";
 import { HOLIDAYS_URL, PORTAL_LOGIN_URL } from "@/lib/links";
-import TrustpilotBadge from "@/components/TrustpilotBadge";
 
 /* Hrefs are "/"-rooted (rather than bare "#anchor") so they still resolve
-   correctly to the right homepage section when clicked from About, Contact
-   or any other non-homepage route — not just from the homepage itself. */
+   correctly to the right homepage section when clicked from a legal page or
+   any other non-homepage route — not just from the homepage itself. */
 const NAV_LINKS: { key: string; href: string; external?: boolean }[] = [
   { key: "nav.flights", href: "/" },
   { key: "nav.hotels", href: HOLIDAYS_URL, external: true },
@@ -20,8 +19,6 @@ const NAV_LINKS: { key: string; href: string; external?: boolean }[] = [
   { key: "nav.deals", href: "/#deals" },
   { key: "nav.dubaiVisa", href: "/#dubai-visa" },
   { key: "nav.parentsTickets", href: "/#parents-tickets" },
-  { key: "nav.about", href: "/about" },
-  { key: "nav.contact", href: "/contact" },
 ];
 
 export default function Header() {
@@ -54,8 +51,8 @@ export default function Header() {
       className={cn(
         "sticky top-0 w-full transition-all duration-300",
         // The header owns a stacking context. While the drawer is open, lift the
-        // whole header above the floating WhatsApp / language launchers (z-50) so
-        // the backdrop covers them instead of them poking through the drawer.
+        // whole header above the floating WhatsApp launcher (z-50) so the
+        // backdrop covers it instead of it poking through the drawer.
         open ? "z-[70]" : "z-50",
         scrolled
           // Solid-ish white instead of bg-white/90 + backdrop-blur: a sticky,
@@ -105,12 +102,6 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          {/* Trust signal only at the widest desktop widths. A wrapper owns the
-              show/hide so it can't be defeated by the badge's own `inline-flex`
-              display utility (same specificity → later rule wins). */}
-          <div className="hidden xl:block">
-            <TrustpilotBadge />
-          </div>
           <a
             href={PORTAL_LOGIN_URL}
             className="hidden rounded-full bg-accent-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-accent-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 sm:inline-flex"
@@ -210,9 +201,8 @@ export default function Header() {
                 )}
               </nav>
 
-              {/* Footer block — trust signal + primary CTA, pinned to bottom */}
-              <div className="mt-auto shrink-0 space-y-4 border-t border-navy-100 p-5">
-                <TrustpilotBadge compact className="!px-0" />
+              {/* Footer block — primary CTA, pinned to bottom */}
+              <div className="mt-auto shrink-0 border-t border-navy-100 p-5">
                 <a
                   href={PORTAL_LOGIN_URL}
                   onClick={() => setOpen(false)}

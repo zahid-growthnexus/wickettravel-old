@@ -6,9 +6,6 @@ import { I18nProvider } from "@/lib/i18n";
 import ScrollProgress from "@/components/ScrollProgress";
 import StickySearchBar from "@/components/StickySearchBar";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import CookieConsent from "@/components/CookieConsent";
-import BackToTop from "@/components/BackToTop";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -118,10 +115,7 @@ export default function RootLayout({
           <ScrollProgress />
           <StickySearchBar />
           {children}
-          <LanguageSwitcher />
           <WhatsAppButton />
-          <BackToTop />
-          <CookieConsent />
         </I18nProvider>
       </body>
     </html>

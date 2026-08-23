@@ -118,11 +118,11 @@ body {
 }
 
 /* ───────────────────────────────────────────────────────────
-   Continuous marquee — used by the airline-logo strip and the
-   Trustpilot review slider. The track holds TWO copies of its
-   content and slides by exactly half its width, so the loop is
-   seamless. Pause on hover; reduced-motion renders a static,
-   scrollable row instead (handled in the components via JS).
+   Continuous marquee — used by the airline-logo strip. The track
+   holds TWO copies of its content and slides by exactly half its
+   width, so the loop is seamless. Pause on hover; reduced-motion
+   renders a static, scrollable row instead (handled in the
+   component via JS).
    ─────────────────────────────────────────────────────────── */
 @keyframes marquee-x {
   from {
@@ -141,53 +141,6 @@ body {
 .marquee:hover .marquee-track,
 .marquee:focus-within .marquee-track {
   animation-play-state: paused;
-}
-
-/* ───────────────────────────────────────────────────────────
-   Vertical marquee — used by the Parents Tickets community board.
-   A fixed-height column auto-scrolls its list; the track holds TWO
-   copies of the content and slides by exactly half its height, so the
-   loop is seamless. Pause on hover/focus; the component swaps in a
-   static, manually-scrollable list for reduced-motion or short lists.
-   ─────────────────────────────────────────────────────────── */
-@keyframes marquee-y {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-50%);
-  }
-}
-.vmarquee-track {
-  display: flex;
-  flex-direction: column;
-  animation: marquee-y var(--marquee-duration, 40s) linear infinite;
-  will-change: transform;
-}
-.vmarquee:hover .vmarquee-track,
-.vmarquee:focus-within .vmarquee-track {
-  animation-play-state: paused;
-}
-/* One column can run the opposite way for a lively, counter-moving feel. */
-.vmarquee-track--reverse {
-  animation-direction: reverse;
-}
-/* Soft fade top & bottom so rows glide in/out instead of hard-clipping. */
-.vmarquee-mask {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #000 1.25rem,
-    #000 calc(100% - 1.25rem),
-    transparent
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #000 1.25rem,
-    #000 calc(100% - 1.25rem),
-    transparent
-  );
 }
 
 /* Respect reduced-motion globally as a safety net */

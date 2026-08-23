@@ -36,8 +36,6 @@ const en: Dict = {
   "nav.deals": "Deals",
   "nav.dubaiVisa": "Dubai Visa",
   "nav.parentsTickets": "Parents Tickets",
-  "nav.about": "About",
-  "nav.contact": "Contact",
   "cta.getQuote": "Get Quote",
   "cta.searchDeals": "Search Flights",
   "hero.badge": "Flights · Hotels & Car Rentals",
@@ -83,33 +81,17 @@ const en: Dict = {
   "hotels.lead":
     "From our exclusive resort collection on Wicket Travel Holidays — tap any stay to explore rates and availability on our holidays site.",
   "hotels.cta": "Explore all hotels & resorts",
-  "why.eyebrow": "Why Wicket Travel",
-  "why.title": "Smarter travel starts with a better search",
   "how.eyebrow": "How it works",
   "how.title": "Find the best price in three steps",
-  "deals.eyebrow": "Featured deals",
-  "deals.title": "Hand-picked offers, refreshed daily",
-  "deals.viewAll": "View all deals",
   "guar.eyebrow": "Trust & security",
   "guar.title": "Book with total confidence",
   "guar.badge": "Best-Price Guarantee",
-  "rev.eyebrow": "Loved by travelers",
-  "rev.title": "Rated excellent by 2 million+ travelers",
-  "rev2.title": "Rated Excellent by real travelers on Trustpilot",
-  "rev2.link": "Read our reviews",
   "news.title": "Never miss a price drop",
   "news.lead":
     "Join 800,000+ smart travelers and get the best available airfares from trusted airlines delivered to your inbox. No spam — just great fares.",
   "news.placeholder": "you@example.com",
   "news.button": "Get deal alerts",
-  "cookie.title": "We value your privacy",
-  "cookie.body":
-    "We use cookies to personalize your experience, remember your preferences and improve our service. Choose how we use them.",
-  "cookie.accept": "Accept all",
-  "cookie.reject": "Reject",
-  "cookie.prefs": "Preferences",
   "wa.tooltip": "Chat with us on WhatsApp",
-  "lang.title": "Choose your language",
   "sticky.text": "Book trusted airline tickets at the best fares",
   "sticky.cta": "Search Flights",
   "fares.eyebrow": "Featured airlines",
@@ -130,7 +112,6 @@ const en: Dict = {
     "Our travel specialists can find you the best available fares and tailor your trip — call us any time, day or night.",
   "call.cta": "Call now",
   "call.note": "24/7 support · Trusted airlines · No hidden fees",
-  "certs.title": "Booking you can trust",
 };
 
 const es: Dict = {
@@ -140,8 +121,6 @@ const es: Dict = {
   "nav.deals": "Ofertas",
   "nav.dubaiVisa": "Visado de Dubái",
   "nav.parentsTickets": "Billetes para Padres",
-  "nav.about": "Nosotros",
-  "nav.contact": "Contacto",
   "cta.getQuote": "Obtener cotización",
   "cta.searchDeals": "Buscar vuelos",
   "hero.badge": "Vuelos · Hoteles y coches",
@@ -182,31 +161,17 @@ const es: Dict = {
   "cat.packages": "Paquetes",
   "dest.eyebrow": "Populares ahora",
   "dest.title": "Destinos de moda que aman los viajeros",
-  "why.eyebrow": "Por qué Wicket Travel",
-  "why.title": "Viajar mejor empieza con una mejor búsqueda",
   "how.eyebrow": "Cómo funciona",
   "how.title": "Encuentra el mejor precio en tres pasos",
-  "deals.eyebrow": "Ofertas destacadas",
-  "deals.title": "Ofertas seleccionadas, actualizadas a diario",
-  "deals.viewAll": "Ver todas las ofertas",
   "guar.eyebrow": "Confianza y seguridad",
   "guar.title": "Reserva con total confianza",
   "guar.badge": "Garantía del mejor precio",
-  "rev.eyebrow": "Amado por los viajeros",
-  "rev.title": "Valorado como excelente por más de 2 millones de viajeros",
   "news.title": "No te pierdas ninguna bajada de precio",
   "news.lead":
     "Únete a más de 800.000 viajeros inteligentes y recibe las ofertas más baratas de vuelos, hoteles y coches en tu correo. Sin spam, solo ahorro.",
   "news.placeholder": "tu@ejemplo.com",
   "news.button": "Recibir alertas",
-  "cookie.title": "Valoramos tu privacidad",
-  "cookie.body":
-    "Usamos cookies para personalizar tu experiencia, recordar tus preferencias y mejorar nuestro servicio. Elige cómo las usamos.",
-  "cookie.accept": "Aceptar todo",
-  "cookie.reject": "Rechazar",
-  "cookie.prefs": "Preferencias",
   "wa.tooltip": "Chatea con nosotros por WhatsApp",
-  "lang.title": "Elige tu idioma",
   "sticky.text": "Reserva billetes de aerolíneas de confianza a las mejores tarifas",
   "sticky.cta": "Buscar vuelos",
 };
@@ -218,8 +183,6 @@ const fr: Dict = {
   "nav.deals": "Offres",
   "nav.dubaiVisa": "Visa Dubaï",
   "nav.parentsTickets": "Billets Parents",
-  "nav.about": "À propos",
-  "nav.contact": "Contact",
   "cta.getQuote": "Obtenir un devis",
   "cta.searchDeals": "Rechercher des vols",
   "hero.badge": "Vols · Hôtels et voitures",
@@ -259,31 +222,17 @@ const fr: Dict = {
   "cat.packages": "Forfaits",
   "dest.eyebrow": "Populaire en ce moment",
   "dest.title": "Destinations tendance que les voyageurs adorent",
-  "why.eyebrow": "Pourquoi Wicket Travel",
-  "why.title": "Mieux voyager commence par une meilleure recherche",
   "how.eyebrow": "Comment ça marche",
   "how.title": "Trouvez le meilleur prix en trois étapes",
-  "deals.eyebrow": "Offres en vedette",
-  "deals.title": "Offres triées sur le volet, actualisées chaque jour",
-  "deals.viewAll": "Voir toutes les offres",
   "guar.eyebrow": "Confiance et sécurité",
   "guar.title": "Réservez en toute confiance",
   "guar.badge": "Garantie du meilleur prix",
-  "rev.eyebrow": "Plébiscité par les voyageurs",
-  "rev.title": "Noté excellent par plus de 2 millions de voyageurs",
   "news.title": "Ne manquez aucune baisse de prix",
   "news.lead":
     "Rejoignez plus de 800 000 voyageurs avisés et recevez les meilleures offres de vols, hôtels et voitures dans votre boîte mail. Pas de spam, que des économies.",
   "news.placeholder": "vous@exemple.com",
   "news.button": "Recevoir les alertes",
-  "cookie.title": "Nous respectons votre vie privée",
-  "cookie.body":
-    "Nous utilisons des cookies pour personnaliser votre expérience, mémoriser vos préférences et améliorer notre service. Choisissez comment nous les utilisons.",
-  "cookie.accept": "Tout accepter",
-  "cookie.reject": "Refuser",
-  "cookie.prefs": "Préférences",
   "wa.tooltip": "Discutez avec nous sur WhatsApp",
-  "lang.title": "Choisissez votre langue",
   "sticky.text": "Réservez des billets d'avion de confiance aux meilleurs tarifs",
   "sticky.cta": "Rechercher des vols",
 };
@@ -295,8 +244,6 @@ const ar: Dict = {
   "nav.deals": "العروض",
   "nav.dubaiVisa": "تأشيرة دبي",
   "nav.parentsTickets": "تذاكر الوالدين",
-  "nav.about": "من نحن",
-  "nav.contact": "اتصل بنا",
   "cta.getQuote": "اطلب عرض سعر",
   "cta.searchDeals": "ابحث عن رحلات",
   "hero.badge": "رحلات · فنادق وسيارات",
@@ -336,31 +283,17 @@ const ar: Dict = {
   "cat.packages": "الباقات",
   "dest.eyebrow": "الأكثر رواجًا الآن",
   "dest.title": "وجهات شهيرة يعشقها المسافرون",
-  "why.eyebrow": "لماذا Wicket Travel",
-  "why.title": "السفر الأذكى يبدأ ببحث أفضل",
   "how.eyebrow": "كيف يعمل",
   "how.title": "اعثر على أفضل سعر في ثلاث خطوات",
-  "deals.eyebrow": "عروض مميزة",
-  "deals.title": "عروض مختارة بعناية، تتجدد يوميًا",
-  "deals.viewAll": "عرض كل العروض",
   "guar.eyebrow": "الثقة والأمان",
   "guar.title": "احجز بثقة تامة",
   "guar.badge": "ضمان أفضل سعر",
-  "rev.eyebrow": "محبوب من المسافرين",
-  "rev.title": "تقييم ممتاز من أكثر من مليوني مسافر",
   "news.title": "لا تفوّت أي انخفاض في الأسعار",
   "news.lead":
     "انضم إلى أكثر من 800,000 مسافر ذكي واحصل على أرخص عروض الطيران والفنادق والسيارات في بريدك. بلا إزعاج، فقط توفير.",
   "news.placeholder": "you@example.com",
   "news.button": "تنبيهات العروض",
-  "cookie.title": "نحن نحترم خصوصيتك",
-  "cookie.body":
-    "نستخدم ملفات تعريف الارتباط لتخصيص تجربتك وتذكّر تفضيلاتك وتحسين خدمتنا. اختر كيفية استخدامنا لها.",
-  "cookie.accept": "قبول الكل",
-  "cookie.reject": "رفض",
-  "cookie.prefs": "التفضيلات",
   "wa.tooltip": "تواصل معنا عبر واتساب",
-  "lang.title": "اختر لغتك",
   "sticky.text": "احجز تذاكر طيران موثوقة بأفضل الأسعار",
   "sticky.cta": "ابحث عن رحلات",
 };
@@ -372,8 +305,6 @@ const ur: Dict = {
   "nav.deals": "ڈیلز",
   "nav.dubaiVisa": "دبئی ویزا",
   "nav.parentsTickets": "والدین کے ٹکٹ",
-  "nav.about": "ہمارے بارے میں",
-  "nav.contact": "رابطہ",
   "cta.getQuote": "کوٹ حاصل کریں",
   "cta.searchDeals": "پروازیں تلاش کریں",
   "hero.badge": "پروازیں · ہوٹل اور گاڑیاں",
@@ -413,31 +344,17 @@ const ur: Dict = {
   "cat.packages": "پیکجز",
   "dest.eyebrow": "اس وقت مقبول",
   "dest.title": "مشہور مقامات جو مسافروں کو پسند ہیں",
-  "why.eyebrow": "Wicket Travel کیوں",
-  "why.title": "بہتر سفر کا آغاز بہتر تلاش سے ہوتا ہے",
   "how.eyebrow": "یہ کیسے کام کرتا ہے",
   "how.title": "تین مراحل میں بہترین قیمت تلاش کریں",
-  "deals.eyebrow": "نمایاں ڈیلز",
-  "deals.title": "منتخب پیشکشیں، روزانہ تازہ",
-  "deals.viewAll": "تمام ڈیلز دیکھیں",
   "guar.eyebrow": "اعتماد اور سلامتی",
   "guar.title": "مکمل اعتماد کے ساتھ بُک کریں",
   "guar.badge": "بہترین قیمت کی ضمانت",
-  "rev.eyebrow": "مسافروں کا پسندیدہ",
-  "rev.title": "20 لاکھ سے زائد مسافروں کی جانب سے بہترین درجہ بندی",
   "news.title": "قیمت میں کمی کبھی نہ چھوڑیں",
   "news.lead":
     "800,000 سے زائد سمجھدار مسافروں میں شامل ہوں اور پروازوں، ہوٹلوں اور گاڑیوں کی سستی ترین ڈیلز اپنے ان باکس میں حاصل کریں۔ کوئی اسپام نہیں، صرف بچت۔",
   "news.placeholder": "you@example.com",
   "news.button": "ڈیل الرٹس حاصل کریں",
-  "cookie.title": "ہم آپ کی پرائیویسی کا خیال رکھتے ہیں",
-  "cookie.body":
-    "ہم آپ کے تجربے کو بہتر بنانے، آپ کی ترجیحات یاد رکھنے اور اپنی سروس بہتر کرنے کے لیے کوکیز استعمال کرتے ہیں۔ منتخب کریں کہ ہم انہیں کیسے استعمال کریں۔",
-  "cookie.accept": "سب قبول کریں",
-  "cookie.reject": "مسترد کریں",
-  "cookie.prefs": "ترجیحات",
   "wa.tooltip": "واٹس ایپ پر ہم سے بات کریں",
-  "lang.title": "اپنی زبان منتخب کریں",
   "sticky.text": "بھروسہ مند ایئر لائن ٹکٹ بہترین کرایوں پر بُک کریں",
   "sticky.cta": "پروازیں تلاش کریں",
 };
@@ -453,20 +370,11 @@ type I18nValue = {
 
 const I18nContext = createContext<I18nValue | null>(null);
 
-const STORAGE_KEY = "wicket-lang";
-
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
-
-  // Hydrate from localStorage after mount (avoids SSR mismatch).
-  useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(STORAGE_KEY) as Lang | null;
-      if (saved && saved in TRANSLATIONS) setLangState(saved);
-    } catch {
-      /* ignore */
-    }
-  }, []);
+  // No persistence: there is no language switcher on the site right now, so a
+  // stored preference could only strand a visitor in a language they cannot
+  // change. Reintroduce it alongside the switcher.
+  const [lang, setLang] = useState<Lang>("en");
 
   const dir = LANGUAGES.find((l) => l.code === lang)?.dir ?? "ltr";
 
@@ -475,15 +383,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = lang;
     document.documentElement.dir = dir;
   }, [lang, dir]);
-
-  const setLang = useCallback((l: Lang) => {
-    setLangState(l);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, l);
-    } catch {
-      /* ignore */
-    }
-  }, []);
 
   const t = useCallback(
     (key: string) => TRANSLATIONS[lang][key] ?? TRANSLATIONS.en[key] ?? key,

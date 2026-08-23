@@ -154,7 +154,7 @@ function FareCard({ a }: { a: Airline }) {
 export default function FeaturedAirlineFares() {
   const { t } = useI18n();
   return (
-    <section className="section bg-white">
+    <section id="deals" className="section scroll-mt-16 bg-white">
       <div className="container-page">
         <Reveal className="section-lead text-center">
           <span className="t-eyebrow text-accent-600">{t("fares.eyebrow")}</span>

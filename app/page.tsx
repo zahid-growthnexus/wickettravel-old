@@ -7,14 +7,11 @@ import TravelByCategory from "@/components/TravelByCategory";
 import SisterBrand from "@/components/SisterBrand";
 import PopularDestinations from "@/components/PopularDestinations";
 import BestFaresByCity from "@/components/BestFaresByCity";
-import DubaiVisa from "@/components/DubaiVisa";
-import ParentsTickets from "@/components/ParentsTickets";
-import WhyChoose from "@/components/WhyChoose";
+import VisaBanner from "@/components/VisaBanner";
+import ParentsBanner from "@/components/ParentsBanner";
 import HowItWorks from "@/components/HowItWorks";
-import FeaturedDeals from "@/components/FeaturedDeals";
 import CallUsBand from "@/components/CallUsBand";
 import BestPriceGuarantee from "@/components/BestPriceGuarantee";
-import Testimonials from "@/components/Testimonials";
 import Newsletter from "@/components/Newsletter";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
@@ -156,14 +153,11 @@ export default function Home() {
         <SisterBrand />
         <PopularDestinations />
         <BestFaresByCity />
-        <DubaiVisa />
-        <WhyChoose />
+        <VisaBanner />
         <HowItWorks />
-        <FeaturedDeals />
         <CallUsBand />
-        <ParentsTickets />
+        <ParentsBanner />
         <BestPriceGuarantee />
-        <Testimonials />
         <Faq />
         <Newsletter />
       </main>

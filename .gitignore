@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python bytecode (skill tooling)
+__pycache__/
+*.py[cod]
+
+# local verification & screenshot artifacts
+/.verify/
+/screenshots/
