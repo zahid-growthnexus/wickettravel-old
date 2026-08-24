@@ -31,7 +31,7 @@ export default function Hero() {
        not just enough to avoid overlap. */}
     <section
       id="top"
-      className="relative isolate overflow-hidden pb-[413px] pt-[140px] sm:pb-[329px] sm:pt-[160px] lg:pb-[243px] lg:pt-[180px]"
+      className="relative isolate overflow-hidden pb-[330px] pt-28 sm:pb-[263px] sm:pt-32 lg:pb-[194px] lg:pt-36"
     >
       {/* A wing over a mountain range from the cabin window — the view a
           traveller actually buys. The wing sweeps from centre to lower right,
