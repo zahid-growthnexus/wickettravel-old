@@ -91,7 +91,15 @@ export default function Hero() {
         "half of my own height" for an auto-sized block. z-raised keeps it
         painting above AirlineLogos, which follows immediately after. */}
     <div className="hero-rise hero-rise-4 container-page relative z-raised -mt-[360px] sm:-mt-[283px] lg:-mt-[181px]">
-      <FlightSearch />
+      {/* The cap only bites once the container itself passes 1116px, which is
+          a viewport around 1196 — below that the widget needs every pixel it
+          can get. Above it the container is wider than the form has any use
+          for, and the shorter run makes the row scan as one instrument rather
+          than a band stretched across the page. Centred in the container, so
+          the inset reads as symmetric card sizing. */}
+      <div className="mx-auto w-full lg:max-w-[1116px]">
+        <FlightSearch />
+      </div>
     </div>
     </>
   );

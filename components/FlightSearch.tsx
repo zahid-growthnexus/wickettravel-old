@@ -4,11 +4,11 @@ import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRightLeft,
+  ArrowUpRight,
   CalendarDays,
   Car,
   Check,
   ChevronDown,
-  ChevronRight,
   ExternalLink,
   Hotel,
   Minus,
@@ -50,7 +50,7 @@ const VALUE_SM =
 /* Split base from height because cn() is plain clsx — two competing min-h
    utilities in one string would resolve by CSS order, not by which came last. */
 const WELL_BASE =
-  "group relative flex w-full items-center gap-2.5 rounded-md border border-neutral-300 bg-neutral-000 px-3.5 transition-all duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
+  "group relative flex w-full items-center gap-2 rounded-md border border-neutral-300 bg-neutral-000 px-3 transition-all duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
 const WELL = cn(WELL_BASE, "min-h-[52px] sm:min-h-[54px]");
 /* Row 2 carries no caption and a shorter value, so it sits tighter than the
    route and date fields without losing the shared surface. */
@@ -931,11 +931,11 @@ function FlightsPanel() {
         <button
           type="button"
           onClick={search}
-          className="btn btn-primary group/cta col-span-2 h-[46px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-md px-6 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:h-[50px] lg:col-span-1 lg:w-auto"
+          className="btn btn-primary group/cta col-span-2 h-[46px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-md px-5 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:h-[50px] lg:col-span-1 lg:w-auto"
         >
           <span className="uppercase t-label-2 tracking-[0.2px]">{t("fs.search")}</span>
-          <ChevronRight
-            className="h-5 w-5 transition-transform duration-300 ease-out group-hover/cta:translate-x-0.5"
+          <ArrowUpRight
+            className="h-[18px] w-[18px] transition-transform duration-300 ease-out group-hover/cta:-translate-y-0.5 group-hover/cta:translate-x-0.5"
             strokeWidth={2}
             aria-hidden="true"
           />
@@ -1006,7 +1006,7 @@ export default function FlightSearch() {
                 }
               }}
               className={cn(
-                "relative flex min-h-[44px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full px-4 py-2.5 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:px-5",
+                "relative flex min-h-[44px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full px-3.5 py-2.5 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:px-4",
                 active
                   ? "text-primary-800"
                   : "text-text-on-dark/90 hover:bg-neutral-000/10 hover:text-text-on-dark"
@@ -1030,7 +1030,7 @@ export default function FlightSearch() {
       </div>
 
       {/* Panel */}
-      <div className="rounded-lg bg-neutral-000 px-4 py-4 shadow-e3 sm:px-5 sm:py-5">
+      <div className="rounded-lg bg-neutral-000 px-3.5 py-4 shadow-e3 sm:px-4 sm:py-5">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={tab}
