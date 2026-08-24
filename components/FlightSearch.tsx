@@ -15,6 +15,7 @@ import {
   PlaneLanding,
   PlaneTakeoff,
   Plus,
+  Route,
   Search,
   SlidersHorizontal,
   Users,
@@ -25,6 +26,14 @@ import { type Airport, formatAirport, searchAirports } from "@/lib/airports";
 import { HOLIDAYS_URL, PORTAL_BOOKING_URL } from "@/lib/links";
 
 type Tab ="flights" |"hotels" |"cars";
+
+/* Field values step from 14px to 16px at sm. On a 390px screen the columns are
+   ~157px wide and 16px truncates "1 traveler" and the date placeholder; from
+   sm up there is room for the larger, more legible size. */
+/* min-h keeps the control's own hit box at the WCAG 2.2 minimum even though
+   the value only draws an 18px line; the well has the slack to absorb it. */
+const FIELD_VALUE =
+  "flex min-h-[24px] items-center font-sans font-bold text-[14px] leading-[18px] sm:text-[15px] sm:leading-[20px]";
 
 const CABINS = ["Economy","Premium Economy","Business","First"] as const;
 const AIRLINES = [
@@ -125,7 +134,7 @@ function AirportField({
               setOpen(false);
             }
           }}
-          className="w-full min-w-0 bg-transparent t-label-2 text-primary-800 placeholder:text-text-tertiary focus:outline-none"
+          className={cn("w-full min-w-0 bg-transparent text-primary-800 placeholder:text-text-secondary focus:outline-none", FIELD_VALUE)}
         />
       </div>
 
@@ -141,7 +150,7 @@ function AirportField({
             className="absolute left-0 right-0 top-full mt-2 max-h-72 z-popover overflow-auto rounded-md border border-neutral-300 bg-neutral-000 py-2 shadow-e3 shadow-primary-900/15"
           >
             {results.length === 0 ? (
-              <li className="px-4 py-3 t-body-sm text-text-secondary">{t("fs.noResults")}</li>
+              <li className="px-3.5 py-2.5 t-body-sm text-text-secondary">{t("fs.noResults")}</li>
             ) : (
               results.map((a, i) => (
                 <li key={a.code} role="option" aria-selected={i === active}>
@@ -151,7 +160,7 @@ function AirportField({
                     onClick={() => select(a)}
                     onMouseEnter={() => setActive(i)}
                     className={cn(
-                      "flex w-full items-center gap-3 px-4 py-3 text-left transition-colors",
+                      "flex w-full items-center gap-3 px-3.5 py-2.5 text-left transition-colors",
                       i === active ?"bg-primary-050" :"hover:bg-neutral-050"
                     )}
                   >
@@ -197,7 +206,7 @@ function FieldShell({
   className?: string;
 }) {
   return (
-    <div className={cn("min-w-0", className)}>
+    <label className={cn("block min-w-0 cursor-pointer", className)}>
       <span className="block t-overline text-text-secondary">
         {label}
       </span>
@@ -205,7 +214,7 @@ function FieldShell({
         <Icon className="h-4 w-4 shrink-0 text-primary-700" aria-hidden="true" />
         {children}
       </div>
-    </div>
+    </label>
   );
 }
 
@@ -292,7 +301,7 @@ function TravelersField({
         className="mt-1 flex w-full items-center gap-2 text-left"
       >
         <Users className="h-4 w-4 shrink-0 text-primary-700" aria-hidden="true" />
-        <span className="flex-1 truncate t-label-2 text-primary-800">{summary}</span>
+        <span className={cn("flex-1 truncate text-primary-800", FIELD_VALUE)}>{summary}</span>
         <ChevronDown
           className={cn(
             "h-4 w-4 shrink-0 text-text-tertiary transition-transform",
@@ -451,7 +460,7 @@ function SelectField({
         className="mt-1 flex w-full cursor-pointer items-center gap-2 text-left focus-visible:outline-none"
       >
         <Icon className="h-4 w-4 shrink-0 text-primary-700" aria-hidden="true" />
-        <span className="flex-1 truncate t-label-2 text-primary-800">{value}</span>
+        <span className={cn("flex-1 truncate text-primary-800", FIELD_VALUE)}>{value}</span>
         <ChevronDown
           className={cn(
             "h-4 w-4 shrink-0 text-text-tertiary transition-transform duration-200",
@@ -488,7 +497,7 @@ function SelectField({
                     onClick={() => commit(option)}
                     onMouseEnter={() => setActive(i)}
                     className={cn(
-                      "flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-3 text-left t-label-2 transition-colors duration-200",
+                      "flex w-full cursor-pointer items-center justify-between gap-3 px-3.5 py-2.5 text-left t-label-2 transition-colors duration-200",
                       i === active ? "bg-primary-050" : "hover:bg-neutral-050",
                       selected ? "text-primary-800" : "text-text-secondary"
                     )}
@@ -547,7 +556,7 @@ function FlightsPanel() {
   const [routeNudge, setRouteNudge] = useState(false);
   // Controlled so the same fields can render in the desktop row and inside
   // the mobile"More options" disclosure without drifting apart.
-  const [direct, setDirect] = useState(false);
+  const [stops, setStops] = useState(0);
   const [airline, setAirline] = useState("");
   const [moreOpen, setMoreOpen] = useState(false);
   /* The disclosure clips its children while it animates height. That is
@@ -557,6 +566,10 @@ function FlightsPanel() {
   const [moreSettled, setMoreSettled] = useState(false);
 
   const airlineOptions = [t("airline.any"), ...AIRLINES];
+  /* Two options, not three: the booking portal only understands "direct", so
+     a "1 stop max" choice would be a filter we cannot actually hand off. */
+  const stopsOptions = [t("fs.stopsAny"), t("fs.stopsDirect")];
+  const direct = stops === 1;
 
   const swap = () => {
     setFrom(to);
@@ -584,35 +597,25 @@ function FlightsPanel() {
     window.location.assign(`${PORTAL_BOOKING_URL}?${params.toString()}`);
   };
 
-  const directToggle = (className?: string) => (
-    <label
-      className={cn(
-        "cursor-pointer items-center gap-2 t-label-2 text-primary-800",
-        className
-      )}
-    >
-      <input
-        type="checkbox"
-        checked={direct}
-        onChange={(e) => setDirect(e.target.checked)}
-        className="h-4 w-4 rounded-xs border-neutral-300 text-accent-500 accent-accent-500 focus:ring-accent-500"
-      />
-      {t("fs.direct")}
-    </label>
-  );
+  /* One shell for every field so they read as a single instrument rather than
+     a pile of separate boxes. Three radii, one rule: fields take md 12, the
+     panel around them lg 16 (a hero-sized surface earns the larger step), and
+     anything that acts as a button — the trip toggle, the tabs, Search — is a
+     full pill, matching the header's CTA.
 
-  /* One shell for every field so the six inputs read as a single instrument
-     rather than six separate boxes. Three radii, one rule: inputs keep the
-     spec's sm 8, the panel around them takes lg 16 (a hero-sized surface
-     earns the larger step), and anything that acts as a button — the trip
-     toggle, the tabs, Search — is a full pill, matching the header's CTA. */
+     The fixed 68px and centred column are what make the row read as one
+     instrument: every field is the same height whether its value is one line
+     or wraps, so the borders line up across the whole panel instead of
+     stepping. The interaction ladder is rest → hover (tinted, warmer border)
+     → focus (ink border + ring, surface back to white so the focused field is
+     the brightest thing in the row). */
   const FIELD =
-    "rounded-md border border-neutral-300 bg-neutral-000 px-4 py-3 transition-colors duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
+    "flex min-h-[56px] flex-col justify-center rounded-md border border-transparent bg-primary-050 px-3.5 py-2 transition-all duration-200 hover:border-primary-200 focus-within:border-primary-700 focus-within:bg-neutral-000 focus-within:shadow-e1 focus-within:ring-2 focus-within:ring-primary-700/15 sm:min-h-[60px] sm:px-4 sm:py-2.5";
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5">
       {/* Trip type + direct toggle (direct moves into More options on mobile) */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <div
           role="radiogroup"
           aria-label={t("fs.return") + " / " + t("fs.oneway")}
@@ -626,7 +629,7 @@ function FlightsPanel() {
               aria-checked={trip === v}
               onClick={() => setTrip(v)}
               className={cn(
-                "cursor-pointer rounded-full px-4 py-2 t-label-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-1",
+                "min-h-[44px] cursor-pointer rounded-full px-3.5 py-1.5 t-label-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-1 sm:min-h-0",
                 trip === v
                   ? "bg-neutral-000 text-primary-800 shadow-e1"
                   : "text-text-secondary hover:text-primary-800"
@@ -636,16 +639,14 @@ function FlightsPanel() {
             </button>
           ))}
         </div>
-
-        {directToggle("hidden sm:inline-flex")}
       </div>
 
       {/* Row 1 — route + dates. Stacked on mobile; on desktop the twelve-column
           track puts the whole row on one line, which is what keeps the panel
           inside the first screenful. */}
-      <div className="grid gap-3 lg:grid-cols-12">
-        <div className="relative lg:col-span-7">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid gap-2.5 lg:grid-cols-12">
+        <div className="relative lg:col-span-6">
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             <div className={FIELD}>
               <AirportField
                 label={t("fs.from")}
@@ -688,14 +689,14 @@ function FlightsPanel() {
           </button>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 lg:col-span-5">
+        <div className="grid grid-cols-2 gap-2.5 lg:col-span-6">
           <div className={cn(FIELD, "relative")}>
             <FieldShell label={t("fs.depart")} icon={CalendarDays}>
               <input
                 type="date"
                 value={depart}
                 onChange={(e) => setDepart(e.target.value)}
-                className="w-full min-w-0 cursor-pointer bg-transparent t-label-2 text-primary-800 focus:outline-none [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:h-auto [&::-webkit-calendar-picker-indicator]:w-auto [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0"
+                className={cn("w-full min-w-0 cursor-pointer bg-transparent text-primary-800 focus:outline-none [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:h-auto [&::-webkit-calendar-picker-indicator]:w-auto [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0", FIELD_VALUE)}
               />
             </FieldShell>
           </div>
@@ -706,7 +707,7 @@ function FlightsPanel() {
                 disabled={trip === "oneway"}
                 value={returnDate}
                 onChange={(e) => setReturnDate(e.target.value)}
-                className="w-full min-w-0 cursor-pointer bg-transparent t-label-2 text-primary-800 focus:outline-none disabled:cursor-not-allowed [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:h-auto [&::-webkit-calendar-picker-indicator]:w-auto [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0"
+                className={cn("w-full min-w-0 cursor-pointer bg-transparent text-primary-800 focus:outline-none disabled:cursor-not-allowed [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:h-auto [&::-webkit-calendar-picker-indicator]:w-auto [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0", FIELD_VALUE)}
               />
             </FieldShell>
           </div>
@@ -714,8 +715,8 @@ function FlightsPanel() {
       </div>
 
       {/* Row 2 — traveller detail, with the search action closing the line. */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-12">
-        <div className={cn(FIELD, "lg:col-span-3")}>
+      <div className="flex flex-wrap gap-2.5">
+        <div className={cn(FIELD, "min-w-[150px] flex-1")}>
           <TravelersField
             adults={adults}
             childrenCount={children}
@@ -729,7 +730,7 @@ function FlightsPanel() {
             }}
           />
         </div>
-        <div className={cn(FIELD, "lg:col-span-3")}>
+        <div className={cn(FIELD, "min-w-[150px] flex-1")}>
           <SelectField
             label={t("fs.cabin")}
             icon={Plane}
@@ -739,7 +740,7 @@ function FlightsPanel() {
             onFocus={() => setCabinTouched(true)}
           />
         </div>
-        <div className={cn(FIELD, "hidden lg:col-span-3 lg:block")}>
+        <div className={cn(FIELD, "hidden min-w-[150px] flex-1 sm:flex")}>
           <SelectField
             label={t("fs.airline")}
             icon={Plane}
@@ -748,11 +749,20 @@ function FlightsPanel() {
             onChange={setAirline}
           />
         </div>
+        <div className={cn(FIELD, "hidden min-w-[150px] flex-1 sm:flex")}>
+          <SelectField
+            label={t("fs.stops")}
+            icon={Route}
+            options={stopsOptions}
+            value={stopsOptions[stops]}
+            onChange={(v) => setStops(stopsOptions.indexOf(v))}
+          />
+        </div>
 
         <button
           type="button"
           onClick={search}
-          className="btn btn-primary col-span-2 h-12 w-full cursor-pointer self-center justify-self-stretch whitespace-nowrap rounded-full px-8 shadow-e1 transition-all duration-300 ease-out hover:shadow-e2 lg:col-span-3 lg:w-auto lg:justify-self-end"
+          className="btn btn-primary h-[56px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-full px-7 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:h-[60px] sm:w-auto sm:flex-1 lg:flex-none lg:px-8"
         >
           <Search className="h-4 w-4" aria-hidden="true" />
           {t("fs.search")}
@@ -803,8 +813,14 @@ function FlightsPanel() {
                     onChange={setAirline}
                   />
                 </div>
-                <div className="flex min-h-[44px] items-center rounded-md border border-neutral-300 px-4">
-                  {directToggle("inline-flex")}
+                <div className={FIELD}>
+                  <SelectField
+                    label={t("fs.stops")}
+                    icon={Route}
+                    options={stopsOptions}
+                    value={stopsOptions[stops]}
+                    onChange={(v) => setStops(stopsOptions.indexOf(v))}
+                  />
                 </div>
               </div>
             </motion.div>
@@ -858,7 +874,7 @@ export default function FlightSearch() {
                 }
               }}
               className={cn(
-                "relative flex min-h-[44px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full px-4 py-3 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:px-6",
+                "relative flex min-h-[44px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full px-4 py-2.5 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:px-5",
                 active
                   ? "text-primary-800"
                   : "text-text-on-dark/90 hover:bg-neutral-000/10 hover:text-text-on-dark"
@@ -882,7 +898,7 @@ export default function FlightSearch() {
       </div>
 
       {/* Panel */}
-      <div className="rounded-lg bg-neutral-000 p-4 shadow-e3 sm:p-6">
+      <div className="rounded-lg bg-neutral-000 p-3.5 shadow-e3 sm:p-5">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={tab}
