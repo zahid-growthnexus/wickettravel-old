@@ -31,7 +31,7 @@ export default function Hero() {
        not just enough to avoid overlap. */}
     <section
       id="top"
-      className="relative isolate overflow-hidden pb-[480px] pt-28 sm:pb-[390px] sm:pt-32 lg:pb-[260px] lg:pt-36"
+      className="relative isolate overflow-hidden pb-[420px] pt-28 sm:pb-[340px] sm:pt-32 lg:pb-[236px] lg:pt-36"
     >
       {/* A wing over a mountain range from the cabin window — the view a
           traveller actually buys. The wing sweeps from centre to lower right,
@@ -90,7 +90,7 @@ export default function Hero() {
         (measured, not guessed) since a plain percentage margin can't express
         "half of my own height" for an auto-sized block. z-raised keeps it
         painting above AirlineLogos, which follows immediately after. */}
-    <div className="hero-rise hero-rise-4 container-page relative z-raised -mt-[402px] sm:-mt-[324px] lg:-mt-[212px]">
+    <div className="hero-rise hero-rise-4 container-page relative z-raised -mt-[360px] sm:-mt-[283px] lg:-mt-[181px]">
       <FlightSearch />
     </div>
     </>

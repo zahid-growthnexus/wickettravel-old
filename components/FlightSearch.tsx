@@ -35,7 +35,7 @@ type Tab ="flights" |"hotels" |"cars";
    one short line out to fill it, which is why it read as bloated at 66px and
    cramped at 50px; sized around two real lines it lands at 58/62px and looks
    deliberate at either end. */
-const CAPTION = "mb-1.5 block t-overline text-text-secondary";
+const CAPTION = "mb-1 block t-overline text-text-secondary";
 const VALUE =
   "block w-full min-w-0 truncate bg-transparent font-sans text-[14px] font-bold leading-[20px] text-primary-800 placeholder:text-text-secondary focus:outline-none sm:text-[16px] sm:leading-[24px]";
 const SUB = "mt-0.5 block truncate t-caption text-text-secondary";
@@ -51,10 +51,10 @@ const VALUE_SM =
    utilities in one string would resolve by CSS order, not by which came last. */
 const WELL_BASE =
   "group relative flex w-full items-center gap-2.5 rounded-md border border-neutral-300 bg-neutral-000 px-3.5 transition-all duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
-const WELL = cn(WELL_BASE, "min-h-[58px] sm:min-h-[62px]");
+const WELL = cn(WELL_BASE, "min-h-[52px] sm:min-h-[54px]");
 /* Row 2 carries no caption and a shorter value, so it sits tighter than the
    route and date fields without losing the shared surface. */
-const WELL_COMPACT = cn(WELL_BASE, "min-h-[48px] sm:min-h-[52px]");
+const WELL_COMPACT = cn(WELL_BASE, "min-h-[46px] sm:min-h-[50px]");
 
 /* From/To carry three things: what the traveler reads, the IATA code the
    portal needs, and the line that confirms the pick. Free-typed text leaves
@@ -777,14 +777,14 @@ function FlightsPanel() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2.5">
       {/* Trip type leads: it is a mode rather than a value, and it decides
           whether the Return field below is even in play. */}
       <div className="flex flex-wrap items-center gap-3">
         <div
           role="radiogroup"
           aria-label={t("fs.return") + " / " + t("fs.oneway")}
-          className="inline-flex rounded-full border border-primary-100 bg-primary-050 p-1"
+          className="inline-flex rounded-full border border-primary-100 bg-primary-050 p-[3px]"
         >
           {(["return", "oneway"] as const).map((v) => (
             <button
@@ -794,7 +794,7 @@ function FlightsPanel() {
               aria-checked={trip === v}
               onClick={() => setTrip(v)}
               className={cn(
-                "relative h-11 cursor-pointer rounded-full px-4 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-1 sm:h-9",
+                "relative h-11 cursor-pointer rounded-full px-4 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-1 sm:h-8",
                 trip === v
                   ? "text-primary-800"
                   : "text-text-secondary hover:text-primary-800"
@@ -827,9 +827,9 @@ function FlightsPanel() {
           width evenly with each other, Depart and Return likewise, and the
           route pair takes the larger share because a city and its airport
           line is the longest answer in the panel. */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-[2fr_0.7fr_0.7fr]">
+      <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-[2fr_0.7fr_0.7fr]">
         <div className="relative col-span-2 lg:col-span-1">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             <AirportField
               label={t("fs.from")}
               icon={PlaneTakeoff}
@@ -885,7 +885,7 @@ function FlightsPanel() {
       {/* Row 2 — who is flying and how, then the action. Four fields sharing
           the width evenly, and a button that takes only the room its label
           needs, so the row ends flush with row 1 at every width. */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-end">
+      <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-end">
         <TravelersField
           adults={adults}
           childrenCount={children}
@@ -931,7 +931,7 @@ function FlightsPanel() {
         <button
           type="button"
           onClick={search}
-          className="btn btn-primary group/cta col-span-2 h-[48px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-md px-7 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:h-[52px] lg:col-span-1 lg:w-auto"
+          className="btn btn-primary group/cta col-span-2 h-[46px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-md px-6 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:h-[50px] lg:col-span-1 lg:w-auto"
         >
           <span className="uppercase t-label-2 tracking-[0.2px]">{t("fs.search")}</span>
           <ChevronRight
@@ -947,7 +947,7 @@ function FlightsPanel() {
       {/* Extra top padding on top of the row rhythm: these are bare labels
           with no well around them, so 16px reads tighter here than it does
           between two rows of fields. */}
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 sm:pt-3">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 pt-1 sm:pt-2">
         <CheckOption
           label={t("fs.baggage")}
           checked={baggage}
@@ -989,7 +989,7 @@ export default function FlightSearch() {
       <div
         role="tablist"
         aria-label="Search type"
-        className="flex w-fit max-w-full gap-2 overflow-x-auto pb-3"
+        className="flex w-fit max-w-full gap-2 overflow-x-auto pb-2.5"
       >
         {TABS.map(({ id, labelKey, icon: Icon, redirect }) => {
           const active = tab === id && !redirect;
@@ -1030,7 +1030,7 @@ export default function FlightSearch() {
       </div>
 
       {/* Panel */}
-      <div className="rounded-lg bg-neutral-000 px-4 py-5 shadow-e3 sm:px-6 sm:py-6">
+      <div className="rounded-lg bg-neutral-000 px-4 py-4 shadow-e3 sm:px-5 sm:py-5">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={tab}
@@ -1044,7 +1044,7 @@ export default function FlightSearch() {
         </AnimatePresence>
         {/* A footnote, not another control: a hairline sets it apart from the
             form, and it aligns to the same left edge as the fields above. */}
-        <p className="mt-5 border-t border-primary-100 pt-4 t-caption text-text-secondary sm:mt-6">
+        <p className="mt-4 border-t border-primary-100 pt-3 t-caption text-text-secondary">
           {t("hero.helper")}
         </p>
       </div>
