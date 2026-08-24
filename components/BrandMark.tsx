@@ -8,15 +8,12 @@
  * source values translated so the visual bounding box — round caps included —
  * starts at 0,0.
  *
- * The load-bearing detail is the flat top. In the source, the stroke and the
- * disc are clipped against the same horizontal edge, so the stems do NOT end in
- * visible round caps — they are sheared off level, and the ember reads as a
- * dome sitting flush on that cut. Reproduced by putting that edge on the
- * viewBox: an outermost <svg> clips to its viewport, so the caps overhanging the
- * top and left are trimmed exactly as the artwork trims them. The disc likewise
- * becomes the circular segment left below the cut — which also keeps this
- * component free of SVG ids, and ids are document-global while this mark renders
- * in the header, the drawer and the footer at once.
+ * Drawn uncut: the stems keep their round caps and the ember stays a whole
+ * disc, matching the construction diagram in the guidelines ("One continuous
+ * path, turned into a W"). The icon-only tiles in that same document shear the
+ * mark against a horizontal edge, but at header size that shear reads as a
+ * rendering fault rather than a deliberate cut, so the viewBox here is the full
+ * visual bounding box — round caps and disc included — and nothing is clipped.
  *
  * The stroke is `currentColor`, so the lockup's rule that "mark and letters
  * share one colour" holds automatically: set the colour on the parent and both
@@ -31,7 +28,7 @@ export default function BrandMark({
 }) {
   return (
     <svg
-      viewBox="0 0 16.7701 12.5201"
+      viewBox="0 0 18.3253 14.427"
       overflow="hidden"
       className={className}
       fill="none"
@@ -39,7 +36,7 @@ export default function BrandMark({
       focusable="false"
     >
       <path
-        d="M-0.2852 1.2813 L3.9531 11.25 L7.582 3.8008 L11.0859 11.25 L14.9531 -0.6367"
+        d="M1.2701 3.1881 L5.5084 13.1568 L9.1373 5.7076 L12.6412 13.1568 L16.5084 1.2701"
         stroke="currentColor"
         strokeWidth="2.5403"
         strokeLinecap="round"

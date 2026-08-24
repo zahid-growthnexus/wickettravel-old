@@ -28,46 +28,45 @@ export default function Hero() {
        white bar. The header re-solidifies on scroll. */
     <section
       id="top"
-      className="relative isolate -mt-16 overflow-hidden pb-12 pt-24 lg:pb-16 lg:pt-32"
+      className="relative isolate -mt-16 overflow-hidden pb-10 pt-24 lg:pb-12"
     >
-      {/* An airliner on final approach, silhouetted against a low sun with the
-          cabin windows lit. Chosen over the usual wing-above-the-clouds frame
-          for three reasons: the subject sits high and right, which is the part
-          of the canvas this layout leaves open; the sky carries the accent in
-          camera, so the palette is photographed rather than filtered on; and it
-          is an arrival, which is the picture this audience is flying for. */}
+      {/* A wing over a mountain range from the cabin window — the view a
+          traveller actually buys. The wing sweeps from centre to lower right,
+          so the subject sits on the half of the canvas this layout leaves open,
+          and the sky is bright enough to carry a firm scrim on the copy side
+          without going muddy. */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="https://images.unsplash.com/photo-1581012771300-224937651c42?auto=format&fit=crop&w=2400&q=80"
-          alt="An airliner on final approach at sunset, cabin windows lit against a gold sky"
+          src="https://images.unsplash.com/photo-1686525500473-346b74e11316?auto=format&fit=crop&w=2400&q=80"
+          alt="An aircraft wing over a green mountain range, seen from the cabin window"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[58%_42%]"
+          className="object-cover object-[55%_50%]"
         />
         {/* Scrim in three passes: darken from the left so the left-aligned copy
             clears 4.5:1 while the runway lights stay legible on the right;
             deepen the top so the overlaid nav reads; deepen the base so the
             search panel sits on ground rather than floating. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-900/94 from-18% via-primary-900/60 via-58% to-primary-900/15" />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary-900/50 via-transparent via-30% to-primary-900/55" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-900/95 from-22% via-primary-900/70 via-60% to-primary-900/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-900/60 via-transparent via-35% to-primary-900/35" />
       </div>
 
       <div className="container-page">
-        <div className="max-w-2xl">
-          <h1 className="hero-rise t-display-2 text-balance text-text-on-dark">
+        <div className="max-w-xl">
+          <h1 className="hero-rise t-display-3 text-balance text-text-on-dark">
             {t("hero.title")}
             <span className="block">{t("hero.accent")}</span>
           </h1>
-          <p className="hero-rise hero-rise-2 t-body-lg mt-4 max-w-xl text-pretty text-primary-100">
+          <p className="hero-rise hero-rise-2 t-body mt-3 max-w-lg text-pretty text-primary-100">
             {t("hero.subline")}
           </p>
 
-          <ul className="hero-rise hero-rise-3 mt-4 flex lg:mt-6 flex-wrap items-center gap-x-6 gap-y-3">
+          <ul className="hero-rise hero-rise-3 mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
             {PROOF.map(({ icon: Icon, text }) => (
               <li
                 key={text}
-                className="flex items-center gap-2 t-label-2 text-text-on-dark"
+                className="flex items-center gap-2 t-body-sm text-text-on-dark"
               >
                 <Icon
                   className="h-4 w-4 shrink-0 text-accent-400"
@@ -81,7 +80,7 @@ export default function Hero() {
 
         {/* The search widget is the hero's call to action — a marketplace's
             primary control, not an afterthought below the copy. */}
-        <div className="hero-rise hero-rise-4 mt-8">
+        <div className="hero-rise hero-rise-4 mt-6">
           <FlightSearch />
         </div>
       </div>

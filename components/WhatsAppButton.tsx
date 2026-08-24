@@ -24,10 +24,10 @@ export default function WhatsAppButton() {
   const reduce = useReducedMotion();
   const [hinted, setHinted] = useState(false);
 
-  const side = dir === "rtl" ? "left-4 sm:left-5" : "right-4 sm:right-5";
+  const side = dir === "rtl" ? "left-4 sm:left-6" : "right-4 sm:right-6";
 
   return (
-    <div className={cn("fixed bottom-4 sm:bottom-5 z-float", side)}>
+    <div className={cn("fixed bottom-4 sm:bottom-6 z-float", side)}>
       {/* Tooltip — shown on hover/focus, keyboard-friendly */}
       <AnimatePresence>
         {hinted && (

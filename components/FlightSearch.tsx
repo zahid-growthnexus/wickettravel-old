@@ -491,16 +491,22 @@ function FlightsPanel() {
     </label>
   );
 
+  /* One shell for every field so the six inputs read as a single instrument
+     rather than six separate boxes. Inputs take the spec's sm 8 radius; the
+     card around them keeps md 12. */
+  const FIELD =
+    "rounded-sm border border-neutral-300 bg-neutral-000 px-3 py-3 transition-colors hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
+
   return (
-    <div className="space-y-3 sm:space-y-4">
+    <div className="space-y-3">
       {/* Trip type + direct toggle (direct moves into More options on mobile) */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div
           role="radiogroup"
-          aria-label={t("fs.return") +" /" + t("fs.oneway")}
+          aria-label={t("fs.return") + " / " + t("fs.oneway")}
           className="inline-flex rounded-full bg-neutral-100 p-1"
         >
-          {(["return","oneway"] as const).map((v) => (
+          {(["return", "oneway"] as const).map((v) => (
             <button
               key={v}
               type="button"
@@ -508,13 +514,13 @@ function FlightsPanel() {
               aria-checked={trip === v}
               onClick={() => setTrip(v)}
               className={cn(
-                "rounded-full px-4 py-2 t-label-2 transition-colors sm:py-2",
+                "cursor-pointer rounded-full px-4 py-2 t-label-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-1",
                 trip === v
-                  ?"bg-neutral-000 text-primary-800 shadow-e1"
-                  :"text-text-secondary hover:text-primary-800"
+                  ? "bg-neutral-000 text-primary-800 shadow-e1"
+                  : "text-text-secondary hover:text-primary-800"
               )}
             >
-              {t(v ==="return" ?"fs.return" :"fs.oneway")}
+              {t(v === "return" ? "fs.return" : "fs.oneway")}
             </button>
           ))}
         </div>
@@ -522,80 +528,82 @@ function FlightsPanel() {
         {directToggle("hidden sm:inline-flex")}
       </div>
 
-      {/* From / To — one grouped card with a right-edge swap on mobile,
-          two separate boxes with a centered swap on desktop. */}
-      <div className="relative">
-        <div className="grid grid-cols-1 rounded-md border border-neutral-300 sm:grid-cols-2 sm:gap-3 sm:rounded-none sm:border-0">
-          <div className="border-b border-neutral-300 px-4 py-4 pr-16 transition-colors sm:rounded-md sm:border sm:py-3 sm:pr-4 sm:focus-within:border-primary-500 sm:focus-within:ring-2 sm:focus-within:ring-primary-500/20">
-            <AirportField
-              label={t("fs.from")}
-              icon={PlaneTakeoff}
-              value={from}
-              onChange={(v) => {
-                setFrom(v);
-                setRouteNudge(false);
-              }}
-              placeholder={t("fs.searchPh")}
-            />
+      {/* Row 1 — route + dates. Stacked on mobile; on desktop the twelve-column
+          track puts the whole row on one line, which is what keeps the panel
+          inside the first screenful. */}
+      <div className="grid gap-3 lg:grid-cols-12">
+        <div className="relative lg:col-span-7">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className={FIELD}>
+              <AirportField
+                label={t("fs.from")}
+                icon={PlaneTakeoff}
+                value={from}
+                onChange={(v) => {
+                  setFrom(v);
+                  setRouteNudge(false);
+                }}
+                placeholder={t("fs.searchPh")}
+              />
+            </div>
+            <div className={FIELD}>
+              <AirportField
+                label={t("fs.to")}
+                icon={PlaneLanding}
+                value={to}
+                onChange={(v) => {
+                  setTo(v);
+                  setRouteNudge(false);
+                }}
+                placeholder={t("fs.searchPh")}
+              />
+            </div>
           </div>
-          <div className="px-4 py-4 pr-16 transition-colors sm:rounded-md sm:border sm:border-neutral-300 sm:py-3 sm:pr-4 sm:focus-within:border-primary-500 sm:focus-within:ring-2 sm:focus-within:ring-primary-500/20">
-            <AirportField
-              label={t("fs.to")}
-              icon={PlaneLanding}
-              value={to}
-              onChange={(v) => {
-                setTo(v);
-                setRouteNudge(false);
-              }}
-              placeholder={t("fs.searchPh")}
+
+          {/* One position serves both layouts: dead centre of the pair, which
+              is the seam between them stacked and side by side alike. The glyph
+              turns on hover — the affordance is the action. */}
+          <button
+            type="button"
+            onClick={swap}
+            aria-label={t("fs.swap")}
+            className="group absolute left-1/2 top-1/2 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-neutral-300 bg-neutral-000 text-primary-700 shadow-e1 transition-colors hover:border-primary-700 hover:text-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 z-popover"
+          >
+            <ArrowRightLeft
+              className="h-4 w-4 rotate-90 transition-transform duration-300 group-hover:-rotate-90 sm:rotate-0 sm:group-hover:rotate-180"
+              aria-hidden="true"
             />
-          </div>
+          </button>
         </div>
 
-        {/* Swap — straddles the divider on mobile, sits on the seam on desktop */}
-        <button
-          type="button"
-          onClick={swap}
-          aria-label={t("fs.swap")}
-          className="absolute right-4 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-neutral-300 bg-neutral-000 text-primary-700 shadow-e1 transition-all hover:border-primary-500 hover:text-accent-600 sm:left-1/2 sm:right-auto sm:h-9 sm:w-9 sm:-translate-x-1/2"
-        >
-          <ArrowRightLeft className="h-4 w-4 rotate-90 sm:rotate-0" aria-hidden="true" />
-        </button>
+        <div className="grid grid-cols-2 gap-3 lg:col-span-5">
+          <div className={cn(FIELD, "relative")}>
+            <FieldShell label={t("fs.depart")} icon={CalendarDays}>
+              <input
+                type="date"
+                value={depart}
+                onChange={(e) => setDepart(e.target.value)}
+                className="w-full min-w-0 cursor-pointer bg-transparent t-label-2 text-primary-800 focus:outline-none [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:h-auto [&::-webkit-calendar-picker-indicator]:w-auto [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0"
+              />
+            </FieldShell>
+          </div>
+          <div className={cn(FIELD, "relative", trip === "oneway" && "opacity-50")}>
+            <FieldShell label={t("fs.returnDate")} icon={CalendarDays}>
+              <input
+                type="date"
+                disabled={trip === "oneway"}
+                value={returnDate}
+                onChange={(e) => setReturnDate(e.target.value)}
+                className="w-full min-w-0 cursor-pointer bg-transparent t-label-2 text-primary-800 focus:outline-none disabled:cursor-not-allowed [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:h-auto [&::-webkit-calendar-picker-indicator]:w-auto [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0"
+              />
+            </FieldShell>
+          </div>
+        </div>
       </div>
 
-      {/* Dates — side by side on every width */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-3">
-        <div className="rounded-md border border-neutral-300 px-3 py-4 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3">
-          <FieldShell label={t("fs.depart")} icon={CalendarDays}>
-            <input
-              type="date"
-              value={depart}
-              onChange={(e) => setDepart(e.target.value)}
-              className="w-full min-w-0 bg-transparent t-label-2 text-primary-800 focus:outline-none [color-scheme:light]"
-            />
-          </FieldShell>
-        </div>
-        <div
-          className={cn(
-            "rounded-md border border-neutral-300 px-3 py-4 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3",
-            trip ==="oneway" &&"opacity-50"
-          )}
-        >
-          <FieldShell label={t("fs.returnDate")} icon={CalendarDays}>
-            <input
-              type="date"
-              disabled={trip ==="oneway"}
-              value={returnDate}
-              onChange={(e) => setReturnDate(e.target.value)}
-              className="w-full min-w-0 bg-transparent t-label-2 text-primary-800 focus:outline-none disabled:cursor-not-allowed [color-scheme:light]"
-            />
-          </FieldShell>
-        </div>
-      </div>
-
-      {/* Travelers / cabin (+ airline inline on desktop only) */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-3">
-        <div className="rounded-md border border-neutral-300 px-3 py-4 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3">
+      {/* Row 2 — traveller detail, with the search action closing the line. */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-12">
+        <div className={cn(FIELD, "lg:col-span-3")}>
           <TravelersField
             adults={adults}
             childrenCount={children}
@@ -609,7 +617,7 @@ function FlightsPanel() {
             }}
           />
         </div>
-        <div className="rounded-md border border-neutral-300 px-3 py-4 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:px-4 sm:py-3">
+        <div className={cn(FIELD, "lg:col-span-3")}>
           <SelectField
             label={t("fs.cabin")}
             icon={Plane}
@@ -619,7 +627,7 @@ function FlightsPanel() {
             onFocus={() => setCabinTouched(true)}
           />
         </div>
-        <div className="hidden rounded-md border border-neutral-300 px-4 py-3 transition-colors focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500/20 sm:block">
+        <div className={cn(FIELD, "hidden lg:col-span-3 lg:block")}>
           <SelectField
             label={t("fs.airline")}
             icon={Plane}
@@ -628,6 +636,15 @@ function FlightsPanel() {
             onChange={setAirline}
           />
         </div>
+
+        <button
+          type="button"
+          onClick={search}
+          className="btn btn-primary col-span-2 h-full min-h-[44px] w-full cursor-pointer lg:col-span-3"
+        >
+          <Search className="h-4 w-4" aria-hidden="true" />
+          {t("fs.search")}
+        </button>
       </div>
 
       {/* Mobile-only: advanced options collapsed behind a disclosure */}
@@ -637,7 +654,7 @@ function FlightsPanel() {
           onClick={() => setMoreOpen((v) => !v)}
           aria-expanded={moreOpen}
           aria-controls="fs-more-options"
-          className="flex min-h-[44px] w-full items-center justify-between rounded-md border border-neutral-300 px-4 t-label-2 text-primary-800 transition-colors hover:bg-neutral-050 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+          className="flex min-h-[44px] w-full cursor-pointer items-center justify-between rounded-sm border border-neutral-300 px-3 t-label-2 text-primary-800 transition-colors hover:border-primary-300 hover:bg-neutral-050 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
         >
           <span className="flex items-center gap-2">
             <SlidersHorizontal className="h-4 w-4 text-primary-700" aria-hidden="true" />
@@ -645,8 +662,8 @@ function FlightsPanel() {
           </span>
           <ChevronDown
             className={cn(
-              "h-4 w-4 text-text-tertiary transition-transform",
-              moreOpen &&"rotate-180"
+              "h-4 w-4 text-text-tertiary transition-transform duration-200",
+              moreOpen && "rotate-180"
             )}
             aria-hidden="true"
           />
@@ -657,13 +674,13 @@ function FlightsPanel() {
             <motion.div
               id="fs-more-options"
               initial={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
-              animate={reduce ? { opacity: 1 } : { height:"auto", opacity: 1 }}
+              animate={reduce ? { opacity: 1 } : { height: "auto", opacity: 1 }}
               exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="overflow-hidden"
             >
               <div className="mt-3 space-y-3">
-                <div className="rounded-md border border-neutral-300 px-4 py-4">
+                <div className={FIELD}>
                   <SelectField
                     label={t("fs.airline")}
                     icon={Plane}
@@ -672,7 +689,7 @@ function FlightsPanel() {
                     onChange={setAirline}
                   />
                 </div>
-                <div className="flex min-h-[44px] items-center rounded-md border border-neutral-300 px-4">
+                <div className="flex min-h-[44px] items-center rounded-sm border border-neutral-300 px-3">
                   {directToggle("inline-flex")}
                 </div>
               </div>
@@ -681,20 +698,11 @@ function FlightsPanel() {
         </AnimatePresence>
       </div>
 
-      {/* Search */}
       {routeNudge && (
         <p role="status" className="px-1 t-label-2 text-accent-600">
           {t("fs.routeNudge")}
         </p>
       )}
-      <button
-        type="button"
-        onClick={search}
-        className="btn btn-primary h-13 w-full py-4 t-body"
-      >
-        <Search className="h-5 w-5" aria-hidden="true" />
-        {t("fs.search")}
-      </button>
     </div>
   );
 }
@@ -719,7 +727,7 @@ export default function FlightSearch() {
       <div
         role="tablist"
         aria-label="Search type"
-        className="flex w-full gap-1 rounded-t-md bg-primary-900/55 p-2 sm:w-auto sm:max-w-md"
+        className="flex w-fit max-w-full gap-1 overflow-x-auto rounded-t-md bg-primary-900/55 p-2"
       >
         {TABS.map(({ id, labelKey, icon: Icon, redirect }) => {
           const active = tab === id && !redirect;
@@ -736,7 +744,7 @@ export default function FlightSearch() {
                 }
               }}
               className={cn(
-                "relative flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md px-2 py-3 t-label-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:flex-initial sm:gap-2 sm:px-6",
+                "relative flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-sm px-3 py-3 t-label-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:px-6",
                 active ?"text-primary-800" :"text-text-on-dark/90 hover:text-text-on-dark"
               )}
             >
@@ -748,7 +756,7 @@ export default function FlightSearch() {
                 />
               )}
               <Icon className="relative h-4 w-4 shrink-0" aria-hidden="true" />
-              <span className="relative truncate">{t(labelKey)}</span>
+              <span className="relative whitespace-nowrap">{t(labelKey)}</span>
               {redirect && (
                 <ExternalLink className="relative hidden h-3.5 w-3.5 shrink-0 opacity-70 sm:block" aria-hidden="true" />
               )}
