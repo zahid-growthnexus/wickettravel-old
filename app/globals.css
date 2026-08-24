@@ -324,7 +324,6 @@ body {
      add a step here instead, so the stacking order stays readable.
      ═══════════════════════════════════════════════════════════════ */
   .z-popover   { z-index: 30; }  /* combobox + traveller menus        */
-  .z-sticky    { z-index: 40; }  /* sticky search bar                 */
   .z-header    { z-index: 50; }  /* site header                       */
   .z-float     { z-index: 55; }  /* WhatsApp launcher                 */
   .z-backdrop  { z-index: 60; }  /* drawer / modal scrim              */

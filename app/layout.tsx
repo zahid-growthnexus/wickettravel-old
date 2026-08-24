@@ -4,7 +4,6 @@ import "./globals.css";
 import { SITE_URL, BUSINESS } from "@/lib/seo";
 import { I18nProvider } from "@/lib/i18n";
 import ScrollProgress from "@/components/ScrollProgress";
-import StickySearchBar from "@/components/StickySearchBar";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 /* Brand Foundations v1.0 sets three typeface roles. All are self-hosted by
@@ -141,7 +140,6 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans">
         <I18nProvider>
           <ScrollProgress />
-          <StickySearchBar />
           {children}
           <WhatsAppButton />
         </I18nProvider>

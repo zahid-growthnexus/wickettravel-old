@@ -23,19 +23,23 @@ export default function Hero() {
   const { t } = useI18n();
 
   return (
-    /* -mt-16 pulls the section up under the transparent header (h-16), so the
-       photograph runs to the very top of the page instead of starting below a
-       white bar. The header re-solidifies on scroll. */
+    /* -mt-20 pulls the section up under the transparent header (now padding-
+       sized, not a fixed h-16), so the photograph runs to the very top of the
+       page instead of starting below a white bar. The image layer below then
+       overscans a further -top-12 past the section's own edge as a buffer —
+       header height only has to be roughly matched, not pixel-perfect, so a
+       few extra px of nav content never reopens that gap. The header
+       re-solidifies on scroll. */
     <section
       id="top"
-      className="relative isolate -mt-16 overflow-hidden pb-10 pt-24 lg:pb-12"
+      className="relative isolate -mt-20 overflow-hidden pb-10 pt-24 lg:pb-12"
     >
       {/* A wing over a mountain range from the cabin window — the view a
           traveller actually buys. The wing sweeps from centre to lower right,
           so the subject sits on the half of the canvas this layout leaves open,
           and the sky is bright enough to carry a firm scrim on the copy side
           without going muddy. */}
-      <div className="absolute inset-0 -z-10">
+      <div className="absolute inset-x-0 -top-12 bottom-0 -z-10">
         <Image
           src="https://images.unsplash.com/photo-1686525500473-346b74e11316?auto=format&fit=crop&w=2400&q=80"
           alt="An aircraft wing over a green mountain range, seen from the cabin window"

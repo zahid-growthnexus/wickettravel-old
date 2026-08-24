@@ -91,8 +91,6 @@ const en: Dict = {
   "news.placeholder": "you@example.com",
   "news.button": "Get deal alerts",
   "wa.tooltip": "Chat with us on WhatsApp",
-  "sticky.text": "Book trusted airline tickets at the best fares",
-  "sticky.cta": "Search Flights",
   "fares.eyebrow": "Featured airlines",
   "fares.title": "Fly with the world's most trusted airlines",
   "fares.lead":
@@ -170,8 +168,6 @@ const es: Dict = {
   "news.placeholder": "tu@ejemplo.com",
   "news.button": "Recibir alertas",
   "wa.tooltip": "Chatea con nosotros por WhatsApp",
-  "sticky.text": "Reserva billetes de aerolíneas de confianza a las mejores tarifas",
-  "sticky.cta": "Buscar vuelos",
 };
 
 const fr: Dict = {
@@ -230,8 +226,6 @@ const fr: Dict = {
   "news.placeholder": "vous@exemple.com",
   "news.button": "Recevoir les alertes",
   "wa.tooltip": "Discutez avec nous sur WhatsApp",
-  "sticky.text": "Réservez des billets d'avion de confiance aux meilleurs tarifs",
-  "sticky.cta": "Rechercher des vols",
 };
 
 const ar: Dict = {
@@ -290,8 +284,6 @@ const ar: Dict = {
   "news.placeholder": "you@example.com",
   "news.button": "تنبيهات العروض",
   "wa.tooltip": "تواصل معنا عبر واتساب",
-  "sticky.text": "احجز تذاكر طيران موثوقة بأفضل الأسعار",
-  "sticky.cta": "ابحث عن رحلات",
 };
 
 const ur: Dict = {
@@ -350,8 +342,6 @@ const ur: Dict = {
   "news.placeholder": "you@example.com",
   "news.button": "ڈیل الرٹس حاصل کریں",
   "wa.tooltip": "واٹس ایپ پر ہم سے بات کریں",
-  "sticky.text": "بھروسہ مند ایئر لائن ٹکٹ بہترین کرایوں پر بُک کریں",
-  "sticky.cta": "پروازیں تلاش کریں",
 };
 
 const TRANSLATIONS: Record<Lang, Dict> = { en, es, fr, ar, ur };

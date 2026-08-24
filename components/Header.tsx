@@ -66,7 +66,7 @@ export default function Header() {
           : "border-b border-transparent bg-transparent"
       )}
     >
-      <div className="container-page flex h-16 items-center justify-between gap-6">
+      <div className="container-page flex items-center justify-between gap-6 py-4 lg:py-5">
         {/* Logo — the lockup is live vector + text, so it recolours with a
             class instead of needing a second bitmap for the dark hero. */}
         <Link
