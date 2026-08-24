@@ -97,7 +97,7 @@ function AirportField({
     <div ref={ref} className="relative min-w-0">
       <label
         htmlFor={id}
-        className="block t-overline text-text-secondary"
+        className="block t-overline leading-[12px] text-text-secondary"
       >
         {label}
       </label>
@@ -207,7 +207,7 @@ function FieldShell({
 }) {
   return (
     <label className={cn("block min-w-0 cursor-pointer", className)}>
-      <span className="block t-overline text-text-secondary">
+      <span className="block t-overline leading-[12px] text-text-secondary">
         {label}
       </span>
       <div className="mt-1 flex items-center gap-2">
@@ -291,7 +291,7 @@ function TravelersField({
 
   return (
     <div ref={ref} className="relative min-w-0">
-      <span className="block t-overline text-text-secondary">
+      <span className="block t-overline leading-[12px] text-text-secondary">
         {t("fs.travelers")}
       </span>
       <button
@@ -327,7 +327,7 @@ function TravelersField({
             {/* One mini age box per child — required, compact wrapping grid */}
             {childrenCount > 0 && (
               <div className="mt-2 border-t border-neutral-200 pt-3">
-                <span className="block t-overline text-text-secondary">
+                <span className="block t-overline leading-[12px] text-text-secondary">
                   {t("fs.childAges")}
                 </span>
                 <div className="mt-2 grid grid-cols-4 gap-2">
@@ -412,7 +412,7 @@ function SelectField({
 
   return (
     <div ref={ref} className="relative min-w-0">
-      <span className="block t-overline text-text-secondary">{label}</span>
+      <span className="block t-overline leading-[12px] text-text-secondary">{label}</span>
       <button
         type="button"
         /* Select-only combobox (WAI-ARIA APG): the button carries the combobox
@@ -610,7 +610,7 @@ function FlightsPanel() {
      → focus (ink border + ring, surface back to white so the focused field is
      the brightest thing in the row). */
   const FIELD =
-    "flex min-h-[56px] flex-col justify-center rounded-md border border-transparent bg-primary-050 px-3.5 py-2 transition-all duration-200 hover:border-primary-200 focus-within:border-primary-700 focus-within:bg-neutral-000 focus-within:shadow-e1 focus-within:ring-2 focus-within:ring-primary-700/15 sm:min-h-[60px] sm:px-4 sm:py-2.5";
+    "flex min-h-[50px] flex-col justify-center rounded-md border border-transparent bg-primary-050 px-3 py-1 transition-all duration-200 hover:border-primary-200 focus-within:border-primary-700 focus-within:bg-neutral-000 focus-within:shadow-e1 focus-within:ring-2 focus-within:ring-primary-700/15 sm:px-3.5";
 
   return (
     <div className="space-y-2.5">
@@ -762,7 +762,7 @@ function FlightsPanel() {
         <button
           type="button"
           onClick={search}
-          className="btn btn-primary h-[56px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-full px-7 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:h-[60px] sm:w-auto sm:flex-1 lg:flex-none lg:px-8"
+          className="btn btn-primary h-[50px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-full px-6 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:w-auto sm:flex-1 lg:flex-none lg:px-7"
         >
           <Search className="h-4 w-4" aria-hidden="true" />
           {t("fs.search")}
