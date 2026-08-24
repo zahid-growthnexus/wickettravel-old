@@ -8,6 +8,7 @@ import {
   Car,
   Check,
   ChevronDown,
+  ChevronRight,
   ExternalLink,
   Hotel,
   Minus,
@@ -16,7 +17,6 @@ import {
   PlaneTakeoff,
   Plus,
   Route,
-  Search,
   Users,
 } from "lucide-react";
 import { cn } from "@/lib/cn";
@@ -50,7 +50,7 @@ const VALUE_SM =
 /* Split base from height because cn() is plain clsx — two competing min-h
    utilities in one string would resolve by CSS order, not by which came last. */
 const WELL_BASE =
-  "relative flex w-full items-center gap-2.5 rounded-md border border-neutral-300 bg-neutral-000 px-3.5 transition-all duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
+  "group relative flex w-full items-center gap-2.5 rounded-md border border-neutral-300 bg-neutral-000 px-3.5 transition-all duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
 const WELL = cn(WELL_BASE, "min-h-[58px] sm:min-h-[62px]");
 /* Row 2 carries no caption and a shorter value, so it sits tighter than the
    route and date fields without losing the shared surface. */
@@ -153,7 +153,7 @@ function AirportField({
         {label}
       </label>
       <div className={WELL}>
-        <Icon className="h-[18px] w-[18px] shrink-0 text-primary-700" aria-hidden="true" />
+        <Icon className="h-[18px] w-[18px] shrink-0 text-primary-500 transition-colors duration-200 group-focus-within:text-accent-600" aria-hidden="true" />
         <span className="min-w-0 flex-1">
           <input
             id={id}
@@ -321,7 +321,7 @@ function DateField({
       </label>
       <div className={cn(WELL, disabled && "opacity-55")}>
         <CalendarDays
-          className="h-[18px] w-[18px] shrink-0 text-primary-700"
+          className="h-[18px] w-[18px] shrink-0 text-primary-500 transition-colors duration-200 group-focus-within:text-accent-600"
           aria-hidden="true"
         />
         <span className="min-w-0 flex-1">
@@ -443,7 +443,7 @@ function TravelersField({
         aria-label={`${t("fs.travelers")}: ${summary}`}
         className={cn(WELL_COMPACT, "cursor-pointer text-left")}
       >
-        <Users className="h-[18px] w-[18px] shrink-0 text-primary-700" aria-hidden="true" />
+        <Users className="h-[18px] w-[18px] shrink-0 text-primary-500 transition-colors duration-200 group-focus-within:text-accent-600" aria-hidden="true" />
         <span className="min-w-0 flex-1">
           <span className={cn(VALUE_SM, muted && "font-normal text-text-secondary")}>
             {summary}
@@ -451,8 +451,9 @@ function TravelersField({
           <span className={SUB}>{breakdown}</span>
         </span>
         <ChevronDown
+          strokeWidth={1.75}
           className={cn(
-            "h-4 w-4 shrink-0 text-text-tertiary transition-transform duration-200",
+            "h-3.5 w-3.5 shrink-0 text-primary-300 transition-transform duration-200",
             open && "rotate-180"
           )}
           aria-hidden="true"
@@ -625,7 +626,7 @@ function SelectField({
       >
         <Icon
           className={cn(
-            "shrink-0 text-primary-700",
+            "shrink-0 text-primary-500 transition-colors duration-200 group-focus-within:text-accent-600",
             variant === "well" ? "h-[18px] w-[18px]" : "h-4 w-4"
           )}
           aria-hidden="true"
@@ -640,8 +641,9 @@ function SelectField({
           {value}
         </span>
         <ChevronDown
+          strokeWidth={1.75}
           className={cn(
-            "h-4 w-4 shrink-0 text-text-tertiary transition-transform duration-200",
+            "h-3.5 w-3.5 shrink-0 text-primary-300 transition-transform duration-200",
             open && "rotate-180"
           )}
           aria-hidden="true"
@@ -718,6 +720,7 @@ function toRouteParam(place: Place): string {
 
 function FlightsPanel() {
   const { t } = useI18n();
+  const reduce = useReducedMotion();
   const [trip, setTrip] = useState<"return" |"oneway">("return");
   const [from, setFrom] = useState<Place>(EMPTY_PLACE);
   const [to, setTo] = useState<Place>(EMPTY_PLACE);
@@ -781,7 +784,7 @@ function FlightsPanel() {
         <div
           role="radiogroup"
           aria-label={t("fs.return") + " / " + t("fs.oneway")}
-          className="inline-flex rounded-full bg-neutral-100 p-1"
+          className="inline-flex rounded-full border border-primary-100 bg-primary-050 p-1"
         >
           {(["return", "oneway"] as const).map((v) => (
             <button
@@ -791,13 +794,29 @@ function FlightsPanel() {
               aria-checked={trip === v}
               onClick={() => setTrip(v)}
               className={cn(
-                "h-11 cursor-pointer rounded-full px-3.5 t-label-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-1 sm:h-8",
+                "relative h-11 cursor-pointer rounded-full px-4 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-1 sm:h-9",
                 trip === v
-                  ? "bg-neutral-000 text-primary-800 shadow-e1"
+                  ? "text-primary-800"
                   : "text-text-secondary hover:text-primary-800"
               )}
             >
-              {t(v === "return" ? "fs.return" : "fs.oneway")}
+              {/* The selected state is a single element that slides between
+                  the two options rather than a background that blinks on and
+                  off, which is what makes the control read as one switch. */}
+              {trip === v && (
+                <motion.span
+                  layoutId="trip-switch"
+                  className="absolute inset-0 rounded-full bg-neutral-000 shadow-e1"
+                  transition={
+                    reduce
+                      ? { duration: 0 }
+                      : { type: "spring", stiffness: 400, damping: 34 }
+                  }
+                />
+              )}
+              <span className="relative">
+                {t(v === "return" ? "fs.return" : "fs.oneway")}
+              </span>
             </button>
           ))}
         </div>
@@ -844,7 +863,7 @@ function FlightsPanel() {
             type="button"
             onClick={swap}
             aria-label={t("fs.swap")}
-            className="group absolute left-1/2 top-1/2 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-neutral-300 bg-neutral-000 text-primary-700 shadow-e1 transition-colors hover:border-primary-700 hover:text-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 z-popover sm:top-[calc(50%+11px)]"
+            className="group absolute left-1/2 top-1/2 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-neutral-300 bg-neutral-000 text-accent-500 shadow-e1 transition-colors duration-300 ease-out hover:border-accent-500 hover:bg-accent-050 hover:text-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 z-popover sm:top-[calc(50%+11px)]"
           >
             <ArrowRightLeft
               className="h-4 w-4 rotate-90 transition-transform duration-300 group-hover:-rotate-90 sm:rotate-0 sm:group-hover:rotate-180"
@@ -912,10 +931,14 @@ function FlightsPanel() {
         <button
           type="button"
           onClick={search}
-          className="btn btn-primary col-span-2 h-[48px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-md px-7 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:h-[52px] lg:col-span-1 lg:w-auto"
+          className="btn btn-primary group/cta col-span-2 h-[48px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-md px-7 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:h-[52px] lg:col-span-1 lg:w-auto"
         >
           <span className="uppercase t-label-2 tracking-[0.2px]">{t("fs.search")}</span>
-          <Search className="h-[18px] w-[18px]" strokeWidth={2.5} aria-hidden="true" />
+          <ChevronRight
+            className="h-5 w-5 transition-transform duration-300 ease-out group-hover/cta:translate-x-0.5"
+            strokeWidth={2}
+            aria-hidden="true"
+          />
         </button>
       </div>
 
@@ -1019,7 +1042,11 @@ export default function FlightSearch() {
             <FlightsPanel />
           </motion.div>
         </AnimatePresence>
-        <p className="mt-4 t-caption text-text-secondary">{t("hero.helper")}</p>
+        {/* A footnote, not another control: a hairline sets it apart from the
+            form, and it aligns to the same left edge as the fields above. */}
+        <p className="mt-5 border-t border-primary-100 pt-4 t-caption text-text-secondary sm:mt-6">
+          {t("hero.helper")}
+        </p>
       </div>
     </div>
   );
