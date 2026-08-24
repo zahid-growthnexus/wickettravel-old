@@ -6,6 +6,7 @@ import {
   ArrowRightLeft,
   CalendarDays,
   Car,
+  Check,
   ChevronDown,
   ExternalLink,
   Hotel,
@@ -347,7 +348,7 @@ function TravelersField({
                               prev.map((v, j) => (j === i ? e.target.value : v))
                             )
                           }
-                          className="h-10 w-full rounded-sm border border-neutral-300 bg-neutral-000 text-center t-label-2 text-primary-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                          className="h-10 w-full rounded-md border border-neutral-300 bg-neutral-000 text-center t-label-2 text-primary-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                         />
                       </motion.label>
                     ))}
@@ -362,12 +363,16 @@ function TravelersField({
   );
 }
 
-/* ── Styled native select ──────────────────────────────────────────────── */
+/* ── Select ────────────────────────────────────────────────────────────────
+   A listbox, not a native <select>. `appearance-none` only ever restyled the
+   closed state — the moment it opened, the browser drew the OS list, which
+   ignores every token in the system and looked nothing like the airport and
+   traveller popovers sitting beside it. This is the same panel those two
+   already use, so all three dropdowns in the widget now match. */
 function SelectField({
   label,
   icon: Icon,
   options,
-  defaultValue,
   value,
   onChange,
   onFocus,
@@ -375,34 +380,134 @@ function SelectField({
   label: string;
   icon: typeof Plane;
   options: readonly string[];
-  defaultValue?: string;
-  /** Controlled mode — needed when the same field renders at two breakpoints. */
-  value?: string;
-  onChange?: (v: string) => void;
+  value: string;
+  onChange: (v: string) => void;
   onFocus?: () => void;
 }) {
+  const reduce = useReducedMotion();
+  const id = useId();
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
+  const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
+
+  const openAt = (index: number) => {
+    setActive(index);
+    setOpen(true);
+    onFocus?.();
+  };
+
+  const commit = (option: string) => {
+    onChange(option);
+    setOpen(false);
+  };
+
   return (
-    <FieldShell label={label} icon={Icon}>
-      <div className="relative w-full min-w-0">
-        <select
-          onFocus={onFocus}
-          {...(onChange
-            ? { value, onChange: (e) => onChange(e.target.value) }
-            : { defaultValue: defaultValue ?? options[0] })}
-          className="w-full min-w-0 cursor-pointer appearance-none bg-transparent pr-6 t-label-2 text-primary-800 focus:outline-none"
-        >
-          {options.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
+    <div ref={ref} className="relative min-w-0">
+      <span className="block t-overline text-text-secondary">{label}</span>
+      <button
+        type="button"
+        /* Select-only combobox (WAI-ARIA APG): the button carries the combobox
+           role so it can own aria-activedescendant, the same way AirportField's
+           input does. A bare button role cannot. */
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={`${id}-list`}
+        aria-activedescendant={open ? `${id}-opt-${active}` : undefined}
+        onClick={() =>
+          open ? setOpen(false) : openAt(Math.max(0, options.indexOf(value)))
+        }
+        onKeyDown={(e) => {
+          if (!open) {
+            // Down / Up / Enter / Space all open a closed listbox, per APG.
+            if ([" ", "Enter", "ArrowDown", "ArrowUp"].includes(e.key)) {
+              e.preventDefault();
+              openAt(Math.max(0, options.indexOf(value)));
+            }
+            return;
+          }
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setActive((i) => Math.min(i + 1, options.length - 1));
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setActive((i) => Math.max(i - 1, 0));
+          } else if (e.key === "Home") {
+            e.preventDefault();
+            setActive(0);
+          } else if (e.key === "End") {
+            e.preventDefault();
+            setActive(options.length - 1);
+          } else if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            commit(options[active]);
+          } else if (e.key === "Escape") {
+            e.preventDefault();
+            setOpen(false);
+          } else if (e.key === "Tab") {
+            setOpen(false);
+          }
+        }}
+        className="mt-1 flex w-full cursor-pointer items-center gap-2 text-left focus-visible:outline-none"
+      >
+        <Icon className="h-4 w-4 shrink-0 text-primary-700" aria-hidden="true" />
+        <span className="flex-1 truncate t-label-2 text-primary-800">{value}</span>
         <ChevronDown
-          className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-text-tertiary"
+          className={cn(
+            "h-4 w-4 shrink-0 text-text-tertiary transition-transform duration-200",
+            open && "rotate-180"
+          )}
           aria-hidden="true"
         />
-      </div>
-    </FieldShell>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            id={`${id}-list`}
+            role="listbox"
+            aria-label={label}
+            initial={reduce ? false : { opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
+            transition={{ duration: 0.15 }}
+            className="absolute left-0 right-0 top-full mt-2 max-h-64 z-popover overflow-auto rounded-md border border-neutral-300 bg-neutral-000 py-2 shadow-e3 shadow-primary-900/15"
+          >
+            {options.map((option, i) => {
+              const selected = option === value;
+              return (
+                <li
+                  key={option}
+                  id={`${id}-opt-${i}`}
+                  role="option"
+                  aria-selected={selected}
+                >
+                  <button
+                    type="button"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => commit(option)}
+                    onMouseEnter={() => setActive(i)}
+                    className={cn(
+                      "flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-3 text-left t-label-2 transition-colors duration-200",
+                      i === active ? "bg-primary-050" : "hover:bg-neutral-050",
+                      selected ? "text-primary-800" : "text-text-secondary"
+                    )}
+                  >
+                    <span className="truncate">{option}</span>
+                    {selected && (
+                      <Check
+                        className="h-4 w-4 shrink-0 text-accent-500"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -445,6 +550,11 @@ function FlightsPanel() {
   const [direct, setDirect] = useState(false);
   const [airline, setAirline] = useState("");
   const [moreOpen, setMoreOpen] = useState(false);
+  /* The disclosure clips its children while it animates height. That is
+     correct during the slide, but the Airline listbox inside it has to be
+     able to overhang the panel once it is open, so the clip is lifted the
+     moment the animation settles. */
+  const [moreSettled, setMoreSettled] = useState(false);
 
   const airlineOptions = [t("airline.any"), ...AIRLINES];
 
@@ -497,7 +607,7 @@ function FlightsPanel() {
      earns the larger step), and anything that acts as a button — the trip
      toggle, the tabs, Search — is a full pill, matching the header's CTA. */
   const FIELD =
-    "rounded-sm border border-neutral-300 bg-neutral-000 px-3 py-3 transition-colors hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
+    "rounded-md border border-neutral-300 bg-neutral-000 px-4 py-3 transition-colors duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
 
   return (
     <div className="space-y-3">
@@ -642,7 +752,7 @@ function FlightsPanel() {
         <button
           type="button"
           onClick={search}
-          className="btn btn-primary col-span-2 h-12 w-full cursor-pointer self-center rounded-full shadow-e1 transition-all duration-300 ease-out hover:shadow-e2 lg:col-span-3"
+          className="btn btn-primary col-span-2 h-12 w-full cursor-pointer self-center justify-self-stretch whitespace-nowrap rounded-full px-8 shadow-e1 transition-all duration-300 ease-out hover:shadow-e2 lg:col-span-3 lg:w-auto lg:justify-self-end"
         >
           <Search className="h-4 w-4" aria-hidden="true" />
           {t("fs.search")}
@@ -656,7 +766,7 @@ function FlightsPanel() {
           onClick={() => setMoreOpen((v) => !v)}
           aria-expanded={moreOpen}
           aria-controls="fs-more-options"
-          className="flex min-h-[44px] w-full cursor-pointer items-center justify-between rounded-sm border border-neutral-300 px-3 t-label-2 text-primary-800 transition-colors hover:border-primary-300 hover:bg-neutral-050 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+          className="flex min-h-[44px] w-full cursor-pointer items-center justify-between rounded-md border border-neutral-300 px-4 t-label-2 text-primary-800 transition-colors duration-200 hover:border-primary-300 hover:bg-neutral-050 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
         >
           <span className="flex items-center gap-2">
             <SlidersHorizontal className="h-4 w-4 text-primary-700" aria-hidden="true" />
@@ -679,7 +789,9 @@ function FlightsPanel() {
               animate={reduce ? { opacity: 1 } : { height: "auto", opacity: 1 }}
               exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="overflow-hidden"
+              onAnimationStart={() => setMoreSettled(false)}
+              onAnimationComplete={() => setMoreSettled(true)}
+              className={moreSettled ? "overflow-visible" : "overflow-hidden"}
             >
               <div className="mt-3 space-y-3">
                 <div className={FIELD}>
@@ -691,7 +803,7 @@ function FlightsPanel() {
                     onChange={setAirline}
                   />
                 </div>
-                <div className="flex min-h-[44px] items-center rounded-sm border border-neutral-300 px-3">
+                <div className="flex min-h-[44px] items-center rounded-md border border-neutral-300 px-4">
                   {directToggle("inline-flex")}
                 </div>
               </div>
@@ -746,7 +858,7 @@ export default function FlightSearch() {
                 }
               }}
               className={cn(
-                "relative flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full px-4 py-2.5 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:px-6",
+                "relative flex min-h-[44px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full px-4 py-3 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:px-6",
                 active
                   ? "text-primary-800"
                   : "text-text-on-dark/90 hover:bg-neutral-000/10 hover:text-text-on-dark"
