@@ -90,13 +90,6 @@ export const AIRPORTS: Airport[] = [
   { code: "CAI", city: "Cairo", name: "Cairo Intl", country: "Egypt" },
 ];
 
-/** Human-readable label, e.g. "All Paris Airports (PAR), France" or
- *  "London Heathrow (LHR), UK". */
-export function formatAirport(a: Airport): string {
-  if (a.metro) return `All ${a.city} Airports (${a.code}), ${a.country}`;
-  return `${a.city} ${a.name} (${a.code}), ${a.country}`;
-}
-
 /** Filter the directory by a free-text query (city, airport name, code or
  *  country). Returns [] for queries under 2 characters. Metro codes rank first,
  *  then code-prefix matches, capped to a short list for a tidy dropdown. */
