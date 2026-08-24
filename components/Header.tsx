@@ -58,7 +58,14 @@ export default function Header({ transparent = false }: { transparent?: boolean 
   return (
     <header
       className={cn(
-        "sticky top-0 w-full transition-colors duration-300 z-header",
+        "inset-x-0 top-0 w-full transition-colors duration-300 z-header",
+        // A transparent (homepage) header is `fixed`, not `sticky` — it never
+        // occupies flow space, so the hero behind it never has to cancel that
+        // space with a negative margin tuned to match the header's height.
+        // That match was inherently approximate (padding-driven height vs. a
+        // guessed offset) and any drift between them reopened a hairline gap.
+        // Fixed removes the dependency entirely: nothing to keep in sync.
+        transparent ? "fixed" : "sticky",
         onImage
           ? "border-b border-transparent bg-transparent"
           // Fully opaque, not translucent + backdrop-blur: a sticky full-width
@@ -68,7 +75,7 @@ export default function Header({ transparent = false }: { transparent?: boolean 
           : "border-b border-primary-100 bg-neutral-000 shadow-e1"
       )}
     >
-      <div className="container-page flex items-center justify-between gap-6 py-4 lg:py-5">
+      <div className="container-page flex items-center justify-between gap-6 py-3 lg:py-3.5">
         {/* Logo — the lockup is live vector + text, so it recolours with a
             class instead of needing a second bitmap for the dark hero. */}
         <Link
