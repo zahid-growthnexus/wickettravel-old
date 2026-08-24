@@ -86,7 +86,7 @@ export default function Header() {
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
           {NAV_LINKS.map((link) => {
             const className = cn(
-              "rounded-sm px-3 py-2 t-label-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+              "rounded-sm px-3 py-2 t-label-2 tracking-[0.5px] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
               onImage
                 ? "text-text-on-dark/85 hover:bg-neutral-000/10 hover:text-text-on-dark focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
                 : "text-neutral-600 hover:bg-primary-050 hover:text-primary-800 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
@@ -131,7 +131,7 @@ export default function Header() {
 
           <a
             href={PORTAL_LOGIN_URL}
-            className="hidden rounded-sm bg-accent-500 px-6 py-3 t-label-2 text-text-on-dark transition-colors duration-200 hover:bg-accent-600 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 sm:inline-flex"
+            className="hidden items-center rounded-sm bg-accent-500 px-5 py-2 t-label-2 text-text-on-dark transition-colors duration-200 hover:bg-accent-600 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 sm:inline-flex"
           >
             {t("cta.getQuote")}
           </a>

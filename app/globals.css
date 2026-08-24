@@ -328,7 +328,6 @@ body {
   .z-float     { z-index: 55; }  /* WhatsApp launcher                 */
   .z-backdrop  { z-index: 60; }  /* drawer / modal scrim              */
   .z-drawer    { z-index: 65; }  /* mobile nav drawer                 */
-  .z-progress  { z-index: 70; }  /* scroll progress rail              */
   .z-modal     { z-index: 80; }  /* visa enquiry dialog               */
 
   /* Pills and avatars use full. */
