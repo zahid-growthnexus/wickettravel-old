@@ -492,8 +492,10 @@ function FlightsPanel() {
   );
 
   /* One shell for every field so the six inputs read as a single instrument
-     rather than six separate boxes. Inputs take the spec's sm 8 radius; the
-     card around them keeps md 12. */
+     rather than six separate boxes. Three radii, one rule: inputs keep the
+     spec's sm 8, the panel around them takes lg 16 (a hero-sized surface
+     earns the larger step), and anything that acts as a button — the trip
+     toggle, the tabs, Search — is a full pill, matching the header's CTA. */
   const FIELD =
     "rounded-sm border border-neutral-300 bg-neutral-000 px-3 py-3 transition-colors hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
 
@@ -640,7 +642,7 @@ function FlightsPanel() {
         <button
           type="button"
           onClick={search}
-          className="btn btn-primary col-span-2 h-full min-h-[44px] w-full cursor-pointer lg:col-span-3"
+          className="btn btn-primary col-span-2 h-12 w-full cursor-pointer self-center rounded-full shadow-e1 transition-all duration-300 ease-out hover:shadow-e2 lg:col-span-3"
         >
           <Search className="h-4 w-4" aria-hidden="true" />
           {t("fs.search")}
@@ -727,7 +729,7 @@ export default function FlightSearch() {
       <div
         role="tablist"
         aria-label="Search type"
-        className="flex w-fit max-w-full gap-1 overflow-x-auto rounded-t-md bg-primary-900/55 p-2"
+        className="flex w-fit max-w-full gap-2 overflow-x-auto pb-3"
       >
         {TABS.map(({ id, labelKey, icon: Icon, redirect }) => {
           const active = tab === id && !redirect;
@@ -744,14 +746,16 @@ export default function FlightSearch() {
                 }
               }}
               className={cn(
-                "relative flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-sm px-3 py-3 t-label-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:px-6",
-                active ?"text-primary-800" :"text-text-on-dark/90 hover:text-text-on-dark"
+                "relative flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full px-4 py-2.5 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-000 sm:px-6",
+                active
+                  ? "text-primary-800"
+                  : "text-text-on-dark/90 hover:bg-neutral-000/10 hover:text-text-on-dark"
               )}
             >
               {active && (
                 <motion.span
                   layoutId="flight-tab"
-                  className="absolute inset-0 rounded-sm bg-neutral-000 shadow-e1"
+                  className="absolute inset-0 rounded-full bg-neutral-000 shadow-e2"
                   transition={{ type:"spring", stiffness: 400, damping: 32 }}
                 />
               )}
@@ -766,7 +770,7 @@ export default function FlightSearch() {
       </div>
 
       {/* Panel */}
-      <div className="rounded-b-md rounded-tr-md bg-neutral-000 p-4 shadow-e3 sm:p-6">
+      <div className="rounded-lg bg-neutral-000 p-4 shadow-e3 sm:p-6">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={tab}
