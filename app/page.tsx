@@ -143,7 +143,7 @@ export default function Home() {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <Header />
+      <Header transparent />
       <main className="flex-1">
         <Hero />
         <AirlineLogos />

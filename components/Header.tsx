@@ -22,7 +22,7 @@ const NAV_LINKS: { key: string; href: string; external?: boolean }[] = [
   { key: "nav.parentsTickets", href: "/#parents-tickets" },
 ];
 
-export default function Header() {
+export default function Header({ transparent = false }: { transparent?: boolean }) {
   const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -47,23 +47,25 @@ export default function Header() {
     };
   }, [open]);
 
-  /* The header rides over the hero photograph until the first scroll, so at
-     rest it is chrome-less and the image runs edge to edge behind it. Past the
-     fold it lands on a solid surface. Every colour below switches on that one
-     piece of state. */
-  const onImage = !scrolled;
+  /* On the homepage the header rides over the hero photograph until the first
+     scroll, so at rest it is chrome-less and the image runs edge to edge
+     behind it — every colour below switches on that one piece of state. Every
+     other page has no hero bleeding behind the header, so it stays in its
+     solid, scrolled-looking state from the start regardless of scroll
+     position; only a `transparent` page ever goes chrome-less. */
+  const onImage = transparent && !scrolled;
 
   return (
     <header
       className={cn(
         "sticky top-0 w-full transition-colors duration-300 z-header",
-        scrolled
+        onImage
+          ? "border-b border-transparent bg-transparent"
           // Fully opaque, not translucent + backdrop-blur: a sticky full-width
           // backdrop-filter repaints every scroll frame on Android, and any
           // transparency lets the dark hero tint the bar's shoulders grey
           // either side of the container.
-          ? "border-b border-primary-100 bg-neutral-000 shadow-e1"
-          : "border-b border-transparent bg-transparent"
+          : "border-b border-primary-100 bg-neutral-000 shadow-e1"
       )}
     >
       <div className="container-page flex items-center justify-between gap-6 py-4 lg:py-5">
@@ -72,7 +74,7 @@ export default function Header() {
         <Link
           href="/"
           className={cn(
-            "shrink-0 rounded-sm text-[20px] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-[22px]",
+            "shrink-0 rounded-sm text-[19px] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-[22px]",
             onImage
               ? "text-text-on-dark focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
               : "text-primary-800 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
@@ -86,7 +88,7 @@ export default function Header() {
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
           {NAV_LINKS.map((link) => {
             const className = cn(
-              "rounded-sm px-3 py-2 t-label-2 tracking-[0.5px] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+              "rounded-sm px-3 py-2 t-label-2 tracking-[0.2px] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
               onImage
                 ? "text-text-on-dark/85 hover:bg-neutral-000/10 hover:text-text-on-dark focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
                 : "text-neutral-600 hover:bg-primary-050 hover:text-primary-800 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
@@ -131,7 +133,7 @@ export default function Header() {
 
           <a
             href={PORTAL_LOGIN_URL}
-            className="hidden items-center rounded-sm bg-accent-500 px-5 py-2 t-label-2 text-text-on-dark transition-colors duration-200 hover:bg-accent-600 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 sm:inline-flex"
+            className="hidden items-center rounded-full bg-accent-500 px-5 py-[10.5px] t-label-2 tracking-[0.2px] text-text-on-dark transition-colors duration-200 hover:bg-accent-600 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 sm:inline-flex sm:px-6 lg:px-7"
           >
             {t("cta.getQuote")}
           </a>

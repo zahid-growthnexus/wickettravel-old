@@ -1,19 +1,22 @@
 /**
  * The Wicket "W" — one continuous path, turned into a W, with the ember
- * terminus marking the arrival.
+ * marking the departure.
  *
- * Geometry is lifted exactly from the vector artwork in the brand guidelines
- * (logos.pdf, "03 — ICON ONLY"): a five-point polyline stroked with round caps
- * and joins, plus an ember disc at the top-right terminus. Coordinates are the
- * source values translated so the visual bounding box — round caps included —
- * starts at 0,0.
+ * Geometry is lifted from the vector artwork in the brand guidelines
+ * (branding.pdf, "03 — ICON ONLY"): a five-point polyline stroked with round
+ * caps and joins, plus a solid ember disc fused to the *first* cap — "a point
+ * of departure, not a floating dot" per the guidelines, not the arrival. The
+ * polyline itself (and its scale) is unchanged from the original artwork
+ * extraction; coordinates are translated so the visual bounding box — round
+ * caps and disc included — starts at 0,0, with a hair of extra left margin
+ * for the disc's overshoot past the first cap.
  *
  * Drawn uncut: the stems keep their round caps and the ember stays a whole
  * disc, matching the construction diagram in the guidelines ("One continuous
  * path, turned into a W"). The icon-only tiles in that same document shear the
  * mark against a horizontal edge, but at header size that shear reads as a
  * rendering fault rather than a deliberate cut, so the viewBox here is the full
- * visual bounding box — round caps and disc included — and nothing is clipped.
+ * visual bounding box and nothing is clipped.
  *
  * The stroke is `currentColor`, so the lockup's rule that "mark and letters
  * share one colour" holds automatically: set the colour on the parent and both
@@ -28,7 +31,7 @@ export default function BrandMark({
 }) {
   return (
     <svg
-      viewBox="0 0 18.3253 14.427"
+      viewBox="-0.25 0 18.5753 14.427"
       overflow="hidden"
       className={className}
       fill="none"
@@ -43,8 +46,10 @@ export default function BrandMark({
         strokeLinejoin="round"
       />
       {ember && (
-        <path
-          d="M13.1126 0 A1.875 1.875 0 0 0 16.6774 0 Z"
+        <circle
+          cx="1.2701"
+          cy="3.1881"
+          r="1.4583"
           fill="var(--color-brand-ember)"
         />
       )}
