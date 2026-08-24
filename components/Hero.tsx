@@ -23,13 +23,15 @@ export default function Hero() {
   const { t } = useI18n();
 
   return (
-    /* The header is `fixed` (see Header.tsx), so it never occupies flow
+    <>
+    {/* The header is `fixed` (see Header.tsx), so it never occupies flow
        space here — the photograph runs to the very top of the page with no
-       margin trick needed to cancel out a header height. The header
-       re-solidifies on scroll. */
+       margin trick needed to cancel out a header height. pt is generous
+       enough to clear the fixed header with real breathing room below it,
+       not just enough to avoid overlap. */}
     <section
       id="top"
-      className="relative isolate overflow-hidden pb-10 pt-24 lg:pb-12"
+      className="relative isolate overflow-hidden pb-[330px] pt-28 sm:pb-[263px] sm:pt-32 lg:pb-[194px] lg:pt-36"
     >
       {/* A wing over a mountain range from the cabin window — the view a
           traveller actually buys. The wing sweeps from centre to lower right,
@@ -78,13 +80,19 @@ export default function Hero() {
             ))}
           </ul>
         </div>
-
-        {/* The search widget is the hero's call to action — a marketplace's
-            primary control, not an afterthought below the copy. */}
-        <div className="hero-rise hero-rise-4 mt-6">
-          <FlightSearch />
-        </div>
       </div>
     </section>
+
+    {/* The search widget is the hero's call to action, pulled up to straddle
+        the hero/next-section boundary — half still reading as part of the
+        photograph, half already grounded on the section below. The negative
+        margin is tuned per breakpoint to the widget's own rendered height
+        (measured, not guessed) since a plain percentage margin can't express
+        "half of my own height" for an auto-sized block. z-raised keeps it
+        painting above AirlineLogos, which follows immediately after. */}
+    <div className="hero-rise hero-rise-4 container-page relative z-raised -mt-[306px] sm:-mt-[239px] lg:-mt-[170px]">
+      <FlightSearch />
+    </div>
+    </>
   );
 }

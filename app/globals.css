@@ -323,6 +323,7 @@ body {
      Z-INDEX — one semantic scale. Never write an arbitrary z value;
      add a step here instead, so the stacking order stays readable.
      ═══════════════════════════════════════════════════════════════ */
+  .z-raised    { z-index: 10; }  /* content lifted above its section  */
   .z-popover   { z-index: 30; }  /* combobox + traveller menus        */
   .z-header    { z-index: 50; }  /* site header                       */
   .z-float     { z-index: 55; }  /* WhatsApp launcher                 */
