@@ -88,7 +88,7 @@ export default function Header({ transparent = false }: { transparent?: boolean 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
           {NAV_LINKS.map((link) => {
             const className = cn(
-              "rounded-sm px-3 py-2 t-label-2 tracking-[0.2px] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+              "rounded-full px-3 py-2 t-label-2 tracking-[0.2px] transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
               onImage
                 ? "text-text-on-dark/85 hover:bg-neutral-000/10 hover:text-text-on-dark focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
                 : "text-neutral-600 hover:bg-primary-050 hover:text-primary-800 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
@@ -118,7 +118,7 @@ export default function Header({ transparent = false }: { transparent?: boolean 
           <a
             href={`tel:${BUSINESS.phone}`}
             className={cn(
-              "hidden items-center gap-2 rounded-sm px-3 py-2 t-label-2 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 xl:inline-flex",
+              "hidden items-center gap-2 rounded-full px-3 py-2 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 xl:inline-flex",
               onImage
                 ? "text-text-on-dark hover:bg-neutral-000/10 focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
                 : "text-primary-800 hover:bg-primary-050 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
@@ -133,7 +133,7 @@ export default function Header({ transparent = false }: { transparent?: boolean 
 
           <a
             href={PORTAL_LOGIN_URL}
-            className="hidden items-center rounded-full bg-accent-500 px-[18.5px] py-[10.5px] t-label-2 tracking-[0.2px] text-text-on-dark transition-colors duration-200 hover:bg-accent-600 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 sm:inline-flex sm:px-[22.5px] lg:px-[26.5px]"
+            className="hidden items-center rounded-full bg-accent-500 px-[17px] py-[10.5px] t-label-2 tracking-[0.2px] text-text-on-dark shadow-e1 transition-all duration-300 ease-out hover:bg-accent-600 hover:shadow-e2 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 sm:inline-flex sm:px-[21px] lg:px-[25px]"
           >
             {t("cta.getQuote")}
           </a>
