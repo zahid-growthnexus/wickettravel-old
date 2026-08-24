@@ -74,7 +74,7 @@ export default function Header({ transparent = false }: { transparent?: boolean 
         <Link
           href="/"
           className={cn(
-            "shrink-0 rounded-sm text-[19px] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-[22px]",
+            "shrink-0 rounded-sm text-[21px] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-[24px]",
             onImage
               ? "text-text-on-dark focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
               : "text-primary-800 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
@@ -133,7 +133,7 @@ export default function Header({ transparent = false }: { transparent?: boolean 
 
           <a
             href={PORTAL_LOGIN_URL}
-            className="hidden items-center rounded-full bg-accent-500 px-5 py-[10.5px] t-label-2 tracking-[0.2px] text-text-on-dark transition-colors duration-200 hover:bg-accent-600 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 sm:inline-flex sm:px-6 lg:px-7"
+            className="hidden items-center rounded-full bg-accent-500 px-[18.5px] py-[10.5px] t-label-2 tracking-[0.2px] text-text-on-dark transition-colors duration-200 hover:bg-accent-600 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 sm:inline-flex sm:px-[22.5px] lg:px-[26.5px]"
           >
             {t("cta.getQuote")}
           </a>
