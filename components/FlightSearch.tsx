@@ -37,7 +37,7 @@ type Tab ="flights" |"hotels" |"cars";
    deliberate at either end. */
 const CAPTION = "mb-1 block t-overline text-text-secondary";
 const VALUE =
-  "block w-full min-w-0 truncate bg-transparent font-sans text-[14px] font-bold leading-[20px] text-primary-800 placeholder:text-text-secondary focus:outline-none sm:text-[16px] sm:leading-[24px]";
+  "block w-full min-w-0 truncate bg-transparent font-sans text-[14px] font-bold leading-[20px] text-primary-800 placeholder:font-normal placeholder:text-text-secondary focus:outline-none sm:text-[16px] sm:leading-[24px]";
 const SUB = "mt-0.5 block truncate t-caption text-text-secondary";
 /* Row 2 holds short picks rather than the route and dates the search turns
    on, so its answers sit one step down the scale from row 1. */
@@ -50,11 +50,11 @@ const VALUE_SM =
 /* Split base from height because cn() is plain clsx — two competing min-h
    utilities in one string would resolve by CSS order, not by which came last. */
 const WELL_BASE =
-  "group relative flex w-full items-center gap-2 rounded-md border border-neutral-300 bg-neutral-000 px-3 transition-all duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:ring-2 focus-within:ring-primary-700/15";
-const WELL = cn(WELL_BASE, "min-h-[52px] sm:min-h-[54px]");
+  "group relative flex w-full items-center gap-2 rounded-md border border-primary-100/80 bg-primary-050/60 px-3 transition-all duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:bg-neutral-000 focus-within:ring-2 focus-within:ring-primary-700/15";
+const WELL = cn(WELL_BASE, "min-h-[54px] sm:min-h-[58px]");
 /* Row 2 carries no caption and a shorter value, so it sits tighter than the
    route and date fields without losing the shared surface. */
-const WELL_COMPACT = cn(WELL_BASE, "min-h-[46px] sm:min-h-[50px]");
+const WELL_COMPACT = cn(WELL_BASE, "min-h-[48px] sm:min-h-[52px]");
 
 /* From/To carry three things: what the traveler reads, the IATA code the
    portal needs, and the line that confirms the pick. Free-typed text leaves
@@ -740,7 +740,6 @@ function FlightsPanel() {
   const [stops, setStops] = useState(0);
   const [airline, setAirline] = useState("");
   const [baggage, setBaggage] = useState(false);
-  const [flexDates, setFlexDates] = useState(false);
 
   const airlineOptions = [t("airline.any"), ...AIRLINES];
   /* Two options, not three: the booking portal only understands "direct", so
@@ -772,7 +771,6 @@ function FlightsPanel() {
       params.set("adults", String(adults));
     if (children > 0) params.set("children", String(children));
     if (baggage) params.set("baggage", "1");
-    if (flexDates) params.set("flexible", "1");
     window.location.assign(`${PORTAL_BOOKING_URL}?${params.toString()}`);
   };
 
@@ -933,7 +931,7 @@ function FlightsPanel() {
           onClick={search}
           className="btn btn-primary group/cta col-span-2 h-[46px] w-full shrink-0 cursor-pointer whitespace-nowrap rounded-md px-5 shadow-e2 transition-all duration-300 ease-out hover:shadow-e3 sm:h-[50px] lg:col-span-1 lg:w-auto"
         >
-          <span className="uppercase t-label-2 tracking-[0.2px]">{t("fs.search")}</span>
+          <span className="t-label-2 tracking-[0.2px]">{t("fs.search")}</span>
           <ArrowUpRight
             className="h-[18px] w-[18px] transition-transform duration-300 ease-out group-hover/cta:-translate-y-0.5 group-hover/cta:translate-x-0.5"
             strokeWidth={2}
@@ -947,16 +945,11 @@ function FlightsPanel() {
       {/* Extra top padding on top of the row rhythm: these are bare labels
           with no well around them, so 16px reads tighter here than it does
           between two rows of fields. */}
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 pt-1 sm:pt-2">
+      <div className="flex items-center pt-1 sm:pt-2">
         <CheckOption
           label={t("fs.baggage")}
           checked={baggage}
           onChange={setBaggage}
-        />
-        <CheckOption
-          label={t("fs.flexDates")}
-          checked={flexDates}
-          onChange={setFlexDates}
         />
       </div>
 
