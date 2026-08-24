@@ -50,7 +50,7 @@ const VALUE_SM =
 /* Split base from height because cn() is plain clsx — two competing min-h
    utilities in one string would resolve by CSS order, not by which came last. */
 const WELL_BASE =
-  "group relative flex w-full items-center gap-2 rounded-md border border-primary-100/80 bg-primary-050/60 px-3 transition-all duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:bg-neutral-000 focus-within:ring-2 focus-within:ring-primary-700/15";
+  "group relative flex w-full items-center gap-2 rounded-md border border-primary-100/80 bg-primary-050/50 px-3 transition-all duration-200 hover:border-primary-300 focus-within:border-primary-700 focus-within:bg-neutral-000 focus-within:ring-2 focus-within:ring-primary-700/15";
 const WELL = cn(WELL_BASE, "min-h-[54px] sm:min-h-[58px]");
 /* Row 2 carries no caption and a shorter value, so it sits tighter than the
    route and date fields without losing the shared surface. */
