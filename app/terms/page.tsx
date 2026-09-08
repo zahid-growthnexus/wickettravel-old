@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import LegalLayout, { LegalLink, P, Placeholder, Ul, type LegalSection } from "@/components/LegalLayout";
-import { BUSINESS, SITE_URL } from "@/lib/seo";
+import { BUSINESS, OG_BASE, SITE_URL, TWITTER_BASE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -12,8 +12,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/terms" },
   robots: { index: true, follow: true },
   openGraph: {
-    type: "website",
+    ...OG_BASE,
     url: `${SITE_URL}/terms`,
+    title: "Terms of Service | Wicket Travel",
+    description:
+      "The terms that apply when you use Wicket Travel Limited to book airline tickets from the UK.",
+  },
+  twitter: {
+    ...TWITTER_BASE,
     title: "Terms of Service | Wicket Travel",
     description:
       "The terms that apply when you use Wicket Travel Limited to book airline tickets from the UK.",

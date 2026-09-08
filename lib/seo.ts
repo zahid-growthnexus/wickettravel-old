@@ -38,6 +38,77 @@ export const SISTER_BRAND = {
   url: "https://www.wickettravelholidays.com/",
 } as const;
 
+/**
+ * Alt text for the generated social card (app/opengraph-image.tsx, re-exported
+ * by app/twitter-image.tsx). Kept here so OG_BASE/TWITTER_BASE below can name
+ * it without importing the image route (which would drag `next/og` into every
+ * page bundle) — keep the two in sync if the card's wording changes.
+ */
+export const SOCIAL_IMAGE_ALT =
+  "Wicket Travel — book cheap flights from the UK at the best airline ticket fares";
+
+/* Declared outside the `as const` objects below on purpose: `as const` would
+   make these arrays `readonly`, and Next's `OGImage[]` / `TwitterImage[]`
+   types are mutable, so spreading them into a page's metadata would not
+   type-check. */
+const OG_IMAGES = [
+  {
+    url: "/opengraph-image",
+    width: 1200,
+    height: 630,
+    alt: SOCIAL_IMAGE_ALT,
+  },
+];
+
+const TWITTER_IMAGES = [{ url: "/twitter-image", alt: SOCIAL_IMAGE_ALT }];
+
+/**
+ * Open Graph fields that are NOT inherited by pages.
+ *
+ * Next.js merges `metadata` shallowly: a page that exports its own `openGraph`
+ * object replaces the layout's wholesale. That silently dropped `siteName`,
+ * `locale` AND the generated `opengraph-image` from every route except `/` —
+ * every interior page was sharing with no card image at all. Spread this into
+ * each page's `openGraph` and add `url`, `title` and `description` on top.
+ */
+export const OG_BASE = {
+  type: "website",
+  siteName: BUSINESS.name,
+  locale: "en_GB",
+  images: OG_IMAGES,
+} as const;
+
+/**
+ * Same story for `twitter`: a page-level object replaces the layout's, so the
+ * card type, the account handles and the card image all have to travel with
+ * every override. Spread this and add `title` / `description`.
+ */
+export const TWITTER_BASE = {
+  card: "summary_large_image",
+  site: "@WicketTravel",
+  creator: "@WicketTravel",
+  images: TWITTER_IMAGES,
+} as const;
+
+/**
+ * The Organization node published by the homepage `@graph` (app/page.tsx).
+ * Service nodes on the individual service pages point `provider` here so every
+ * page's structured data resolves back to one business entity rather than
+ * describing an anonymous provider per page.
+ */
+export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+
+/** Reusable `areaServed` values for Service JSON-LD. */
+export const AREA_SERVED_UK = {
+  "@type": "Country",
+  name: "United Kingdom",
+} as const;
+
+export const AREA_SERVED_UAE = {
+  "@type": "Country",
+  name: "United Arab Emirates",
+} as const;
+
 /** UK departure airports we surface — reused in copy, FAQ and structured data. */
 export const UK_DEPARTURES = [
   "London Heathrow",

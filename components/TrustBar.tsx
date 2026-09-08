@@ -1,7 +1,6 @@
-"use client";
-
+/* Server component: with the scroll-reveal wrappers gone this section holds no
+   state, no hooks and no client-only APIs, so it ships no JS of its own. */
 import { ShieldCheck } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 
 const STATS = [
   { value: "2M+", label: "Travelers flown" },
@@ -14,14 +13,14 @@ export default function TrustBar() {
   return (
     <section className="bg-neutral-000 py-12 sm:py-16">
       <div className="container-page">
-        <Reveal className="card overflow-hidden">
+        <div className="card overflow-hidden">
           <h2 className="sr-only">
             Trusted by millions of UK travelers booking cheap flights
           </h2>
           {/* Stats band */}
-          <Stagger className="grid grid-cols-2 sm:grid-cols-4" amount={0.3}>
+          <div className="grid grid-cols-2 sm:grid-cols-4">
             {STATS.map((s, i) => (
-              <StaggerItem
+              <div
                 key={s.label}
                 className={[
                   "px-6 py-8 text-center sm:py-8",
@@ -37,9 +36,9 @@ export default function TrustBar() {
                 <div className="mt-1 t-label-2 text-text-secondary">
                   {s.label}
                 </div>
-              </StaggerItem>
+              </div>
             ))}
-          </Stagger>
+          </div>
 
           {/* Promise band */}
           <div className="flex flex-col items-center gap-4 border-t border-neutral-300 bg-sand-500/60 px-6 py-6 text-center sm:flex-row sm:justify-center sm:gap-3">
@@ -51,7 +50,7 @@ export default function TrustBar() {
               Best available fares from the world&apos;s most trusted airlines
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/PageHero";
 import LegalLayout, { LegalLink, P, Placeholder, Ul, type LegalSection } from "@/components/LegalLayout";
-import { BUSINESS, SITE_URL } from "@/lib/seo";
+import { BUSINESS, OG_BASE, SITE_URL, TWITTER_BASE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Refund Policy",
@@ -12,8 +12,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/refunds" },
   robots: { index: true, follow: true },
   openGraph: {
-    type: "website",
+    ...OG_BASE,
     url: `${SITE_URL}/refunds`,
+    title: "Refund Policy | Wicket Travel",
+    description:
+      "How refunds and cancellations work when you book a flight through Wicket Travel.",
+  },
+  twitter: {
+    ...TWITTER_BASE,
     title: "Refund Policy | Wicket Travel",
     description:
       "How refunds and cancellations work when you book a flight through Wicket Travel.",

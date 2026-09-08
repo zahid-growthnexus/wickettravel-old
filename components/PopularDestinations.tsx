@@ -1,9 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Star } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 import { useI18n } from "@/lib/i18n";
 import { HOLIDAYS_URL } from "@/lib/links";
 
@@ -59,24 +57,23 @@ const RESORTS: Resort[] = [
 ];
 
 function ResortCard({ r }: { r: Resort }) {
-  const reduce = useReducedMotion();
   return (
-    <motion.a
+    /* 2px CSS lift instead of a framer spring — see FeaturedAirlineFares. */
+    <a
       href={HOLIDAYS_URL}
       target="_blank"
       rel="noopener noreferrer"
-      whileHover={reduce ? undefined : { y: -6 }}
-      transition={{ type:"spring", stiffness: 300, damping: 22 }}
-      className="group relative block aspect-[4/5] overflow-hidden rounded-lg shadow-e1 ring-1 ring-primary-900/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+      className="group relative block aspect-[4/5] overflow-hidden rounded-lg shadow-e1 ring-1 ring-primary-900/5 transition-transform duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
     >
       <Image
         src={r.img}
         alt={`${r.name}, ${r.location}`}
         fill
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+        className="object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-primary-900/85 via-primary-900/15 to-transparent" />
+      {/* Scrim: name, location and tag all sit on the photo. Shared recipe. */}
+      <div className="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-primary-900/25 to-transparent" />
 
       <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-neutral-000/95 px-3 py-1 t-label-3 text-primary-800 shadow-e1">
         <Star className="h-3 w-3 fill-accent-400 text-accent-400" aria-hidden="true" />
@@ -93,7 +90,7 @@ function ResortCard({ r }: { r: Resort }) {
           <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
         </span>
       </div>
-    </motion.a>
+    </a>
   );
 }
 
@@ -102,7 +99,7 @@ export default function PopularDestinations() {
   return (
     <section id="hotels" className="section scroll-mt-16 bg-neutral-000">
       <div className="container-page">
-        <Reveal className="section-lead text-center">
+        <div className="section-lead text-center">
           <h2 className="t-h2 text-primary-800">{t("hotels.title")}</h2>
           <p className="t-body mt-4 text-text-secondary">{t("hotels.lead")}</p>
           <a
@@ -115,20 +112,15 @@ export default function PopularDestinations() {
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             <span className="sr-only">(opens in a new tab)</span>
           </a>
-        </Reveal>
+        </div>
 
-        <Stagger
-          amount={0.15}
-          className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {RESORTS.map((r) => (
-            <StaggerItem key={r.name}>
-              <ResortCard r={r} />
-            </StaggerItem>
+            <ResortCard key={r.name} r={r} />
           ))}
-        </Stagger>
+        </div>
 
-        <Reveal delay={0.1} className="mt-10 text-center">
+        <div className="mt-10 text-center">
           <a
             href={HOLIDAYS_URL}
             target="_blank"
@@ -138,7 +130,7 @@ export default function PopularDestinations() {
             {t("hotels.cta")}
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
           </a>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

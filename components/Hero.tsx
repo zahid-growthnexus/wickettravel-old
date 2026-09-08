@@ -40,7 +40,7 @@ export default function Hero() {
           without going muddy. */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="https://images.unsplash.com/photo-1686525500473-346b74e11316?auto=format&fit=crop&w=2400&q=80"
+          src="/hero/cabin-window-wing.jpg"
           alt="An aircraft wing over a green mountain range, seen from the cabin window"
           fill
           priority
@@ -95,9 +95,18 @@ export default function Hero() {
           a viewport around 1196 — below that the widget needs every pixel it
           can get. Above it the container is wider than the form has any use
           for, and the shorter run makes the row scan as one instrument rather
-          than a band stretched across the page. Centred in the container, so
-          the inset reads as symmetric card sizing. */}
-      <div className="mx-auto w-full lg:max-w-[1116px]">
+          than a band stretched across the page.
+
+          Deliberately NOT centred. This block used to carry `mx-auto`, which
+          centred the widget inside the container independently of the hero copy
+          above it — at 1440 that put the title's left edge at 112.5px and the
+          widget's at 154.5px, a 42px step that read as a misalignment rather
+          than as an inset. With no inline margins the shrunk box sits on the
+          container's inline-start edge, so the widget, the h1 and the header
+          wordmark all share one left edge at every breakpoint. Margins are left
+          unset rather than set to `mr-auto` so the alignment follows `dir` and
+          survives the Arabic/Urdu flips the brand ships. */}
+      <div className="w-full lg:max-w-[1116px]">
         <FlightSearch />
       </div>
     </div>

@@ -8,18 +8,20 @@ import { cn } from "@/lib/cn";
 import Logo from "@/components/Logo";
 import { useI18n } from "@/lib/i18n";
 import { BUSINESS } from "@/lib/seo";
-import { HOLIDAYS_URL, PORTAL_LOGIN_URL } from "@/lib/links";
+import { PORTAL_LOGIN_URL } from "@/lib/links";
 
-/* Hrefs are "/"-rooted (rather than bare "#anchor") so they still resolve
-   correctly to the right homepage section when clicked from a legal page or
-   any other non-homepage route — not just from the homepage itself. */
+/* Every service now has its own dedicated page (added after this comment was
+   first written) — nav points there directly rather than to a homepage
+   anchor or the external holidays site. "Deals" is the one item with no
+   standalone page yet, so it stays a homepage anchor; that anchor href stays
+   "/"-rooted so it still resolves correctly from any non-homepage route. */
 const NAV_LINKS: { key: string; href: string; external?: boolean }[] = [
-  { key: "nav.flights", href: "/" },
-  { key: "nav.hotels", href: HOLIDAYS_URL, external: true },
-  { key: "nav.cars", href: HOLIDAYS_URL, external: true },
+  { key: "nav.flights", href: "/flights" },
+  { key: "nav.hotels", href: "/hotels" },
+  { key: "nav.cars", href: "/car-rentals" },
   { key: "nav.deals", href: "/#deals" },
-  { key: "nav.dubaiVisa", href: "/#dubai-visa" },
-  { key: "nav.parentsTickets", href: "/#parents-tickets" },
+  { key: "nav.dubaiVisa", href: "/visa" },
+  { key: "nav.parentsTickets", href: "/parents-tickets" },
 ];
 
 export default function Header({ transparent = false }: { transparent?: boolean }) {

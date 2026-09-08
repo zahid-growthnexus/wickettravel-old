@@ -86,7 +86,13 @@
   --color-text-secondary: #6c6c6c;
   --color-text-tertiary: #929292;
   --color-text-disabled: #929292;
-  --color-text-on-sand: #7a7c71;
+  /* Muted body text on the sand section background. Was Sand 700 (#7a7c71),
+     which renders 3.95:1 on Sand 500 — under the 4.5:1 body-text floor this
+     product targets (PRODUCT.md, "Accessibility & Inclusion"). Repointed at
+     Neutral 500, the ramp value Text Secondary already uses: 4.89:1 on sand
+     and 5.25:1 on white, so the same token is safe on both surfaces. Sand 700
+     is unchanged and still available for borders and rules on sand. */
+  --color-text-on-sand: #6c6c6c;
   --color-text-on-dark: #ffffff;
   --color-text-on-dark-secondary: #bcc5e6;
   --color-text-on-dark-tertiary: #7b8db0;
@@ -316,7 +322,10 @@ body {
 
   /* Inputs share the button radius. */
   .input {
-    @apply w-full rounded-sm border border-neutral-300 bg-neutral-000 px-4 py-3 font-sans text-[16px] font-normal leading-[24px] text-text-primary placeholder:text-text-tertiary focus-visible:border-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700;
+    /* Placeholder is Text Secondary, not Text Tertiary: Tertiary is 3.27:1 on
+       white, under this product's 4.5:1 body-text floor (PRODUCT.md,
+       "Accessibility & Inclusion"). Secondary clears it at 5.25:1. */
+    @apply w-full rounded-sm border border-neutral-300 bg-neutral-000 px-4 py-3 font-sans text-[16px] font-normal leading-[24px] text-text-primary placeholder:text-text-secondary focus-visible:border-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700;
   }
 
   /* ═══════════════════════════════════════════════════════════════

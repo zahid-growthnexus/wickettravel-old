@@ -55,9 +55,11 @@ function fieldError(field: Field, data: FormData): string | undefined {
 }
 
 const inputBase =
-  "h-12 w-full rounded-sm border bg-neutral-000 px-4 t-body text-primary-800 placeholder:text-text-tertiary transition-colors focus:outline-none focus:ring-2";
-const inputTone = "border-neutral-300 focus:border-primary-700 focus:ring-primary-500/25";
-const inputErrorTone = "border-error focus:border-error focus:ring-error/25";
+  "h-12 w-full rounded-sm border bg-neutral-000 px-4 t-body text-primary-800 placeholder:text-text-secondary transition-colors focus-visible:outline-none focus-visible:ring-2";
+const inputTone =
+  "border-neutral-300 focus-visible:border-primary-700 focus-visible:ring-primary-700";
+const inputErrorTone =
+  "border-error focus-visible:border-error focus-visible:ring-error";
 
 function Label({ htmlFor, children, required }: { htmlFor: string; children: ReactNode; required?: boolean }) {
   return (
@@ -158,7 +160,9 @@ export default function ContactForm() {
         <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-success-surface">
           <CheckCircle2 className="h-9 w-9 text-success" aria-hidden="true" />
         </span>
-        <h3 className="t-h3 mt-6 t-body-lg text-primary-800">Almost there, {data.name.split(" ")[0] || "traveler"}!</h3>
+        {/* Was `t-h3 … t-body-lg` — two type-scale classes on one element, so
+            whichever globals.css defines later silently won. One class. */}
+        <h3 className="t-h3 mt-6 text-primary-800">Almost there, {data.name.split(" ")[0] || "traveler"}!</h3>
         <p className="t-body-sm mx-auto mt-3 max-w-sm text-text-secondary">
           Your email app should have opened with your message pre-filled — just
           hit send. Prefer not to wait? Call or WhatsApp us on{" "}

@@ -506,7 +506,7 @@ function TravelersField({
                               prev.map((v, j) => (j === i ? e.target.value : v))
                             )
                           }
-                          className="h-10 w-full rounded-md border border-neutral-300 bg-neutral-000 text-center t-label-2 text-primary-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                          className="h-11 w-full rounded-md border border-neutral-300 bg-neutral-000 text-center t-label-2 text-primary-800 focus-visible:border-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
                         />
                       </motion.label>
                     ))}

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
-import { Reveal } from "@/components/motion-primitives";
 import { useI18n } from "@/lib/i18n";
 
 /**
@@ -30,7 +29,9 @@ function LogoSlot({ code, name }: { code: string; name: string }) {
   const [failed, setFailed] = useState(false);
   return (
     <div
-      className="flex h-20 w-44 shrink-0 items-center justify-center rounded-lg border border-neutral-300 bg-neutral-000 px-4 shadow-e1 transition-shadow duration-300 hover:shadow-e2 sm:w-48"
+      /* No hover state: a logo tile is not a link or a control, and lifting its
+         shadow on hover promises an interaction that does not exist. */
+      className="flex h-20 w-44 shrink-0 items-center justify-center rounded-lg border border-neutral-300 bg-neutral-000 px-4 shadow-e1 sm:w-48"
       title={name}
     >
       {failed ? (
@@ -71,12 +72,10 @@ export default function AirlineLogos() {
   return (
     <section className="overflow-hidden bg-neutral-000 py-12 sm:py-16">
       <div className="container-page">
-        <Reveal className="text-center">
-          <h2 className="t-h2 text-primary-800">{t("trust.line")}</h2>
-        </Reveal>
+        <h2 className="t-h2 text-center text-primary-800">{t("trust.line")}</h2>
       </div>
 
-      <Reveal delay={0.05} className="mt-10">
+      <div className="mt-10">
         {reduce ? (
           <div className="flex gap-4 overflow-x-auto px-6 pb-2 sm:px-8">
             {AIRLINES.map((a) => (
@@ -91,16 +90,13 @@ export default function AirlineLogos() {
             </div>
           </div>
         )}
-      </Reveal>
+      </div>
 
       <div className="container-page">
-        <Reveal
-          delay={0.1}
-          className="mt-8 flex items-center justify-center gap-2 t-label-2 text-text-secondary"
-        >
+        <p className="mt-8 flex items-center justify-center gap-2 t-label-2 text-text-secondary">
           <ShieldCheck className="h-4 w-4 text-accent-500" aria-hidden="true" />
           Trusted airline tickets at the best available fares
-        </Reveal>
+        </p>
       </div>
     </section>
   );

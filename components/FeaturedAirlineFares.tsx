@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Plane } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 import { useI18n } from "@/lib/i18n";
 
 /**
@@ -27,56 +25,56 @@ const AIRLINES: Airline[] = [
     name:"Emirates",
     title:"Fly with Emirates",
     routes: ["Dubai — best available fares","Bangkok — starting from low fares"],
-    img:"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
+    img:"/airlines/emirates.jpg",
   },
   {
     code:"QR",
     name:"Qatar Airways",
     title:"Discover with Qatar Airways",
     routes: ["Doha — best available fares","Maldives — starting from low fares"],
-    img:"https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=900&q=80",
+    img:"/airlines/qatar-airways.jpg",
   },
   {
     code:"BA",
     name:"British Airways",
     title:"Travel with British Airways",
     routes: ["New York — best available fares","Cape Town — starting from low fares"],
-    img:"https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=900&q=80",
+    img:"/airlines/british-airways.jpg",
   },
   {
     code:"AI",
     name:"Air India",
     title:"Journey with Air India",
     routes: ["Delhi — best available fares","Mumbai — starting from low fares"],
-    img:"https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=900&q=80",
+    img:"/airlines/air-india.jpg",
   },
   {
     code:"VS",
     name:"Virgin Atlantic",
     title:"Soar with Virgin Atlantic",
     routes: ["Orlando — best available fares","Las Vegas — starting from low fares"],
-    img:"https://images.unsplash.com/photo-1542296332-2e4473faf563?auto=format&fit=crop&w=900&q=80",
+    img:"/airlines/virgin-atlantic.jpg",
   },
   {
     code:"EY",
     name:"Etihad Airways",
     title:"Explore with Etihad",
     routes: ["Abu Dhabi — best available fares","Sydney — starting from low fares"],
-    img:"https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=900&q=80",
+    img:"/airlines/etihad.jpg",
   },
   {
     code:"GF",
     name:"Gulf Air",
     title:"Connect with Gulf Air",
     routes: ["Bahrain — best available fares","Manila — starting from low fares"],
-    img:"https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=900&q=80",
+    img:"/airlines/gulf-air.jpg",
   },
   {
     code:"LH",
     name:"Lufthansa",
     title:"Fly with Lufthansa",
     routes: ["Frankfurt — best available fares","Munich — starting from low fares"],
-    img:"https://images.unsplash.com/photo-1577185816322-21f2a92b1342?auto=format&fit=crop&w=900&q=80",
+    img:"/airlines/lufthansa.jpg",
   },
 ];
 
@@ -106,14 +104,15 @@ function AirlineLogo({ code, name }: { code: string; name: string }) {
 }
 
 function FareCard({ a }: { a: Airline }) {
-  const reduce = useReducedMotion();
   const { t } = useI18n();
   return (
-    <motion.a
+    /* Hover feedback is a 2px CSS lift, not a framer spring. The card is a link,
+       so it should acknowledge the pointer — but a 6px spring overshoot on eight
+       cards at once reads as a toy. Transform-only, so it stays cheap on mid-range
+       Android, and the global reduced-motion rule flattens the duration to ~0. */
+    <a
       href="#top"
-      whileHover={reduce ? undefined : { y: -6 }}
-      transition={{ type:"spring", stiffness: 300, damping: 22 }}
-      className="card card-hover group flex h-full flex-col overflow-hidden"
+      className="card card-hover group flex h-full flex-col overflow-hidden transition-transform duration-200 ease-out hover:-translate-y-0.5"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
@@ -121,9 +120,12 @@ function FareCard({ a }: { a: Airline }) {
           alt={`Flights with ${a.name} from the UK at the best available fares`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary-900/55 via-primary-900/10 to-transparent" />
+        {/* Scrim, not decoration: the airline logo chip sits on this photo and
+            needs a dependable dark base under it. Shared recipe — see the same
+            three stops on the category, resort and destination cards. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-primary-900/85 via-primary-900/20 to-transparent" />
         <div className="absolute bottom-3 left-3">
           <AirlineLogo code={a.code} name={a.name} />
         </div>
@@ -147,7 +149,7 @@ function FareCard({ a }: { a: Airline }) {
           />
         </span>
       </div>
-    </motion.a>
+    </a>
   );
 }
 
@@ -156,21 +158,18 @@ export default function FeaturedAirlineFares() {
   return (
     <section id="deals" className="section scroll-mt-16 bg-neutral-000">
       <div className="container-page">
-        <Reveal className="section-lead text-center">
+        <div className="section-lead text-center">
           <h2 className="t-h2 text-primary-800">{t("fares.title")}</h2>
           <p className="t-body mt-4 text-text-secondary">{t("fares.lead")}</p>
-        </Reveal>
+        </div>
 
-        <Stagger
-          amount={0.1}
-          className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-        >
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {AIRLINES.map((a) => (
-            <StaggerItem key={a.code} className="h-full">
+            <div key={a.code} className="h-full">
               <FareCard a={a} />
-            </StaggerItem>
+            </div>
           ))}
-        </Stagger>
+        </div>
       </div>
     </section>
   );

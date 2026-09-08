@@ -1,12 +1,30 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Car, Hotel, Luggage, Plane } from "lucide-react";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 import { useI18n } from "@/lib/i18n";
 import { HOLIDAYS_URL } from "@/lib/links";
 
+/**
+ * The four category photos were re-shot (re-sourced) in this pass. Previously
+ * this was the least convincing imagery on the page: "Flights" reused the exact
+ * aircraft-wing photograph already carrying the hero, the Emirates fare card and
+ * the Luton city card — its fourth appearance on one page — while "Hotels" was a
+ * stone cottage that read as a rural B&B against copy promising 5-star resorts,
+ * and "Car Rental" and "Packages" were dark, near-unreadable crops of an
+ * ambiguous subject. Every other photo section on this page shows plainly what
+ * its label says; this one did not.
+ *
+ * The replacements were chosen against three rules, and each was reviewed at
+ * card size before being committed rather than picked off a filename:
+ *   1. the subject must be legible at 3/4 portrait under the section's scrim;
+ *   2. no photo may repeat a subject used elsewhere on the page — so hotels is
+ *      an interior suite rather than another resort pool, which would have
+ *      pre-echoed the resort grid two sections below;
+ *   3. one register across the four — real places and objects, mid-saturation.
+ * Sources are stored portrait (800×1067) to match the frame instead of being
+ * cropped down from a landscape plate.
+ */
 type Category = {
   icon: typeof Plane;
   titleKey: string;
@@ -26,7 +44,7 @@ const CATEGORIES: Category[] = [
     copy:"Book trusted-airline tickets at the best available fares — direct, with no hidden fees.",
     cta:"Search flights",
     href:"#top",
-    img:"https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
+    img:"/categories/flights.jpg",
   },
   {
     icon: Hotel,
@@ -36,7 +54,7 @@ const CATEGORIES: Category[] = [
     cta:"Find hotels",
     href: HOLIDAYS_URL,
     external: true,
-    img:"https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80",
+    img:"/categories/hotels.jpg",
   },
   {
     icon: Car,
@@ -46,7 +64,7 @@ const CATEGORIES: Category[] = [
     cta:"Rent a car",
     href: HOLIDAYS_URL,
     external: true,
-    img:"https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=900&q=80",
+    img:"/categories/car-rentals.jpg",
   },
   {
     icon: Luggage,
@@ -56,30 +74,31 @@ const CATEGORIES: Category[] = [
     cta:"Build a package",
     href: HOLIDAYS_URL,
     external: true,
-    img:"https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80",
+    img:"/categories/packages.jpg",
   },
 ];
 
 function CategoryCard({ c }: { c: Category }) {
   const { t } = useI18n();
-  const reduce = useReducedMotion();
   const Icon = c.icon;
   return (
-    <motion.a
+    /* 2px CSS lift instead of a framer spring — see FeaturedAirlineFares. */
+    <a
       href={c.href}
       {...(c.external ? { target:"_blank", rel:"noopener noreferrer" } : {})}
-      whileHover={reduce ? undefined : { y: -6 }}
-      transition={{ type:"spring", stiffness: 300, damping: 22 }}
-      className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-lg shadow-e1 ring-1 ring-primary-900/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+      className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-lg shadow-e1 ring-1 ring-primary-900/5 transition-transform duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
     >
       <Image
         src={c.img}
         alt={`${c.title} — explore travel options`}
         fill
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-        className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+        className="object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-primary-900/35 to-primary-900/5" />
+      {/* Scrim: a full heading, paragraph and CTA sit on this photo. Shared
+          three-stop recipe, with the base stop pushed to /85 because this card
+          carries the most text of any photo card on the page. */}
+      <div className="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-primary-900/45 to-primary-900/10" />
 
       <div className="relative p-6">
         <span className="inline-grid h-11 w-11 place-items-center rounded-md bg-neutral-000/15 text-text-on-dark backdrop-blur-sm transition-colors duration-300 group-hover:bg-accent-500">
@@ -95,7 +114,7 @@ function CategoryCard({ c }: { c: Category }) {
           />
         </span>
       </div>
-    </motion.a>
+    </a>
   );
 }
 
@@ -104,21 +123,16 @@ export default function TravelByCategory() {
   return (
     <section className="section bg-sand-500">
       <div className="container-page">
-        <Reveal className="section-lead text-center">
+        <div className="section-lead text-center">
           <h2 className="t-h2 text-primary-800">{t("cat.title")}</h2>
           <p className="t-body mt-4 text-text-on-sand">{t("cat.lead")}</p>
-        </Reveal>
+        </div>
 
-        <Stagger
-          amount={0.15}
-          className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-        >
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {CATEGORIES.map((c) => (
-            <StaggerItem key={c.title}>
-              <CategoryCard c={c} />
-            </StaggerItem>
+            <CategoryCard key={c.title} c={c} />
           ))}
-        </Stagger>
+        </div>
       </div>
     </section>
   );

@@ -1,9 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
 import { Clock, MessageCircle, PhoneCall, ShieldCheck } from "lucide-react";
-import { Reveal } from "@/components/motion-primitives";
 import { useI18n } from "@/lib/i18n";
 import { WHATSAPP_URL } from "@/lib/links";
 
@@ -17,33 +15,38 @@ const PHONE_TEL = "+447417564704";
  */
 export default function CallUsBand() {
   const { t } = useI18n();
-  const reduce = useReducedMotion();
 
   return (
     <section aria-labelledby="call-us-heading" className="section bg-sand-500">
       <div className="container-page">
-        <Reveal className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10">
-          {/* Soft accent glows */}
-
+        {/* Flat navy. This carried `bg-gradient-to-br from-primary-800
+            via-primary-800 to-primary-900` — a gradient whose first two stops
+            were the same colour, so it amounted to a faint sheen in one corner
+            of a section background. That is decoration, which PRODUCT.md's
+            anti-references rule out; primary-800 is the token that was already
+            doing 95% of the work. */}
+        <div className="relative overflow-hidden rounded-lg bg-primary-800 shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10">
           <div className="relative grid items-center gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-[auto_1fr_auto] lg:gap-12">
             {/* Friendly real support agent */}
             <div className="mx-auto lg:mx-0">
               <div className="relative">
                 <div className="relative h-44 w-44 overflow-hidden rounded-lg ring-4 ring-neutral-000/15 sm:h-52 sm:w-52">
                   <Image
-                    src="https://images.unsplash.com/photo-1598257006458-087169a1f08d?auto=format&fit=crop&w=480&q=80"
+                    src="/support/agent-on-call.jpg"
                     alt="A friendly Wicket Travel support agent taking a customer call"
                     fill
                     sizes="(max-width: 640px) 176px, 208px"
                     className="object-cover"
                   />
                 </div>
-                {/* Online-now badge */}
+                {/* Online-now badge. The dot is static: it used to carry
+                    `animate-ping`, an infinite pulse on a claim that never
+                    changes. PRODUCT.md's anti-references call out blinking
+                    urgency devices, and a permanent loop on a permanent fact is
+                    the same move in a friendlier costume. A solid success-green
+                    dot beside the words "Online now" says it already. */}
                 <span className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-neutral-000 px-3 py-2 t-label-3 text-primary-800 shadow-e2">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
-                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
-                  </span>
+                  <span className="inline-flex h-2.5 w-2.5 rounded-full bg-success" />
                   Online now
                 </span>
               </div>
@@ -71,16 +74,18 @@ export default function CallUsBand() {
 
             {/* Click-to-call */}
             <div className="flex shrink-0 flex-col items-center gap-3">
-              <motion.a
+              {/* Plain anchor. The scale-1.03 hover / 0.98 tap made the primary
+                  phone CTA swell under the pointer; a button that changes size
+                  reads as a toy, and this is the single most important action on
+                  the page. The accent-600 hover fill is the feedback. */}
+              <a
                 href={`tel:${PHONE_TEL}`}
-                whileHover={reduce ? undefined : { scale: 1.03 }}
-                whileTap={reduce ? undefined : { scale: 0.98 }}
-                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-8 py-4 t-h4 text-text-on-dark shadow-e2 shadow-accent-500/30 transition-colors hover:bg-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
+                className="inline-flex items-center gap-3 rounded-full bg-accent-500 px-8 py-4 t-h4 text-text-on-dark shadow-e2 shadow-accent-500/30 transition-colors hover:bg-accent-600 active:bg-accent-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800"
                 aria-label={`${t("call.cta")} ${PHONE_DISPLAY}`}
               >
                 <PhoneCall className="h-6 w-6" aria-hidden="true" />
                 {PHONE_DISPLAY}
-              </motion.a>
+              </a>
               <a
                 href={WHATSAPP_URL}
                 target="_blank"
@@ -92,7 +97,7 @@ export default function CallUsBand() {
               </a>
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

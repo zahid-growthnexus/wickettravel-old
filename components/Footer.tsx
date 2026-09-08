@@ -2,11 +2,16 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, XIcon } from "@/components/SocialIcons";
-import { HOLIDAYS_URL } from "@/lib/links";
 
 /** Internal routes wired up for the footer's link columns — everything else
- *  in COLUMNS stays a"#" placeholder until that page exists. */
+ *  in COLUMNS stays a"#" placeholder until that page exists. Flights/Hotels/
+ *  Car Rental used to be a "#" stub or an external link out to the holidays
+ *  site; all three now have real pages on this site, same as Header.tsx. */
 const ROUTES: Record<string, string> = {
+  Flights: "/flights",
+  Hotels: "/hotels",
+  "Car Rental": "/car-rentals",
+  Deals: "/#deals",
   "About us":"/about",
   "Contact us":"/contact",
   Refunds:"/refunds",
@@ -99,23 +104,12 @@ export default function Footer() {
               </h3>
               <ul className="mt-4 space-y-3 t-body-sm">
                 {col.links.map((link) => {
-                  // Hotels & car rentals live on the holidays site — open externally.
-                  const isHolidays = link ==="Hotels" || link ==="Car Rental";
                   const route = ROUTES[link];
                   const className =
                     "text-primary-200 transition-colors hover:text-text-on-dark focus-visible:outline-none focus-visible:text-text-on-dark";
                   return (
                     <li key={link}>
-                      {isHolidays ? (
-                        <a
-                          href={HOLIDAYS_URL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={className}
-                        >
-                          {link}
-                        </a>
-                      ) : route ? (
+                      {route ? (
                         <Link href={route} className={className}>
                           {link}
                         </Link>
@@ -134,7 +128,7 @@ export default function Footer() {
 
         {/* One bottom bar: legal identity on the left, policy links on the right.
             Stacks and centres on mobile. */}
-        <div className="mt-10 flex flex-col items-center gap-4 border-t border-neutral-000/10 pt-6 t-caption text-primary-300 sm:flex-row sm:justify-between">
+        <div className="mt-10 flex flex-col items-center gap-4 border-t border-neutral-000/10 pt-6 t-caption text-primary-200 sm:flex-row sm:justify-between">
           <p className="text-center sm:text-left">
             © {new Date().getFullYear()} Wicket Travel Ltd. All rights reserved.
             <span className="mx-2 hidden text-text-on-dark/20 sm:inline">|</span>

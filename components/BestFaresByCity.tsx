@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { Reveal } from "@/components/motion-primitives";
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/lib/i18n";
 
@@ -23,12 +22,12 @@ const REGIONS: { name: string; cities: Dest[] }[] = [
       {
         city: "Heathrow",
         country: "London, UK",
-        img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/heathrow.jpg",
       },
       {
         city: "Manchester",
         country: "United Kingdom",
-        img: "https://images.unsplash.com/photo-1515586838455-8f8f940d6853?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/manchester.jpg",
       },
       {
         city: "Birmingham",
@@ -38,12 +37,12 @@ const REGIONS: { name: string; cities: Dest[] }[] = [
       {
         city: "Gatwick",
         country: "London, UK",
-        img: "https://images.unsplash.com/photo-1513026705753-bc3fffca8bf4?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/gatwick.jpg",
       },
       {
         city: "Luton",
         country: "London, UK",
-        img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/luton.jpg",
       },
       {
         city: "Edinburgh",
@@ -58,32 +57,32 @@ const REGIONS: { name: string; cities: Dest[] }[] = [
       {
         city: "New York",
         country: "United States",
-        img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/new-york.jpg",
       },
       {
         city: "Los Angeles",
         country: "United States",
-        img: "https://images.unsplash.com/photo-1515896769750-31548aa180ed?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/los-angeles.jpg",
       },
       {
         city: "Chicago",
         country: "United States",
-        img: "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/chicago.jpg",
       },
       {
         city: "Miami",
         country: "United States",
-        img: "https://images.unsplash.com/photo-1506966953602-c20cc11f75e3?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/miami.jpg",
       },
       {
         city: "San Francisco",
         country: "United States",
-        img: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/san-francisco.jpg",
       },
       {
         city: "Washington DC",
         country: "United States",
-        img: "https://images.unsplash.com/photo-1501466044931-62695aada8e9?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/washington-dc.jpg",
       },
     ],
   },
@@ -93,32 +92,32 @@ const REGIONS: { name: string; cities: Dest[] }[] = [
       {
         city: "Dubai",
         country: "UAE",
-        img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/dubai.jpg",
       },
       {
         city: "Abu Dhabi",
         country: "UAE",
-        img: "https://images.unsplash.com/photo-1512632578888-169bbbc64f33?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/abu-dhabi.jpg",
       },
       {
         city: "Sharjah",
         country: "UAE",
-        img: "https://images.unsplash.com/photo-1578895101408-1a36b834405b?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/sharjah.jpg",
       },
       {
         city: "Ras Al Khaimah",
         country: "UAE",
-        img: "https://images.unsplash.com/photo-1547235001-d703406d3f17?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/ras-al-khaimah.jpg",
       },
       {
         city: "Ajman",
         country: "UAE",
-        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/ajman.jpg",
       },
       {
         city: "Fujairah",
         country: "UAE",
-        img: "https://images.unsplash.com/photo-1547234935-80c7145ec969?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/fujairah.jpg",
       },
     ],
   },
@@ -128,32 +127,32 @@ const REGIONS: { name: string; cities: Dest[] }[] = [
       {
         city: "Tokyo",
         country: "Japan",
-        img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/tokyo.jpg",
       },
       {
         city: "Singapore",
         country: "Singapore",
-        img: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/singapore.jpg",
       },
       {
         city: "Bangkok",
         country: "Thailand",
-        img: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/bangkok.jpg",
       },
       {
         city: "Kuala Lumpur",
         country: "Malaysia",
-        img: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/kuala-lumpur.jpg",
       },
       {
         city: "Hong Kong",
         country: "Hong Kong SAR",
-        img: "https://images.unsplash.com/photo-1536599018102-9f803c140fc1?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/hong-kong.jpg",
       },
       {
         city: "Seoul",
         country: "South Korea",
-        img: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/seoul.jpg",
       },
     ],
   },
@@ -163,12 +162,12 @@ const REGIONS: { name: string; cities: Dest[] }[] = [
       {
         city: "Delhi",
         country: "India",
-        img: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/delhi.jpg",
       },
       {
         city: "Mumbai",
         country: "India",
-        img: "https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?auto=format&fit=crop&w=800&q=80",
+        img: "/cities/mumbai.jpg",
       },
       {
         city: "Bengaluru",
@@ -196,13 +195,11 @@ const REGIONS: { name: string; cities: Dest[] }[] = [
 
 function DestCard({ d }: { d: Dest }) {
   const { t } = useI18n();
-  const reduce = useReducedMotion();
   return (
-    <motion.a
+    /* 2px CSS lift instead of a framer spring — see FeaturedAirlineFares. */
+    <a
       href="#top"
-      whileHover={reduce ? undefined : { y: -4 }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="card card-hover group flex items-center gap-4 overflow-hidden p-3"
+      className="card card-hover group flex items-center gap-4 overflow-hidden p-3 transition-transform duration-200 ease-out hover:-translate-y-0.5"
     >
       <div className="relative h-20 w-24 shrink-0 overflow-hidden rounded-md">
         <Image
@@ -210,7 +207,7 @@ function DestCard({ d }: { d: Dest }) {
           alt={`Flights to ${d.city}, ${d.country}`}
           fill
           sizes="96px"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          className="object-cover"
         />
       </div>
       <div className="min-w-0 flex-1">
@@ -223,7 +220,7 @@ function DestCard({ d }: { d: Dest }) {
       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-accent-050 text-accent-600 transition-colors group-hover:bg-accent-500 group-hover:text-text-on-dark">
         <ArrowRight className="h-5 w-5" aria-hidden="true" />
       </span>
-    </motion.a>
+    </a>
   );
 }
 
@@ -236,10 +233,10 @@ export default function BestFaresByCity() {
   return (
     <section className="section bg-sand-500">
       <div className="container-page">
-        <Reveal className="section-lead text-center">
+        <div className="section-lead text-center">
           <h2 className="t-h2 text-primary-800">{t("city.title")}</h2>
           <p className="t-body mt-4 text-text-on-sand">{t("city.lead")}</p>
-        </Reveal>
+        </div>
 
         {/* Region tabs — active tab is a filled navy pill (white text), hover a
             clearly visible navy tint. The animated pill sits UNDER the label
@@ -265,6 +262,12 @@ export default function BestFaresByCity() {
                     : "bg-neutral-000 text-primary-800 shadow-e1 ring-1 ring-primary-100 hover:bg-primary-100 hover:text-primary-800"
                 )}
               >
+                {/* The one piece of framer motion kept in this section. The
+                    sliding pill is not decoration — it carries the selection
+                    from the old tab to the new one, so the eye follows the
+                    state change instead of hunting for it. Softened from a
+                    spring (which overshot past the pill's resting edge) to a
+                    180ms tween: same information, no bounce. */}
                 {selected && (
                   <motion.span
                     layoutId="region-tab"
@@ -273,7 +276,7 @@ export default function BestFaresByCity() {
                     transition={
                       reduce
                         ? { duration: 0 }
-                        : { type: "spring", stiffness: 400, damping: 32 }
+                        : { duration: 0.18, ease: [0.22, 1, 0.36, 1] }
                     }
                   />
                 )}
@@ -283,21 +286,18 @@ export default function BestFaresByCity() {
           })}
         </div>
 
-        {/* Destination cards for the active region */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {region.cities.map((d) => (
-              <DestCard key={d.city} d={d} />
-            ))}
-          </motion.div>
-        </AnimatePresence>
+        {/* Destination cards for the active region.
+
+            These used to swap through an AnimatePresence crossfade in
+            `mode="wait"` — 300ms out, then 300ms in, so a tab click cost 600ms
+            before the new cities were readable. Tab content should be there the
+            instant it is asked for; the sliding pill above already confirms the
+            click landed. Swapped for a plain grid. */}
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {region.cities.map((d) => (
+            <DestCard key={d.city} d={d} />
+          ))}
+        </div>
       </div>
     </section>
   );

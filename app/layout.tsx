@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     template: "%s | Wicket Travel",
   },
   description:
-    "Book cheap flights from the UK with Wicket Travel. Compare the best airline ticket deals to India, Dubai & worldwide from Heathrow, Manchester & more. No hidden fees.",
+    "Book cheap flights from the UK with Wicket Travel. Best airline ticket deals to India, Dubai and worldwide from Heathrow, Manchester and more. No hidden fees.",
   applicationName: BUSINESS.name,
   authors: [{ name: BUSINESS.legalName }],
   creator: BUSINESS.legalName,
@@ -124,17 +124,18 @@ export default function RootLayout({
       className={`${manrope.variable} ${newsreader.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
       <head>
-        {/* Warm up the origins the browser fetches directly (next/image proxies
-            Unsplash through /_next/image, so only these raw logo CDNs need it):
-            avs.io airline logos appear just below the hero, Simple Icons in the
-            footer. */}
+        {/* Warm up the one origin the browser still fetches directly: the
+            avs.io airline logos, which appear just below the hero. Every photo
+            on the site is local and goes through /_next/image, so it needs no
+            hint. The old cdn.simpleicons.org dns-prefetch was removed — the
+            brand marks are inline SVG in components/SocialIcons.tsx now, so
+            that origin is never contacted and the hint only cost a DNS lookup. */}
         <link
           rel="preconnect"
           href="https://pics.avs.io"
           crossOrigin="anonymous"
         />
         <link rel="dns-prefetch" href="https://pics.avs.io" />
-        <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
       </head>
       <body className="min-h-full flex flex-col font-sans">
         <I18nProvider>
