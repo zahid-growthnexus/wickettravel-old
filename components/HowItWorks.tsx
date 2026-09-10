@@ -54,7 +54,10 @@ export default function HowItWorks() {
               <div className="mt-6 t-label-2 text-accent-400">
                 STEP {step}
               </div>
-              <h3 className="t-h3 mt-2 t-body-lg text-text-on-dark">{title}</h3>
+              {/* Was `t-h3 mt-2 t-body-lg` — two type-scale classes on one
+                  element, so the later globals.css definition silently won
+                  and this rendered at body weight/size instead of h3. */}
+              <h3 className="t-h3 mt-2 text-text-on-dark">{title}</h3>
               <p className="t-body-sm mx-auto mt-2 max-w-xs text-primary-100">{body}</p>
             </div>
           ))}

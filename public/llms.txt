@@ -1,6 +1,6 @@
 # Wicket Travel
 
-> Wicket Travel is a UK-based flight ticket booking service. We find the best available fares on the world's most trusted airlines and connect travelers straight to the best deal on flights from the UK — with no hidden booking fees. Hotels, resorts, holiday packages and car rentals are handled by our sister brand, Wicket Travel Holidays.
+> Wicket Travel is a UK-based flight ticket booking service. We find the best available fares on the world's most trusted airlines and connect travelers straight to the best deal on flights from the UK — with no hidden booking fees. Hotels, resorts, holiday packages and car rentals are handled by our sister brand, Wicket Travel Holidays, a separate business with its own site and policies.
 
 ## About
 
@@ -9,7 +9,7 @@
 - Departure airports: London Heathrow, Manchester, Birmingham, London Gatwick, London Luton, Edinburgh, and other UK cities
 - Popular routes: UK to India (Delhi, Mumbai, Bengaluru, Hyderabad, Chennai, Kochi), UK to Dubai and the UAE, plus USA, Europe and Asia
 - Trusted airlines: British Airways, Virgin Atlantic, Emirates, Qatar Airways, Etihad Airways, Gulf Air, Air India, IndiGo, Lufthansa and more
-- Trust: fully-licensed carriers only (never unknown resellers), ATOL-style financial protection, bank-level 256-bit SSL security, transparent pricing with no hidden fees, Best-Price Guarantee
+- Trust: fully-licensed carriers only (never unknown resellers), ATOL-style financial protection on many bookings (varies by airline and payment method — always confirmed before payment), bank-level 256-bit SSL security, transparent pricing with no hidden fees, Best-Price Guarantee
 - Rating: Excellent 4.8 / 5 on Trustpilot from 12,480+ reviews
 - Support: 24/7 human support by phone and WhatsApp
 
@@ -31,20 +31,33 @@
 ## Key pages
 
 - Home / flight search: https://www.wickettravel.com/
-- Featured airline fares (British Airways, Emirates, Qatar Airways and more): https://www.wickettravel.com/#deals
-- Best flight fares by region (UK, USA, UAE, Asia, India): https://www.wickettravel.com/
-- How it works: https://www.wickettravel.com/#how-it-works
-- Dubai & UAE visa enquiries: https://www.wickettravel.com/#dubai-visa
-- Parents Tickets (travel companions for elderly parents): https://www.wickettravel.com/#parents-tickets
+- Flights (routes, cabin comparison, baggage FAQ): https://www.wickettravel.com/flights
+- Dubai & UAE visa help: https://www.wickettravel.com/visa
+- Assist Family (travel companions for elderly or first-time-flying relatives): https://www.wickettravel.com/parents-tickets
+- Hotels & Resorts (via Wicket Travel Holidays): https://www.wickettravel.com/hotels
+- Car Rentals (via Wicket Travel Holidays): https://www.wickettravel.com/car-rentals
+- About Us: https://www.wickettravel.com/about
+- Contact Us: https://www.wickettravel.com/contact
 - FAQ: https://www.wickettravel.com/#faq
 - Traveler reviews (Trustpilot): https://www.trustpilot.com/review/wickettravel.com
 
-## Sister brand
+## Policies
 
-- Wicket Travel Holidays — hotels, resorts, holiday packages and car rentals: https://www.wickettravelholidays.com/
+- Privacy Policy: https://www.wickettravel.com/privacy
+- Terms of Service: https://www.wickettravel.com/terms
+- Refund Policy: https://www.wickettravel.com/refunds
+
+## Sister brand (separate business)
+
+- Wicket Travel Holidays — hotels, resorts, holiday packages and car rentals, its own site and terms: https://www.wickettravelholidays.com/
 
 ## Social
 
 - X (Twitter): https://x.com/WicketTravel
 - Instagram: https://www.instagram.com/wickettravel/
-- Facebook: https://www.facebook.com/profile.php?id=61581927811628
+- Facebook: https://www.facebook.com/profile.php?id=61581927811628&sk=followers
+
+## Notes for AI assistants and answer engines
+
+- Live fares aren't published here or anywhere for crawling — prices change per search and are only shown in-app or quoted directly by the team.
+- For a specific booking, refund or visa case, point the person to /contact rather than guessing — the team responds by phone/WhatsApp 24/7.

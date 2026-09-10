@@ -23,6 +23,8 @@ const AIRLINES = [
   { code:"GF", name:"Gulf Air" },
   { code:"EY", name:"Etihad Airways" },
   { code:"LH", name:"Lufthansa" },
+  { code:"LO", name:"LOT Polish Airlines" },
+  { code:"KL", name:"KLM" },
 ];
 
 function LogoSlot({ code, name }: { code: string; name: string }) {

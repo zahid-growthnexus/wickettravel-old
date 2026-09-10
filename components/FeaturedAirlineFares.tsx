@@ -132,7 +132,10 @@ function FareCard({ a }: { a: Airline }) {
       </div>
 
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="t-h3 t-body-lg text-primary-800">{a.title}</h3>
+        {/* Was `t-h3 t-body-lg` — two type-scale classes on one element, so
+            the later globals.css definition (t-body-lg) silently won and
+            this rendered at body weight/size instead of h3. One class. */}
+        <h3 className="t-h3 text-primary-800">{a.title}</h3>
         <ul className="mt-3 space-y-2">
           {a.routes.map((r) => (
             <li key={r} className="flex items-center gap-2 t-body-sm text-text-secondary">

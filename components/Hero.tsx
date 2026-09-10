@@ -5,6 +5,7 @@ import { Headset, ShieldCheck, Star } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { BUSINESS } from "@/lib/seo";
 import FlightSearch from "@/components/FlightSearch";
+import TrustpilotBadge from "@/components/TrustpilotBadge";
 
 /* Proof points, not decoration: each one is a claim already made elsewhere on
    the site (the rating feeds the JSON-LD, the fee promise and 24/7 line are the
@@ -57,6 +58,15 @@ export default function Hero() {
 
       <div className="container-page">
         <div className="max-w-xl">
+          {/* Trust badge — on phones (below sm, where the widget below stacks
+              full-width with nothing to anchor a corner badge to) it drops
+              into normal flow above the headline. From sm up it moves onto
+              the search widget itself (see the widget wrapper below) instead
+              of floating alone near the header — "near the widget" is the
+              point, not just "somewhere in the hero". */}
+          <div className="hero-rise mb-4 flex justify-start sm:hidden">
+            <TrustpilotBadge />
+          </div>
           <h1 className="hero-rise t-display-3 text-balance text-text-on-dark">
             {t("hero.title")}
             <span className="block">{t("hero.accent")}</span>
@@ -106,7 +116,16 @@ export default function Hero() {
           wordmark all share one left edge at every breakpoint. Margins are left
           unset rather than set to `mr-auto` so the alignment follows `dir` and
           survives the Arabic/Urdu flips the brand ships. */}
-      <div className="w-full lg:max-w-[1116px]">
+      <div className="relative w-full lg:max-w-[1116px]">
+        {/* Trust badge, from sm up: anchored to the search widget's own
+            top-right corner (this div, not the wider outer container — the
+            widget isn't centred in it, see the comment above), overlapping
+            its top edge like a hung tag rather than floating independently
+            near the header. Scaled down a touch so it reads as a badge on
+            the widget, not a second competing panel. */}
+        <div className="absolute right-4 top-0 z-10 hidden -translate-y-1/2 scale-90 sm:block sm:right-6">
+          <TrustpilotBadge />
+        </div>
         <FlightSearch />
       </div>
     </div>

@@ -82,7 +82,10 @@ function ResortCard({ r }: { r: Resort }) {
 
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
         <div>
-          <h3 className="t-h3 t-body-lg text-text-on-dark">{r.name}</h3>
+          {/* Was `t-h3 t-body-lg` — two type-scale classes on one element, so
+              the later globals.css definition silently won and this
+              rendered at body weight/size instead of h3. One class. */}
+          <h3 className="t-h3 text-text-on-dark">{r.name}</h3>
           <p className="t-body-sm text-primary-100">{r.location}</p>
           <p className="mt-1 t-label-3 text-accent-200">{r.tag}</p>
         </div>

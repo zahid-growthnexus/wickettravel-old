@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   AlertTriangle,
   CalendarDays,
@@ -16,108 +16,46 @@ import {
 import { cn } from "@/lib/cn";
 import { BUSINESS } from "@/lib/seo";
 import { WHATSAPP_URL } from "@/lib/links";
+import { type ParsedEntry } from "@/lib/parents";
+import { useParentBoard } from "@/lib/useParentBoard";
 
 /**
- * Parents Tickets — live community board.
+ * The full, filterable community board — every open request or offer, in one
+ * place. This used to be the main /parents-tickets page's live-listings
+ * section; it now lives on the two dedicated list pages
+ * (/parents-tickets/requests, /parents-tickets/offers) instead, reached via
+ * the "More" link on each homepage-style carousel
+ * (components/AssistFamilyCarousels.tsx) — the main page shows a taste of
+ * what's open, this page shows all of it.
  *
  * Reads the real, already-anonymised public feed through the same-origin relay
- * at /api/parent-ticket/public. The upstream payload never carries contact
+ * at /api/parent-ticket/public (via lib/useParentBoard, shared with the
+ * carousels and the detail page). The upstream payload never carries contact
  * details, so nothing here can leak one: the card's only call to action is to
  * ask our team for the introduction, quoting the entry's reference.
- *
- * The upstream shape is not contractually frozen beyond `{ ok, count, entries }`,
- * so every field is read defensively — a missing, null or renamed key drops its
- * row rather than breaking the card. Nothing is mocked: an empty feed renders
- * the empty state, not invented examples.
  */
-
-type Entry = Record<string, unknown>;
-
-type State =
-  | { status: "loading" }
-  | { status: "ready"; entries: Entry[] }
-  | { status: "error"; kind: "rate_limited" | "generic" };
 
 type Filter = "all" | "requester" | "traveller";
 
-/* ── Defensive readers ─────────────────────────────────────────────────── */
-
-function str(v: unknown): string | undefined {
-  if (typeof v !== "string") return undefined;
-  const t = v.trim();
-  return t ? t : undefined;
-}
-
-function num(v: unknown): number | undefined {
-  const n =
-    typeof v === "number"
-      ? v
-      : typeof v === "string" && v.trim() !== ""
-        ? Number(v)
-        : NaN;
-  return Number.isFinite(n) ? n : undefined;
-}
-
-/** First non-empty string across a list of candidate keys. */
-function pick(entry: Entry, ...keys: string[]): string | undefined {
-  for (const k of keys) {
-    const v = str(entry[k]);
-    if (v) return v;
-  }
-  return undefined;
-}
-
-function pickNum(entry: Entry, ...keys: string[]): number | undefined {
-  for (const k of keys) {
-    const v = num(entry[k]);
-    if (v !== undefined) return v;
-  }
-  return undefined;
-}
-
-/** Render a date if it parses; otherwise show whatever the feed sent. */
-function formatDate(value: string | undefined): string | undefined {
-  if (!value) return undefined;
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return value;
-  return d.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
 /* ── Card ──────────────────────────────────────────────────────────────── */
 
-function EntryCard({ entry }: { entry: Entry }) {
-  const type = pick(entry, "enquiry_type");
-  const isTraveller = type === "traveller";
-
-  const reference = pick(entry, "reference", "ref", "id");
-  const name = pick(entry, "display_name", "name");
-  const from = pick(entry, "from_location", "from", "origin");
-  const to = pick(entry, "to_location", "to", "destination");
-  const date = formatDate(pick(entry, "travel_date", "date"));
-  const airline = pick(entry, "airline");
-  const languages = pick(entry, "languages", "languages_spoken");
-  const body = pick(
-    entry,
-    isTraveller ? "assistance_offered" : "assistance_needed",
-    "assistance_offered",
-    "assistance_needed",
-    "notes"
-  );
-  const relationship = pick(entry, "relationship");
-  const mobility = pick(entry, "mobility_needs");
-  const parentAge = pickNum(entry, "parent_age");
-  const capacity = pickNum(entry, "parents_capacity");
-  // The only money on this page: the amount the poster themselves entered.
-  const amount = pickNum(
-    entry,
-    isTraveller ? "assistance_fee" : "offer_amount",
-    "assistance_fee",
-    "offer_amount"
-  );
+function EntryCard({ entry }: { entry: ParsedEntry }) {
+  const {
+    isTraveller,
+    reference,
+    name,
+    from,
+    to,
+    date,
+    airline,
+    languages,
+    body,
+    relationship,
+    mobility,
+    parentAge,
+    capacity,
+    amount,
+  } = entry;
 
   const meta: { icon: typeof CalendarDays; text: string }[] = [];
   if (date) meta.push({ icon: CalendarDays, text: date });
@@ -231,96 +169,43 @@ const FILTERS: { key: Filter; label: string }[] = [
   { key: "traveller", label: "Offering to help" },
 ];
 
-/** Stable empty array so the memos below don't see a new [] every render. */
-const NO_ENTRIES: Entry[] = [];
-
-export default function ParentsBoard() {
-  const [state, setState] = useState<State>({ status: "loading" });
-  const [filter, setFilter] = useState<Filter>("all");
-  // Bumped by "Try again" / "Refresh" — re-running the effect is the only way
-  // the fetch is triggered, so no state is ever set synchronously in it.
-  const [reloadKey, setReloadKey] = useState(0);
-
-  useEffect(() => {
-    let cancelled = false;
-    const settle = (next: State) => {
-      if (!cancelled) setState(next);
-    };
-
-    void (async () => {
-      try {
-        const res = await fetch("/api/parent-ticket/public?limit=50", {
-          headers: { Accept: "application/json" },
-        });
-
-        let data: unknown = null;
-        try {
-          data = await res.json();
-        } catch {
-          // Fall through to the generic error below.
-        }
-
-        const payload = (data ?? {}) as {
-          ok?: unknown;
-          error?: unknown;
-          entries?: unknown;
-        };
-
-        if (res.status === 429 || payload.error === "rate_limited") {
-          settle({ status: "error", kind: "rate_limited" });
-          return;
-        }
-        if (!res.ok || payload.ok !== true || !Array.isArray(payload.entries)) {
-          settle({ status: "error", kind: "generic" });
-          return;
-        }
-
-        // Keep only object-shaped rows; anything else can't be rendered safely.
-        const rows = (payload.entries as unknown[]).filter(
-          (e): e is Entry => !!e && typeof e === "object" && !Array.isArray(e)
-        );
-        settle({ status: "ready", entries: rows });
-      } catch {
-        settle({ status: "error", kind: "generic" });
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [reloadKey]);
-
-  const reload = useCallback(() => {
-    setState({ status: "loading" });
-    setReloadKey((k) => k + 1);
-  }, []);
-
-  const entries = useMemo(
-    () => (state.status === "ready" ? state.entries : NO_ENTRIES),
-    [state]
-  );
+/**
+ * `lockFilter` pins the board to one side and hides the filter pills — used
+ * by the two dedicated list pages, where the page itself is the filter
+ * ("every open request" / "every open offer") so a redundant toggle would
+ * just repeat the page's own heading.
+ */
+export default function ParentsBoard({
+  lockFilter,
+}: {
+  lockFilter?: "requester" | "traveller";
+}) {
+  const { state, entries, reload } = useParentBoard(50);
+  const [filter, setFilter] = useState<Filter>(lockFilter ?? "all");
 
   const counts = useMemo(
     () => ({
       all: entries.length,
-      requester: entries.filter((e) => e.enquiry_type === "requester").length,
-      traveller: entries.filter((e) => e.enquiry_type === "traveller").length,
+      requester: entries.filter((e) => e.type === "requester").length,
+      traveller: entries.filter((e) => e.type === "traveller").length,
     }),
     [entries]
   );
 
+  const activeFilter = lockFilter ?? filter;
   const visible = useMemo(
     () =>
-      filter === "all"
+      activeFilter === "all"
         ? entries
-        : entries.filter((e) => e.enquiry_type === filter),
-    [entries, filter]
+        : entries.filter((e) => e.type === activeFilter),
+    [entries, activeFilter]
   );
 
   return (
     <div>
-      {/* Filters — rendered once entries exist so the counts are never a lie. */}
-      {state.status === "ready" && entries.length > 0 && (
+      {/* Filters — rendered once entries exist so the counts are never a lie.
+          Hidden entirely when the page itself is already a fixed filter. */}
+      {!lockFilter && state.status === "ready" && entries.length > 0 && (
         <div
           role="group"
           aria-label="Filter the community board"
@@ -419,7 +304,7 @@ export default function ParentsBoard() {
               the scenes. Post yours above, or talk to us directly.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <a href="#post-to-the-board" className="btn btn-primary">
+              <a href="/parents-tickets#post-to-the-board" className="btn btn-primary">
                 Post to the board
               </a>
               <a
@@ -439,23 +324,26 @@ export default function ParentsBoard() {
           <>
             {visible.length === 0 ? (
               <p className="t-body mx-auto max-w-md text-center text-text-secondary">
-                Nothing under this filter yet. Switch to{" "}
-                <button
-                  type="button"
-                  onClick={() => setFilter("all")}
-                  className="rounded-xs t-label-2 text-primary-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
-                >
-                  everything
-                </button>{" "}
-                to see the open entries.
+                {lockFilter ? (
+                  "Nothing open on this side of the board right now — check back soon, or talk to us directly."
+                ) : (
+                  <>
+                    Nothing under this filter yet. Switch to{" "}
+                    <button
+                      type="button"
+                      onClick={() => setFilter("all")}
+                      className="rounded-xs t-label-2 text-primary-800 underline decoration-accent-400 decoration-2 underline-offset-2 hover:text-accent-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+                    >
+                      everything
+                    </button>{" "}
+                    to see the open entries.
+                  </>
+                )}
               </p>
             ) : (
               <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {visible.map((entry, i) => (
-                  <li
-                    key={pick(entry, "reference", "ref", "id") ?? `entry-${i}`}
-                    className="h-full"
-                  >
+                  <li key={entry.reference ?? `entry-${i}`} className="h-full">
                     <EntryCard entry={entry} />
                   </li>
                 ))}

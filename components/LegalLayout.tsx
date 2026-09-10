@@ -152,7 +152,10 @@ export default function LegalLayout({
           <article className="min-w-0 space-y-12">
             {sections.map((s) => (
               <section key={s.id} id={s.id} className="scroll-mt-24">
-                <h2 className="t-h3 t-body-lg text-primary-800">{s.heading}</h2>
+                {/* Was `t-h3 t-body-lg` — two type-scale classes on one
+                    element, so the later globals.css definition silently
+                    won and this rendered at body weight/size. One class. */}
+                <h2 className="t-h3 text-primary-800">{s.heading}</h2>
                 <div className="mt-4 space-y-4">{s.content}</div>
               </section>
             ))}

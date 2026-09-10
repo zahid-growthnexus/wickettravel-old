@@ -104,7 +104,10 @@ function CategoryCard({ c }: { c: Category }) {
         <span className="inline-grid h-11 w-11 place-items-center rounded-md bg-neutral-000/15 text-text-on-dark backdrop-blur-sm transition-colors duration-300 group-hover:bg-accent-500">
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
-        <h3 className="t-h3 mt-4 t-body-lg text-text-on-dark">{t(c.titleKey)}</h3>
+        {/* Was `t-h3 mt-4 t-body-lg` — two type-scale classes on one element,
+            so the later globals.css definition silently won and this
+            rendered at body weight/size instead of h3. One class. */}
+        <h3 className="t-h3 mt-4 text-text-on-dark">{t(c.titleKey)}</h3>
         <p className="t-body-sm mt-2 text-primary-100">{c.copy}</p>
         <span className="mt-4 inline-flex items-center gap-2 t-label-2 text-accent-200 transition-colors group-hover:text-accent-200">
           {c.cta}

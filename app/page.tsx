@@ -15,7 +15,7 @@ import BestPriceGuarantee from "@/components/BestPriceGuarantee";
 import Newsletter from "@/components/Newsletter";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
-import { SITE_URL, BUSINESS } from "@/lib/seo";
+import { SITE_URL, BUSINESS, ALWAYS_OPEN_HOURS } from "@/lib/seo";
 import { FAQ_ITEMS } from "@/lib/faq";
 
 // Structured data (JSON-LD) — one @graph so nodes cross-reference by @id.
@@ -40,6 +40,7 @@ const jsonLd = {
         contactType: "customer service",
         areaServed: "GB",
         availableLanguage: ["English", "Hindi", "Urdu", "Arabic"],
+        hoursAvailable: ALWAYS_OPEN_HOURS,
       },
     },
     {
@@ -61,6 +62,13 @@ const jsonLd = {
         postalCode: BUSINESS.postalCode,
         addressCountry: BUSINESS.addressCountry,
       },
+      // Postcode centroid, not a street-level pin — see BUSINESS.geo in lib/seo.ts.
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: BUSINESS.geo.latitude,
+        longitude: BUSINESS.geo.longitude,
+      },
+      openingHoursSpecification: ALWAYS_OPEN_HOURS,
       areaServed: { "@type": "Country", name: "United Kingdom" },
       knowsAbout: [
         "Cheap flights from the UK",

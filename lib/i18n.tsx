@@ -35,8 +35,9 @@ const en: Dict = {
   "nav.cars": "Car Rental",
   "nav.deals": "Deals",
   "nav.dubaiVisa": "Dubai Visa",
-  "nav.parentsTickets": "Parents Tickets",
+  "nav.parentsTickets": "Assist Family",
   "cta.getQuote": "Get Quote",
+  "cta.login": "Login",
   "cta.searchDeals": "Search Flights",
   "hero.title": "Trusted airline tickets",
   "hero.accent": "at the best fares",
@@ -97,6 +98,7 @@ const en: Dict = {
   "news.placeholder": "you@example.com",
   "news.button": "Get deal alerts",
   "wa.tooltip": "Chat with us on WhatsApp",
+  "backToTop.label": "Back to top",
   "fares.eyebrow": "Featured airlines",
   "fares.title": "Fly with the world's most trusted airlines",
   "fares.lead":
@@ -123,8 +125,9 @@ const es: Dict = {
   "nav.cars": "Alquiler de coches",
   "nav.deals": "Ofertas",
   "nav.dubaiVisa": "Visado de Dubái",
-  "nav.parentsTickets": "Billetes para Padres",
+  "nav.parentsTickets": "Ayuda Familiar",
   "cta.getQuote": "Obtener cotización",
+  "cta.login": "Iniciar sesión",
   "cta.searchDeals": "Buscar vuelos",
   "hero.title": "Billetes de avión de confianza",
   "hero.accent": "a las mejores tarifas",
@@ -180,6 +183,7 @@ const es: Dict = {
   "news.placeholder": "tu@ejemplo.com",
   "news.button": "Recibir alertas",
   "wa.tooltip": "Chatea con nosotros por WhatsApp",
+  "backToTop.label": "Volver arriba",
 };
 
 const fr: Dict = {
@@ -188,8 +192,9 @@ const fr: Dict = {
   "nav.cars": "Location de voiture",
   "nav.deals": "Offres",
   "nav.dubaiVisa": "Visa Dubaï",
-  "nav.parentsTickets": "Billets Parents",
+  "nav.parentsTickets": "Assistance Familiale",
   "cta.getQuote": "Obtenir un devis",
+  "cta.login": "Connexion",
   "cta.searchDeals": "Rechercher des vols",
   "hero.title": "Billets d'avion de confiance",
   "hero.accent": "aux meilleurs tarifs",
@@ -244,6 +249,7 @@ const fr: Dict = {
   "news.placeholder": "vous@exemple.com",
   "news.button": "Recevoir les alertes",
   "wa.tooltip": "Discutez avec nous sur WhatsApp",
+  "backToTop.label": "Retour en haut",
 };
 
 const ar: Dict = {
@@ -252,8 +258,9 @@ const ar: Dict = {
   "nav.cars": "تأجير السيارات",
   "nav.deals": "العروض",
   "nav.dubaiVisa": "تأشيرة دبي",
-  "nav.parentsTickets": "تذاكر الوالدين",
+  "nav.parentsTickets": "مساعدة العائلة",
   "cta.getQuote": "اطلب عرض سعر",
+  "cta.login": "تسجيل الدخول",
   "cta.searchDeals": "ابحث عن رحلات",
   "hero.title": "تذاكر طيران موثوقة",
   "hero.accent": "بأفضل الأسعار",
@@ -308,6 +315,7 @@ const ar: Dict = {
   "news.placeholder": "you@example.com",
   "news.button": "تنبيهات العروض",
   "wa.tooltip": "تواصل معنا عبر واتساب",
+  "backToTop.label": "العودة إلى الأعلى",
 };
 
 const ur: Dict = {
@@ -316,8 +324,9 @@ const ur: Dict = {
   "nav.cars": "کرایہ پر گاڑی",
   "nav.deals": "ڈیلز",
   "nav.dubaiVisa": "دبئی ویزا",
-  "nav.parentsTickets": "والدین کے ٹکٹ",
+  "nav.parentsTickets": "خاندانی مدد",
   "cta.getQuote": "کوٹ حاصل کریں",
+  "cta.login": "لاگ ان",
   "cta.searchDeals": "پروازیں تلاش کریں",
   "hero.title": "بھروسہ مند ایئر لائن ٹکٹ",
   "hero.accent": "بہترین کرایوں پر",
@@ -372,6 +381,7 @@ const ur: Dict = {
   "news.placeholder": "you@example.com",
   "news.button": "ڈیل الرٹس حاصل کریں",
   "wa.tooltip": "واٹس ایپ پر ہم سے بات کریں",
+  "backToTop.label": "اوپر واپس جائیں",
 };
 
 const TRANSLATIONS: Record<Lang, Dict> = { en, es, fr, ar, ur };

@@ -6,6 +6,7 @@ import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/ContactForm";
 import { FacebookIcon, InstagramIcon, XIcon } from "@/components/SocialIcons";
 import {
+  ALWAYS_OPEN_HOURS,
   BUSINESS,
   OG_BASE,
   ORGANIZATION_ID,
@@ -68,20 +69,7 @@ const jsonLd = {
         contactType: "customer service",
         areaServed: "GB",
         availableLanguage: ["English", "Hindi", "Urdu", "Arabic"],
-        hoursAvailable: {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
-          ],
-          opens: "00:00",
-          closes: "23:59",
-        },
+        hoursAvailable: ALWAYS_OPEN_HOURS,
       },
     },
   ],

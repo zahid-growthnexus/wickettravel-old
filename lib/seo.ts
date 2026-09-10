@@ -30,6 +30,31 @@ export const BUSINESS = {
     "https://www.facebook.com/profile.php?id=61581927811628&sk=followers",
     "https://www.trustpilot.com/review/wickettravel.com",
   ],
+  /** Postcode centroid for TW3 4EW, geocoded via the ONS-backed postcodes.io
+   *  API — for the TravelAgency schema's GeoCoordinates (local-SEO signal).
+   *  Not the exact building; that's all a postcode centroid ever gives you. */
+  geo: { latitude: 51.477288, longitude: -0.365695 },
+} as const;
+
+/**
+ * Phone/WhatsApp support is staffed 24/7 — the same fact the Contact page
+ * already states in copy and schema. Shared here so every JSON-LD node that
+ * needs it (Organization, TravelAgency, ContactPage) states it identically
+ * instead of drifting out of sync.
+ */
+export const ALWAYS_OPEN_HOURS = {
+  "@type": "OpeningHoursSpecification",
+  dayOfWeek: [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ],
+  opens: "00:00",
+  closes: "23:59",
 } as const;
 
 /** Sister brand — flights live here, hotels/cars/packages live there. */

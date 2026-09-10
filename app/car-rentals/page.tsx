@@ -671,7 +671,12 @@ export default function CarRentalsPage() {
         {/* ── Closing CTA ──────────────────────────────────────────────── */}
         <section className="section bg-neutral-000">
           <div className="container-page">
-            <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary-800 via-primary-800 to-primary-900 px-6 py-12 text-center shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10 sm:px-10 sm:py-16">
+            {/* Flat navy, matching CallUsBand / ParentsBanner / VisaBanner /
+                About's CTA. This carried `bg-gradient-to-br from-primary-800
+                via-primary-800 to-primary-900` — first two stops identical,
+                so it was a no-op sheen on a flat panel, the same decoration
+                already removed from those other sections. */}
+            <div className="relative overflow-hidden rounded-lg bg-primary-800 px-6 py-12 text-center shadow-e3 shadow-primary-900/30 ring-1 ring-neutral-000/10 sm:px-10 sm:py-16">
               <div className="relative mx-auto max-w-xl">
                 <h2 className="t-h2 text-text-on-dark">
                   Flight from us, car from them.

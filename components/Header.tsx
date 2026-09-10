@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Menu, Phone, X } from "lucide-react";
+import { LogIn, Menu, Phone, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import Logo from "@/components/Logo";
 import { useI18n } from "@/lib/i18n";
@@ -127,7 +127,12 @@ export default function Header({ transparent = false }: { transparent?: boolean 
           <a
             href={`tel:${BUSINESS.phone}`}
             className={cn(
-              "hidden items-center gap-2 rounded-full px-3 py-2 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 xl:inline-flex",
+              /* Was `xl:inline-flex` — the differentiator phone number
+                 disappeared between 1024px (lg:, where the nav itself
+                 appears) and 1280px (xl:), a real gap where nav shows but
+                 the number doesn't. Matched to the nav's own breakpoint so
+                 it's a first-class header item everywhere the nav is. */
+              "hidden items-center gap-2 rounded-full px-3 py-2 t-label-2 transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 lg:inline-flex",
               onImage
                 ? "text-text-on-dark hover:bg-neutral-000/10 focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
                 : "text-primary-800 hover:bg-primary-050 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
@@ -138,6 +143,23 @@ export default function Header({ transparent = false }: { transparent?: boolean 
               aria-hidden="true"
             />
             {BUSINESS.phoneDisplay}
+          </a>
+
+          {/* Distinct from the Get Quote CTA below — this is the returning
+              customer's path back into the booking portal, not a lead-gen
+              action, so it reads as a secondary, outlined affordance rather
+              than competing with the orange primary CTA. */}
+          <a
+            href={PORTAL_LOGIN_URL}
+            className={cn(
+              "hidden items-center gap-1.5 rounded-full border px-[15px] py-[9.5px] t-label-2 tracking-[0.2px] transition-colors duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:inline-flex",
+              onImage
+                ? "border-text-on-dark/40 text-text-on-dark hover:bg-neutral-000/10 focus-visible:ring-neutral-000 focus-visible:ring-offset-primary-900"
+                : "border-primary-800 text-primary-800 hover:bg-primary-050 focus-visible:ring-primary-500 focus-visible:ring-offset-neutral-000"
+            )}
+          >
+            <LogIn className="h-4 w-4" aria-hidden="true" />
+            {t("cta.login")}
           </a>
 
           <a
@@ -247,6 +269,14 @@ export default function Header({ transparent = false }: { transparent?: boolean 
                 >
                   <Phone className="h-4 w-4 text-accent-500" aria-hidden="true" />
                   {BUSINESS.phoneDisplay}
+                </a>
+                <a
+                  href={PORTAL_LOGIN_URL}
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-[48px] items-center justify-center gap-2 rounded-sm border border-primary-800 px-6 t-label-1 text-primary-800 transition-colors hover:bg-primary-050 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
+                >
+                  <LogIn className="h-4 w-4 text-accent-500" aria-hidden="true" />
+                  {t("cta.login")}
                 </a>
                 <a
                   href={PORTAL_LOGIN_URL}

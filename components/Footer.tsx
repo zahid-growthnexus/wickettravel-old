@@ -2,33 +2,48 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { FacebookIcon, InstagramIcon, XIcon } from "@/components/SocialIcons";
+import { PORTAL_LOGIN_URL } from "@/lib/links";
 
-/** Internal routes wired up for the footer's link columns — everything else
- *  in COLUMNS stays a"#" placeholder until that page exists. Flights/Hotels/
+/** Internal routes wired up for the footer's link columns. Flights/Hotels/
  *  Car Rental used to be a "#" stub or an external link out to the holidays
- *  site; all three now have real pages on this site, same as Header.tsx. */
+ *  site; all three now have real pages on this site, same as Header.tsx.
+ *  "How it works" and "FAQs" point at the real homepage sections
+ *  (components/HowItWorks.tsx, components/Faq.tsx) rather than a stub —
+ *  those sections already exist, they just weren't linked from here.
+ *  "Manage booking" is the same returning-customer portal link Header.tsx
+ *  uses for "Login" (lib/links.ts PORTAL_LOGIN_URL) — an external absolute
+ *  URL, so it's rendered as a plain <a>, not a Next.js <Link>, same as
+ *  Header's treatment of it. */
 const ROUTES: Record<string, string> = {
   Flights: "/flights",
   Hotels: "/hotels",
   "Car Rental": "/car-rentals",
   Deals: "/#deals",
   "About us":"/about",
+  "How it works": "/#how-it-works",
   "Contact us":"/contact",
+  "Manage booking": PORTAL_LOGIN_URL,
   Refunds:"/refunds",
+  FAQs: "/#faq",
 };
 
+/* Travel guides, Partners, Careers, Press and Help center were dropped from
+   COLUMNS below rather than left as "#" stubs: no guides, partners, careers,
+   press or help-center content exists anywhere on the site, so a link to
+   them would go nowhere. A dead link is worse than no link — remove it here
+   and add it back once the page it names actually exists. */
 const COLUMNS = [
   {
     title:"Explore",
-    links: ["Flights","Hotels","Car Rental","Deals","Travel guides"],
+    links: ["Flights","Hotels","Car Rental","Deals"],
   },
   {
     title:"Company",
-    links: ["About us","How it works","Partners","Careers","Press"],
+    links: ["About us","How it works"],
   },
   {
     title:"Support",
-    links: ["Help center","Contact us","Manage booking","Refunds","FAQs"],
+    links: ["Contact us","Manage booking","Refunds","FAQs"],
   },
 ];
 
@@ -105,18 +120,19 @@ export default function Footer() {
               <ul className="mt-4 space-y-3 t-body-sm">
                 {col.links.map((link) => {
                   const route = ROUTES[link];
+                  const external = route.startsWith("http");
                   const className =
                     "text-primary-200 transition-colors hover:text-text-on-dark focus-visible:outline-none focus-visible:text-text-on-dark";
                   return (
                     <li key={link}>
-                      {route ? (
+                      {external ? (
+                        <a href={route} className={className}>
+                          {link}
+                        </a>
+                      ) : (
                         <Link href={route} className={className}>
                           {link}
                         </Link>
-                      ) : (
-                        <a href="#" className={className}>
-                          {link}
-                        </a>
                       )}
                     </li>
                   );

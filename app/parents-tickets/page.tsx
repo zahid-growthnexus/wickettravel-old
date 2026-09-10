@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ParentsBoard from "@/components/ParentsBoard";
+import AssistFamilyCarousels from "@/components/AssistFamilyCarousels";
 import ParentsEnquiryForm from "@/components/ParentsEnquiryForm";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion-primitives";
 import {
@@ -58,21 +58,28 @@ import { WHATSAPP_URL } from "@/lib/links";
  * /visa does: it needs a CTA pair and a photograph. Every token is PageHero's.
  */
 
+/* Renamed from "Parents Tickets" to "Assist Family" (the public-facing name
+   only). The route stays /parents-tickets on purpose — it's already in the
+   sitemap, JSON-LD @id chain and llms.txt with real indexing history, and
+   changing the URL itself would need a 301 redirect to avoid throwing that
+   away. Component/file names, the enquiry_type API contract and the
+   /api/parent-ticket relay are untouched for the same reason: they're wired
+   to the live portal backend, not display copy. */
 export const metadata: Metadata = {
-  title: "Parents Tickets",
+  title: "Assist Family",
   description:
     "Flying an elderly relative alone? We connect families with trusted travellers already going the same way. Contact details are never published — we introduce you.",
   alternates: { canonical: "/parents-tickets" },
   openGraph: {
     ...OG_BASE,
     url: `${SITE_URL}/parents-tickets`,
-    title: "Parents Tickets | Travel Companions for Elderly Relatives",
+    title: "Assist Family | Travel Companions for Elderly Relatives",
     description:
       "Post the journey, we find someone already flying that route, and a real person makes the introduction. Free to post, no account needed, contact details never published.",
   },
   twitter: {
     ...TWITTER_BASE,
-    title: "Parents Tickets | Travel Companions for Elderly Relatives",
+    title: "Assist Family | Travel Companions for Elderly Relatives",
     description:
       "Post the journey, we find a traveller already on that route, and a coordinator makes the introduction. Nothing is published unless you ask for it.",
   },
@@ -147,7 +154,7 @@ const jsonLd = {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Parents Tickets",
+          name: "Assist Family",
           item: `${SITE_URL}/parents-tickets`,
         },
       ],
@@ -160,7 +167,7 @@ const jsonLd = {
          published as one. */
       "@type": "Service",
       "@id": `${SITE_URL}/parents-tickets#service`,
-      name: "Parents Tickets travel companion matching",
+      name: "Assist Family travel companion matching",
       serviceType: "Travel companion introduction service",
       url: `${SITE_URL}/parents-tickets`,
       description:
@@ -284,7 +291,7 @@ export default function ParentsTicketsPage() {
                       aria-hidden="true"
                     />
                     <span aria-current="page" className="text-text-on-dark">
-                      Parents Tickets
+                      Assist Family
                     </span>
                   </li>
                 </ol>
@@ -298,7 +305,7 @@ export default function ParentsTicketsPage() {
                   can be.
                 </h1>
                 <p className="t-body-lg mt-4 max-w-xl text-primary-100">
-                  Parents Tickets connects families whose elderly relative is
+                  Assist Family connects families whose elderly relative is
                   flying alone with a trusted traveller already going the same
                   way — for an amount the family sets themselves. A real person
                   here reads every post and makes every introduction.
@@ -481,7 +488,7 @@ export default function ParentsTicketsPage() {
           </div>
         </section>
 
-        {/* ── The live community board ─────────────────────────────────── */}
+        {/* ── The live board, as two carousels ─────────────────────────── */}
         <section
           id="community-board"
           aria-labelledby="parents-board-heading"
@@ -493,16 +500,14 @@ export default function ParentsTicketsPage() {
                 Open on the board right now
               </h2>
               <p className="t-body mt-4 text-text-secondary">
-                Live posts from families and travellers who chose to be listed.
-                Every entry is already shortened before it gets here — first
-                names and last initials only, and no phone numbers or email
-                addresses anywhere. Recognise a route you are flying? Ask us for
-                the introduction.
+                Scroll through who&rsquo;s already posted, or tap a card for the
+                full detail. Recognise a route you are flying? Ask us for the
+                introduction.
               </p>
             </Reveal>
 
             <div className="mt-12">
-              <ParentsBoard />
+              <AssistFamilyCarousels />
             </div>
           </div>
         </section>
